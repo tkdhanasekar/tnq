@@ -1,2 +1,2 @@
-# tnq
+# TNQ
 TNQ Linux sessions
