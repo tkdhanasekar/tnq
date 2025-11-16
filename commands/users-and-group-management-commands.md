@@ -282,10 +282,103 @@ To show multiple users at once
 finger doe alice john
 ```
 </details>
+<details>
+  <summary>id</summary>
+  
+To print your own id without any options
+```
+id
+```
+To find a specific user doe id
+```
+id -u doe
+```
+To find out UID and all groups associated with a username
+```
+id doe
+```
+To find out all the groups a user doe belongs
+```
+id -nG doe
+```
+</details>
+<details>
+  <summary>who</summary>
+  
+To print who command output without options
+```
+who
+```
+To print the login names and total number of logged on users
+```
+who -q
+```
+To view the time of last system boot
+```
+who -b
+```
+To check the current runlevel
+```
+who -r
+```
+</details>
+<details>
+  <summary>whoami</summary>
+  
+To show the name of the currently logged-in user
+```
+whoami
+```
+</details>
+<details>
+  <summary>logname</summary>
+  
+To display user’s login name
+```
+logname
+```
+</details>
+<details>
+  <summary>last</summary>
+  
+To list of the most recent logins and logouts of users, as recorded in the /var/log/wtmp file
+```
+last
+```
+To list last five users logged in
+```
+last -5
+```
+To display the login and logout time including the dates
+```
+last -F
+```
+To display within a specific time period.(-s) since and (-t) until
+```
+last -s yesterday -t today
+```
+</details>
+<details>
+  <summary>w</summary>
+  
+To Show who is logged on and what they are doing
+```
+w
+```
+</details>
 
-
-
-
+<details>
+  <summary>users</summary>
+  
+To print the user names of users currently logged in to the current host
+```
+users
+```
+To Combine with wc to count logged-in users
+```
+users | wc -w
+```
+</details>
 
 
 
