@@ -34,4 +34,286 @@ To View Group Information
 grep devops /etc/group
 ```
 </details>
+<details>
+  <summary>delgroup</summary>
+
+To delete an user account doe and Keep Home Directory
+```
+sudo deluser doe
+```
+To delete a user doe and their home directory
+```
+sudo deluser --remove-home doe
+```
+To remove a user doe from a specific group devops
+```
+sudo deluser doe devops
+```
+To delete user account doe and backup the doe’s home directory into /backup_dir
+```
+sudo deluser --backup-to /backup_dir doe
+```
+</details>
+<details>
+  <summary>delgroup</summary>
+
+To remove a group devops from the system
+```
+sudo delgroup devops
+```
+To Delete a System Group
+```
+sudo delgroup --system nginx
+```
+```
+sudo delgroup --system apache
+```
+To Simulate Group Deletion of devops
+```
+sudo delgroup --dry-run devops
+```
+</details>
+<details>
+  <summary>useradd</summary>
+
+To add a new user doe
+```
+sudo useradd doe
+```
+To Create a user doe with a home directory /home/doe
+```
+sudo useradd -m doe
+```
+To create a User doe with a Specific User ID 1007
+```
+sudo useradd -u 1007 doe
+```
+To Create a User doe with Account Expiry Date
+```
+sudo useradd -e 2025-12-31 doe
+```
+To check
+```
+chage -l doe
+```
+</details>
+<details>
+  <summary>userdel</summary>
+  
+To delete a user account doe
+```
+sudo userdel doe
+```
+To remove the user’s and home directory and mail spool of user doe
+```
+sudo userdel -r doe
+```
+</details>
+<details>
+  <summary>usermod</summary>
+
+To add supplementary and primary group to user
+```
+sudo usermod -aG sudo doe
+```
+To set user account expiry date
+```
+sudo usermod -e 2025-12-31 doe
+```
+To lock user account
+```
+sudo usermod -L doe
+```
+To unlock user account
+```
+sudo usermod -U doe
+```
+</details>
+<details>
+  <summary>groupadd</summary>
+
+To create a group devops
+```
+sudo groupadd devops
+```
+To create a group devops with specific groupid
+```
+sudo groupadd devops -g 1234
+```
+To Verify Group Creation
+```
+grep devops /etc/group
+```
+</details>
+<details>
+  <summary>groupdel</summary>
+
+To delete a group
+```
+sudo groupdel developers
+```
+To verify group deletion
+```
+getent group developers
+```
+</details>
+<details>
+  <summary>groupmod</summary>
+  
+To change the group “devops” to “developers”
+```
+sudo groupmod -n developers devops
+```
+To change groupid of a group devops to 1234
+```
+sudo groupmod -g 1234 devops
+```
+</details>
+<details>
+  <summary>groupmems</summary>
+  
+To list all members of a group developers
+```
+sudo groupmems -g developers -l
+```
+To make the user doe a member of the group devops
+```
+sudo groupmems -g devops -a doe
+```
+To delete/remove a user doc from a group devops
+```
+sudo groupmems -g devops -d doe
+```
+</details>
+<details>
+  <summary>gpasswd</summary>
+  
+To set a group password
+```
+sudo gpasswd developers
+```
+To give user alice administrative rights to the group developers
+```
+sudo gpasswd -A alice developers
+```
+To lock a group developers
+```
+sudo gpasswd -r developers
+```
+</details>
+<details>
+  <summary>passwd</summary>
+  
+To change password for root
+```
+sudo passwd root
+```
+To display user status Information of doe
+```
+sudo passwd -S doe
+```
+To display information of all users
+```
+sudo passwd -Sa
+```
+To delete user’s password
+```
+sudo -d doe
+```
+</details>
+<details>
+  <summary>chage</summary>
+  
+To view the account aging information of user doe
+```
+chage -l doe
+```
+To set the last password change date to your specified date for user doe
+```
+chage -d 2025-12-31 doe
+```
+To set the date when the account should expire
+```
+chage -E 2025-12-31 doe
+```
+To remove expiration
+```
+sudo chage -E -1 doe
+```
+To specify the maximum number of days between password change
+```
+chage -M 90 doe
+```
+</details>
+<details>
+  <summary>chpasswd</summary>
+
+update passwords in batch mode
+```
+sudo chpasswd
+```
+storing username and password in a file and give input to chpasswd
+```
+cat > password.txt
+```
+```
+sudo chpasswd < password.txt
+```
+To apply encryption algorithm on password
+```
+sudo chpasswd -c SHA512
+sudo chpasswd -c SHA256
+sudo chpasswd --md5
+```
+</details>
+<details>
+  <summary>finger</summary>
+  
+To display information about system user and user doe
+```
+finger doe
+```
+To get idle status and login details of a user
+```
+finger -s doe
+```
+To show multiple users at once
+```
+finger doe alice john
+```
+</details>
+
+
+
+
+
+
+
+<details>
+  <summary> </summary>
+  
+
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
