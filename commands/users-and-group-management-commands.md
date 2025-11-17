@@ -35,7 +35,7 @@ grep devops /etc/group
 ```
 </details>
 <details>
-  <summary>delgroup</summary>
+  <summary>deluser</summary>
 
 To delete an user account doe and Keep Home Directory
 ```
