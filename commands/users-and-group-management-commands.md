@@ -634,3 +634,34 @@ To allow write access to your terminal
 mesg y
 ```
 </details>
+<details>
+  <summary>newgrp</summary>
+  
+create a group
+```
+sudo addgroup developers
+```
+Switch to the new group developers without logout
+```
+newgrp developers
+```
+to check
+```
+id
+```
+create a file
+```
+touch sample.txt
+```
+check
+```
+ls -al sample.txt
+```
+after modifying group membership with usermod, you need to re-log or run
+```
+usermod -aG docker alice
+```
+Instead of logging out, Alice can run
+```
+newgrp docker
+```
