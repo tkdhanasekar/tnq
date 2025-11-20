@@ -260,6 +260,18 @@ sudo apt update
 ```
 </details>
 <details>
+  <summary>apt-mark</summary>
+  
+Prevent curl from being upgraded (optional)
+```
+sudo apt-mark hold curl
+```
+To undo the hold
+```
+sudo apt-mark unhold curl
+```
+</details>
+<details>
   <summary>dpkg</summary>
   
 To install a .deb package
@@ -314,17 +326,245 @@ To list all installed packages
 ```
 dpkg-query -l
 ```
+To search for a package by name
+```
+dpkg-query -l '*python3*'
+```
+To show detailed information about an installed package
+```
+dpkg-query -s bash
+```
+To show the files installed by a package
+```
+dpkg-query -L bash
+```
+To find which package a file belongs to
+```
+dpkg-query -S /bin/ls
+```
+To format the output (package + version)
+```
+dpkg-query -W -f='${Package} ${Version}\n'
+```
+To show package, architecture, and description
+```
+dpkg-query -W -f='${Package}\t${Architecture}\t${Description}\n'
+```
+To list only package names
+```
+dpkg-query -W -f='${Package}\n'
+```
+To show the installed version of a package
+```
+dpkg-query -W -f='${Version}\n' openssl
+```
+To check if a package is installed
+```
+dpkg-query -W -f='${Status}\n' curl
+```
+To show removed-but-not-purged packages
+```
+dpkg-query -W -f='${Package} ${db:Status-Abbrev}\n' | grep 'rc'
+```
+</details>
+<details>
+  <summary>dpkg-deb</summary>
+  
+To show information about a .deb package
+```
+dpkg-deb --info package.deb
+```
+To list files inside a .deb
+```
+dpkg-deb --contents package.deb
+```
+To extract a .deb package to a directory
+```
+dpkg-deb --extract package.deb output-dir/
+```
+To extract control files only it is useful for editing metadata.
+```
+dpkg-deb --control package.deb control-dir/
+```
+To show package size info
+```
+dpkg-deb -f package.deb Installed-Size
+```
+To compare two .deb packages
+```
+diff <(dpkg-deb --contents pkg1.deb) <(dpkg-deb --contents pkg2.deb)
+```
+</details>
+<details>
+  <summary>dpkg-reconfigure</summary>
+  
+To reconfigure a package interactively
+```
+sudo dpkg-reconfigure tzdata
+```
+To reconfigure a package non-interactively (with default settings)
+```
+sudo dpkg-reconfigure -f noninteractive package-name
+```
+```
+sudo dpkg-reconfigure -f readline debconf
+```
+To reconfigure keyboard layout
+```
+sudo dpkg-reconfigure keyboard-configuration
+```
+To reconfigure locales
+```
+sudo dpkg-reconfigure locales
+```
+To reconfigure MySQL/MariaDB root password
+```
+sudo dpkg-reconfigure mysql-server
+```
+Batch reconfigure multiple packages
+```
+sudo dpkg-reconfigure -f noninteractive tzdata locales
+```
+</details>
+<details>
+  <summary>pip/pip3</summary>
+  
+To install a package
+```
+pip install requests
+```
+To install a specific version
+```
+pip install requests==2.31.0
+```
+To upgrade a package
+```
+pip install --upgrade requests
+```
+To uninstall a package
+```
+pip uninstall requests
+```
+To list installed packages
+```
+pip list
+```
+To show detailed info about a package
+```
+pip show requests
+```
+To check outdated packages
+```
+pip list --outdated
+```
+To install packages from a requirements file
+```
+vim requirements.txt
+```
+```
+numpy
+botocore
+```
+````
+pip install -r requirements.txt
+```
+To install a package for the current user only
+```
+pip install --user requests
+```
+To install from a Git repository
+```
+pip install git+https://github.com/psf/requests.git
+```
+To install a package with extra dependencies
+```
+pip install package_name[extra1,extra2,...]
+```
+Suppose we want to install requests with its optional security extras
+```
+pip install requests[security]
+```
+To specify multiple extras separated by commas
+```
+pip install requests[security,socks]
+```
+To upgrade pip itself
+```
+pip install --upgrade pip
+```
+To print version of pip3
+```
+pip3 --version
+```
+To list packages that don’t come pre-installed with Python
+```
+pip3 freeze
+```
+To check that installed packages are compatible
+```
+pip3 check
+```
+</details>
+<deatils>
+  <summary>update-alternatives</summary>
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+To configure update-alternatives for python versions
+```
+sudo apt update
+sudo apt install -y software-properties-common build-essential wget
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install -y python3.10 python3.10-venv python3.10-dev python3.10-distutils python3.12-venv
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 2
+sudo update-alternatives --config python3
+
+python3.10 -m venv myenv3.10
+source myenv3.10/bin/activate
+python3 --version
+deactivate
+
+python3.12 -m venv myenv3.12
+source myenv3.12/bin/activate
+python3 --version
+deactivate
+```
+To list all alternatives for python
+```
+update-alternatives --list python3
+```
+To show current choice and configuration
+```
+update-alternatives --display python3
+```
+Configure interactively (choose manually)
+```
+update-alternatives --config python3
+```
+Set an alternative manually
+```
+sudo update-alternatives --set java /usr/lib/jvm/java-11-openjdk/bin/java
+```
+Add a new alternative
+```
+sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 50
+sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nano 40
+```
+Remove an alternative
+```
+sudo update-alternatives --remove editor /usr/bin/nano
+```
+Check the master link’s status
+```
+update-alternatives --query python3
+```
+Automatic mode
+```
+sudo update-alternatives --auto python3
+```
+To configure editor
+```
+sudo update-alternatives --config editor
+```
+</details>
+
