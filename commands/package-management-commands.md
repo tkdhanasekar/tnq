@@ -465,7 +465,7 @@ vim requirements.txt
 numpy
 botocore
 ```
-````
+```
 pip install -r requirements.txt
 ```
 To install a package for the current user only
