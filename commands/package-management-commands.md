@@ -505,7 +505,7 @@ To check that installed packages are compatible
 pip3 check
 ```
 </details>
-<deatils>
+<details>
   <summary>update-alternatives</summary>
 
 To configure update-alternatives for python versions
