@@ -307,3 +307,24 @@ check the location of packages installed
 sudo dpkg -L package_name.deb
 ```
 </details>
+<details>
+  <summary>dpkg-query</summary>
+
+To list all installed packages
+```
+dpkg-query -l
+```
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
