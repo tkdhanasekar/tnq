@@ -1,5 +1,6 @@
 <details>
   <summary>cat</summary>
+
 To display contents of file
 ```
 cat /etc/group
@@ -24,6 +25,7 @@ cat file.txt | less
 </details>
 <details>
   <summary>cd</summary>
+
 change current directory to /etc/ssh
 ```
 cd /etc/ssh
@@ -54,6 +56,7 @@ cal -y
 </details>
 <details>
   <summary>cp</summary>
+
 To copying multiple files to a directory
 ```
 cp file1_name file2_name file3_name /opt
@@ -77,6 +80,7 @@ cp -l /home/venus/file2.txt /opt/
 </details>
 <details>
   <summary>mv</summary>
+
 To rename a file1.txt to file2.txt
 ```
 mv file1.txt file2.txt
@@ -92,6 +96,7 @@ mv dir1 dir2 dir3 /opt
 </details>
 <details>
   <summary>dd</summary>
+
 To copy a file using dd command
 ```
 dd if=hello.txt of=output.txt status=progress
@@ -103,6 +108,7 @@ dd if=hello.txt of=output.txt conv=ucase
 </details>
 <details>
   <summary>ln</summary>
+
 To create hard link with the name sample_link_file.txt
 ```
 ln sample_file.txt sample_link_file.txt
@@ -122,6 +128,7 @@ unlink link_file.txt
 </details>
 <details>
   <summary>link</summary>
+
 ```
 link file1.txt file2.txt
 ```
@@ -139,6 +146,7 @@ link file1.txt file2.txt
 </details>
 <details>
   <summary>which</summary>
+
 ```
 To locate a command
 which -a touch
@@ -149,6 +157,7 @@ which -a df
 </details>
 <details>
   <summary>whereis</summary>
+
 To find the directories where the whereis command search
 ```
 whereis -l
@@ -166,6 +175,7 @@ whereis du free bash
 </details>
 <details>
   <summary>ls</summary>
+
 To long listing of files
 ```
 ls -l
@@ -181,6 +191,7 @@ ls -lh
 </details>
 <details>
   <summary>tee</summary>
+
 To create a file that stores information about hostname
 ```
 hostname -I | tee hostname.txt
@@ -199,6 +210,7 @@ echo "This is demo msg " | tee demo1.txt demo2.txt
 </details>
 <details>
   <summary>xargs</summary>
+
 To combine xargs with find
 ```
 find /home -name *.txt -type f | xargs rm -f
@@ -208,7 +220,3 @@ To List Number of Lines/Words/Characters in Each File
 ls | xargs wc
 ```
 </details>
-
-
-
-
