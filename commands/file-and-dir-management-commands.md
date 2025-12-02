@@ -220,4 +220,61 @@ To List Number of Lines/Words/Characters in Each File
 ```
 ls | xargs wc
 ```
+Delete files using xargs , Safely delete all .log files (handles spaces, special characters).
+```
+find . -name "*.log" -print0 | xargs -0 rm -f
+```
+Count lines in files, Counts lines in all .txt files
+```
+find . -name "*.txt" -print0 | xargs -0 wc -l
+```
+Copy multiple files , {} is replaced with each filename.
+```
+ls *.jpg | xargs -I {} cp {} /backup/
+```
+Move files 
+```
+find . -name "*.csv" | xargs -I {} mv {} /data/archive/
+```
+Download URLs from a file Downloads each URL listed in urls.txt.
+```
+cat urls.txt | xargs wget
+```
+Remove empty directories
+```
+find . -type d -empty | xargs rmdir
+```
+Kills all Python-related processes (PIDs from column 2).
+```
+ps aux | grep python | awk '{print $2}' | xargs kill
+```
+Compress files
+```
+find . -name "*.txt" | xargs tar -czvf archive.tar.gz
+```
+Using -n to run limited arguments per command , Runs echo with 2 arguments at a time:
+```
+echo "1 2 3 4 5 6" | xargs -n 2 echo
+```
+Prompt before running each command 
+```
+echo *.txt | xargs -p rm
+```
+Replace placeholder with -I
+```
+cat files.txt | xargs -I {} echo FILE: {}
+```
+Find and delete broken symlinks
+```
+find . -xtype l -print0 | xargs -0 rm
+```
+Use xargs to build a long command Executes:
+rm file1 file2 file3
+```
+echo "file1 file2 file3" | xargs echo rm
+```
+Count total bytes in all PDFs
+```
+find . -name "*.pdf" -print0 | xargs -0 cat | wc -c
+```
 </details>
