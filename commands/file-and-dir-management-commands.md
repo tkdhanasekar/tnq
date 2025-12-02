@@ -40,7 +40,8 @@ cd ..
 ```
 </details>
 <details>
-  <summary>cak</summary>
+  <summary>cal</summary>
+
 To Show current month calendar
 ```
 cal
