@@ -198,31 +198,17 @@ echo "This is demo msg " | tee demo1.txt demo2.txt
 ```
 </details>
 <details>
-  <summary> </summary>
-  
+  <summary>xargs</summary>
+To combine xargs with find
+```
+find /home -name *.txt -type f | xargs rm -f
+```
+To List Number of Lines/Words/Characters in Each File
+```
+ls | xargs wc
+```
 </details>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<details>
-  <summary> </summary>
-  
-</details>
