@@ -35,6 +35,13 @@ update the system
 ```
 apt update
 ```
+set the hostname
+```
+hostnamectl set-hostname remote_server
+```
+```
+exec bash
+```
 create a user and give sudo access
 ```
 adduser user_name
@@ -44,18 +51,16 @@ usermod -aG sudo user_name
 ```
 ## copy the ssh public key to remote server from your local machine
 ```
-ssh-copy-id -i ~/.ssh/ssh_key.pub user@remote_server
+ssh-copy-id -i ~/.ssh/ssh_key.pub user_name@remote_server_ip
+```
+Login
+```
+ssh user_name@remote_server_ip
 ```
 ## Now disable root login , enable publickey authentication , custom password , disable password authentication
 ```
-vim /etc/ssh/sshd_config
+sudo vim /etc/ssh/sshd_config
 ```
-Login 
-```
-ssh -p 2222 username@remote_server_ip
-```
-
-
 find these parameters and uncomment and change accordingly
 ```
 Port 2222
