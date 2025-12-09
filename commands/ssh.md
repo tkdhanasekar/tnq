@@ -27,4 +27,58 @@ To generate a key without a passphrase
 ```
 ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519
 ```
+For the first time login to remote server with password and create a user
+```
+ssh root@remote_server_ip
+```
+update the system
+```
+apt update
+```
+create a user and give sudo access
+```
+adduser user_name
+```
+```
+usermod -aG sudo user_name
+```
+## copy the ssh public key to remote server from your local machine
+```
+ssh-copy-id -i ~/.ssh/ssh_key.pub user@remote_server
+```
+## Now disable root login , enable publickey authentication , custom password , disable password authentication
+```
+vim /etc/ssh/sshd_config
+```
+find these parameters and uncomment and change accordingly
+```
+Port 2222
 
+PermitRootLogin no
+
+PubkeyAuthentication yes
+
+PasswordAuthentication no
+```
+save and exit
+
+## disable ssh.socket
+for ubuntu 22.10 or later version sshd might be using socket-based activation. In this case we need to disable ssh.socket 
+and enable ssh.service for sshd_config file to take full effect 
+```
+sudo systemctl disable --now ssh.socket
+```
+```
+sudo systemctl enable --now ssh.service
+```
+```
+sudo systemctl restart ssh
+```
+To check 
+```
+netstat -tulpn | grep ssh
+```
+or
+```
+ss -tulpn | grep ssh
+```
