@@ -50,6 +50,12 @@ ssh-copy-id -i ~/.ssh/ssh_key.pub user@remote_server
 ```
 vim /etc/ssh/sshd_config
 ```
+Login 
+```
+ssh -p 2222 username@remote_server_ip
+```
+
+
 find these parameters and uncomment and change accordingly
 ```
 Port 2222
