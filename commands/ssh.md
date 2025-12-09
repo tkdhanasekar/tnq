@@ -85,7 +85,11 @@ sudo systemctl enable --now ssh.service
 ```
 sudo systemctl restart ssh
 ```
-To check 
+check for syntax errors in the config file
+```
+sudo sshd -t
+```
+check with netstat or ss tool for ssh mapped port number
 ```
 netstat -tulpn | grep ssh
 ```
