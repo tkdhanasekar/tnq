@@ -1018,8 +1018,8 @@ This queries Google's DNS server on port `853` (commonly used for DNS over TLS).
   $ host -t SOA example.com
   example.com has SOA record ns1.example.com. admin.example.com. 2021091101 86400 7200 3600000 86400
   ```
-  </details>
-  <details>
+</details>
+<details>
   <summary>ip</summary>
   
 The `ip` command is a more modern and versatile utility for managing network interfaces, routes, and devices on Linux-based systems. It replaces older commands like `ifconfig`, `route`, and `netstat` in most cases. The `ip` command is part of the `iproute2` package and offers a wider range of functionalities for network configuration.
@@ -1272,6 +1272,501 @@ ip link show eth0
   eth0     UP     192.168.1.100/24
   lo       UP     127.0.0.1/8
   ```
-</summary>
-  
+</details>
+<details>
+<summary>netstat</summary>
+
+The `netstat` (network statistics) command is used for displaying network connections, routing tables, interface statistics, and other network-related information on a Linux or Unix-based system. Though `netstat` is now considered deprecated in favor of tools like `ss` (socket statistics) on many systems, it is still widely used and available for network diagnostics.
+
+### 1. **Display all active network connections**
+
+To show all active network connections (TCP, UDP, etc.) along with their status:
+
+```
+netstat
+```
+
+This will show a list of connections with details like protocol, local address, foreign address, and the current state of the connection.
+
+### 2. **Show active TCP connections**
+
+To display **only** active TCP connections:
+
+```
+netstat -t
+```
+
+This filters the output to show only TCP connections.
+
+### 3. **Show active UDP connections**
+
+To display **only** active UDP connections:
+
+```
+netstat -u
+```
+
+This will show all UDP connections.
+
+### 4. **Display listening ports**
+
+To show only the **listening** ports (i.e., those waiting for incoming connections):
+
+```
+netstat -l
+```
+
+To show listening ports for both TCP and UDP, use:
+
+```
+netstat -l -t -u
+```
+
+### 5. **Show all listening and non-listening sockets**
+
+To display both **listening and non-listening** sockets (established connections):
+
+```
+netstat -a
+```
+
+This shows all active sockets, including listening and established connections.
+
+### 6. **Display connections with PID and program names**
+
+To display network connections along with their **process IDs (PID)** and associated program names (if available):
+
+```
+netstat -tulnp
+```
+
+* `-t` = TCP connections
+* `-u` = UDP connections
+* `-l` = Show only listening sockets
+* `-n` = Show numerical addresses instead of resolving them to hostnames
+* `-p` = Show PID and program name
+
+Example output:
+
+```
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      1234/apache2
+```
+
+### 7. **Show routing table**
+
+To display the **routing table** (similar to `ip route`):
+
+```
+netstat -r
+```
+
+This shows the routing table, including default routes and network destinations.
+
+### 8. **Display network interface statistics**
+
+To display statistics for each network interface (e.g., packet counts, errors, etc.):
+
+```
+netstat -i
+```
+
+You can also use `-e` for additional information about network interfaces:
+
+```
+netstat -i -e
+```
+
+### 9. **Show network statistics (protocol-specific)**
+
+To show overall network statistics for various protocols (TCP, UDP, ICMP, etc.):
+
+```
+netstat -s
+```
+
+This provides detailed statistics, like the number of packets sent, errors, and more for each protocol.
+
+### 10. **Display all open sockets (TCP and UDP)**
+
+To show all open sockets (not just listening ones), including both TCP and UDP:
+
+```
+netstat -tul
+```
+
+### 11. **Show IP routing table**
+
+To display the **IP routing table** (similar to `netstat -r` but with more details):
+
+```
+netstat -rn
+```
+
+The `-n` option prevents hostnames from being resolved, showing raw IP addresses instead.
+
+### 12. **Show multicast group membership**
+
+To show **multicast group memberships** for interfaces:
+
+```
+netstat -g
+```
+
+### 13. **Show all UNIX domain sockets**
+
+To display **UNIX domain sockets** (used for inter-process communication):
+
+```
+netstat -x
+```
+
+You can also use `-a` with `-x` to show both local and remote UNIX sockets:
+
+```
+netstat -ax
+```
+
+### 14. **Display statistics for a specific protocol**
+
+You can use the `-s` flag combined with a specific protocol to view its statistics. For example, to see **TCP statistics**:
+
+```
+netstat -st
+```
+
+### 15. **Show all connections, including numeric addresses**
+
+If you want to see all network connections (TCP, UDP) with numerical addresses (without resolving hostnames):
+
+```
+netstat -n
+```
+
+### 16. **Show only established connections**
+
+To list only **established connections**:
+
+```
+netstat -t | grep ESTABLISHED
+```
+
+This will show all established TCP connections.
+
+### 17. **Display only listening TCP sockets**
+
+To show **only listening TCP** sockets:
+
+```
+netstat -lt
+```
+
+### 18. **Show per-protocol statistics**
+
+To view per-protocol network statistics:
+
+```
+netstat -s
+```
+
+This will display detailed statistics for various protocols like TCP, UDP, ICMP, and IP.
+
+---
+
+### Example Outputs:
+
+1. **Display active connections:**
+
+   ```
+   $ netstat
+   Active Internet connections (w/o servers)
+   Proto Recv-Q Send-Q Local Address           Foreign Address         State
+   tcp        0      0 192.168.1.100:22        192.168.1.101:1012      ESTABLISHED
+   tcp        0      0 192.168.1.100:80        192.168.1.102:5678      TIME_WAIT
+   ```
+
+2. **Display listening ports (TCP + UDP):**
+
+   ```
+   $ netstat -l -t -u
+   Active Internet connections (only servers)
+   Proto Recv-Q Send-Q Local Address           Foreign Address         State
+   tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN
+   udp        0      0 0.0.0.0:1234            0.0.0.0:*               LISTEN
+   ```
+
+3. **Display network interface statistics:**
+
+   ```
+   $ netstat -i
+   Kernel Interface table
+   Iface MTU  RX-OK RX-ERR RX-DRP RX-OVR TX-OK TX-ERR TX-DRP TX-OVR Flg
+   eth0  1500  12345    0      0      0    6789    0      0      0     BMRU
+   lo    65536 67890    0      0      0    67890    0      0      0     LRU
+   ```
+
+4. **Show routing table:**
+
+   ```
+   $ netstat -r
+   Kernel IP routing table
+   Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+   0.0.0.0         192.168.1.1     0.0.0.0         UG    100    0        0 eth0
+   192.168.1.0     *               255.255.255.0   U     0      0        0 eth0
+   ```
+
+---
+
+### Important Notes:
+
+* **Deprecated**: While `netstat` is still widely used, it has been largely replaced by **`ss`** (Socket Stat) on many modern Linux systems. `ss` provides similar functionality but is faster and more efficient.
+* **Root privileges**: Some `netstat` options (e.g., showing process IDs and program names with `-p`) may require root privileges. You can prepend `sudo` to these commands if needed:
+
+  ```
+  sudo netstat -tulnp
+  ```
+</details>
+<details>
+<summary>ss</summary>
+
+The `ss` command (Socket Stat) is a modern replacement for the older `netstat` command, offering more detailed and faster results when querying network connections and socket statistics. It’s part of the `iproute2` package, and while `netstat` is still used, `ss` is recommended for many use cases due to its speed and efficiency.
+
+### 1. **Display all active sockets**
+
+To show all active network sockets (TCP, UDP, etc.):
+
+```
+ss
+```
+
+This will display both listening and established connections.
+
+### 2. **Show all TCP sockets**
+
+To display only **TCP** connections:
+
+```
+ss -t
+```
+
+This will show all active TCP sockets.
+
+### 3. **Show all UDP sockets**
+
+To display only **UDP** connections:
+
+```
+ss -u
+```
+
+### 4. **Display listening sockets**
+
+To show all **listening** sockets (those waiting for incoming connections), both TCP and UDP:
+
+```
+ss -l
+```
+
+For only TCP listening sockets:
+
+```
+ss -lt
+```
+
+For only UDP listening sockets:
+
+```
+ss -lu
+```
+
+### 5. **Show all TCP connections with state**
+
+To show **all TCP connections** along with their state (e.g., `ESTABLISHED`, `LISTEN`, etc.):
+
+```
+ss -t -a
+```
+
+This will show all TCP sockets, including listening and established connections.
+
+### 6. **Show only established TCP connections**
+
+To display only **established** TCP connections:
+
+```
+ss -t state established
+```
+
+This will show connections that are currently established.
+
+### 7. **Show all connections with process information**
+
+To display **process** information along with the connections (e.g., PID and program name), use:
+
+```
+ss -tulnp
+```
+
+* `-t` = Show TCP connections
+* `-u` = Show UDP connections
+* `-l` = Show listening sockets
+* `-n` = Show numerical addresses (without DNS resolution)
+* `-p` = Show process and PID
+
+Example output:
+
+```
+State      Recv-Q Send-Q   Local Address:Port   Peer Address:Port  Process
+LISTEN     0      128      0.0.0.0:80           0.0.0.0:*           users:(("nginx",pid=2345,fd=6))
+ESTAB      0      0        192.168.1.100:22     192.168.1.101:54321 users:(("sshd",pid=987,fd=3))
+```
+
+### 8. **Show all connections to a specific port**
+
+To show all connections to a specific **port**, say port `80` (HTTP), use:
+
+```
+ss -tuln sport = :80
+```
+
+This will show all TCP or UDP sockets listening on port `80`.
+
+### 9. **Show all connections from a specific address**
+
+To show all connections **from a specific IP address**, use:
+
+```
+ss -tuln src 192.168.1.100
+```
+
+This filters the output to show all connections originating from `192.168.1.100`.
+
+### 10. **Show all connections to a specific IP address**
+
+To show all connections **to a specific IP address**, use:
+
+```
+ss -tuln dst 192.168.1.100
+```
+
+### 11. **Show detailed socket statistics**
+
+To display detailed statistics for all sockets, including the number of bytes sent/received, state changes, etc., use:
+
+```
+ss -s
+```
+
+This will give you a summary of socket statistics for different protocols (TCP, UDP, etc.).
+
+### 12. **Show all UNIX domain sockets**
+
+To display **UNIX domain sockets** (used for inter-process communication), use:
+
+```
+ss -x
+```
+
+### 13. **Show specific socket information by state**
+
+To show sockets in a **specific state**, such as `LISTEN`, `ESTABLISHED`, or `TIME-WAIT`, you can use:
+
+* **Show listening sockets**:
+
+  ```
+  ss -t state listening
+  ```
+* **Show established connections**:
+
+  ```
+  ss -t state established
+  ```
+
+### 14. **Show information for a specific process (PID)**
+
+To filter connections for a specific **PID** (e.g., PID `1234`):
+
+```
+ss -p | grep 1234
+```
+
+This will list all connections associated with the process ID `1234`.
+
+### 15. **Show connections using a specific protocol**
+
+To show all connections for a **specific protocol** (e.g., **TCP** or **UDP**):
+
+```
+ss -t
+```
+
+For **UDP**:
+
+```
+ss -u
+```
+
+### 16. **Show all socket states with numerical output**
+
+To show all socket states numerically (without DNS resolution):
+
+```
+ss -n
+```
+
+---
+
+### Example Outputs:
+
+1. **Display all TCP connections with their state:**
+
+   ```
+   $ ss -t
+   State      Recv-Q Send-Q   Local Address:Port   Peer Address:Port
+   ESTAB      0      0        192.168.1.100:22     192.168.1.101:54321
+   LISTEN     0      128      0.0.0.0:80           0.0.0.0:*
+   ```
+
+2. **Display listening TCP and UDP sockets:**
+
+   ```
+   $ ss -l
+   Netid  State      Recv-Q Send-Q Local Address:Port  Peer Address:Port
+   tcp    LISTEN     0      128    0.0.0.0:80         0.0.0.0:*
+   udp    UNCONN     0      0      0.0.0.0:1234       0.0.0.0:*
+   ```
+
+3. **Show connections for a specific port:**
+
+   ```
+   $ ss -tuln sport = :80
+   Netid  State      Recv-Q Send-Q Local Address:Port  Peer Address:Port
+   tcp    LISTEN     0      128    0.0.0.0:80         0.0.0.0:*
+   ```
+
+4. **Display all connections with process information:**
+
+   ```
+   $ ss -tulnp
+   Netid  State      Recv-Q Send-Q Local Address:Port   Peer Address:Port  Process
+   tcp    LISTEN     0      128    0.0.0.0:80           0.0.0.0:*           users:(("nginx",pid=1234,fd=6))
+   ```
+
+5. **Display all UDP connections:**
+
+   ```
+   $ ss -u
+   Netid  State      Recv-Q Send-Q Local Address:Port   Peer Address:Port
+   udp    UNCONN     0      0      0.0.0.0:1234        0.0.0.0:*
+   ```
+
+6. **Show the socket statistics:**
+
+   ```
+   $ ss -s
+   Total: 1 (kernel 1)
+   TCP: 1 (estab 1, closed 0, orphaned 0, synrecv 0, timewait 0)
+   UDP: 1 (active 1)
+   ```
+ </details>
 
