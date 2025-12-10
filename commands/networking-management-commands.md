@@ -455,3 +455,209 @@ dig +dnssec example.com
   93.184.216.34
   ```
 </details>
+<details>
+<summary>nslookup</summary>
+
+### 1. **Basic DNS query for a domain**
+
+This performs a simple query to resolve the A record (IPv4 address) for a domain.
+
+```
+nslookup example.com
+```
+
+### 2. **Query a specific DNS record type (e.g., A, MX, TXT, etc.)**
+
+You can specify the record type you want to query using the `-type` option:
+
+* For **MX (Mail Exchange) records**:
+
+  ```
+  nslookup -type=MX example.com
+  ```
+* For **TXT records** (commonly used for SPF, DKIM):
+
+  ```
+  nslookup -type=TXT example.com
+  ```
+* For **CNAME (Canonical Name) records**:
+
+  ```
+  nslookup -type=CNAME example.com
+  ```
+
+### 3. **Query a specific DNS server**
+
+To query a specific DNS server, use the `server` command or `@` followed by the server's IP or hostname:
+
+```
+nslookup example.com 8.8.8.8
+```
+
+This queries Google's public DNS server (`8.8.8.8`) for `example.com`.
+
+### 4. **Reverse DNS lookup (PTR record)**
+
+Perform a reverse DNS lookup to find the domain name associated with an IP address.
+
+```
+nslookup 8.8.8.8
+```
+
+This will return the domain name associated with the IP address `8.8.8.8`.
+
+### 5. **Query for NS (Name Server) records**
+
+To find the name servers for a domain:
+
+```
+nslookup -type=NS example.com
+```
+
+### 6. **Query for SOA (Start of Authority) record**
+
+To get the Start of Authority (SOA) record for a domain (contains authoritative information about the domain):
+
+```
+nslookup -type=SOA example.com
+```
+
+### 7. **Set the query type to ANY (fetch all available records)**
+
+To fetch all available DNS records (if the server allows it):
+
+```
+nslookup -type=ANY example.com
+```
+
+### 8. **Interactive mode**
+
+You can enter interactive mode by simply typing `nslookup` with no arguments, and then you can issue queries interactively.
+
+```
+nslookup
+```
+
+Once in interactive mode, you can change the query type, server, and more. For example:
+
+```
+> set type=MX
+> example.com
+```
+
+To exit interactive mode:
+
+```
+> exit
+```
+
+### 9. **Change the default DNS server**
+
+In interactive mode, you can change the DNS server by typing:
+
+```
+> server 8.8.8.8
+```
+
+This sets Google's DNS server as the query server.
+
+### 10. **Query with a specific port (e.g., for a non-standard DNS port)**
+
+If you need to query a DNS server running on a non-default port, use the `-port` option.
+
+```
+nslookup -port=5353 example.com
+```
+
+### 11. **Query with a different version of DNS (IPv4 or IPv6)**
+
+To force `nslookup` to use **IPv4** or **IPv6** only, use the `-query=ip` flag.
+
+* For **IPv4** (default):
+
+  ```
+  nslookup example.com
+  ```
+* For **IPv6**:
+
+  ```
+  nslookup -type=AAAA example.com
+  ```
+
+### 12. **Get DNS query details (debug mode)**
+
+To get more detailed output, you can use the `-debug` flag.
+
+```
+nslookup -debug example.com
+```
+
+This provides detailed information about the DNS lookup process.
+
+### 13. **Non-interactive mode for a specific query**
+
+You can issue a one-time query with a specific server and record type in non-interactive mode:
+
+```
+nslookup -type=MX example.com 8.8.8.8
+```
+
+This queries Google's DNS server (`8.8.8.8`) for the **MX records** of `example.com`.
+
+### 14. **Set the timeout for queries**
+
+To change the timeout for DNS queries, use the `-timeout` option followed by the number of seconds.
+
+```
+nslookup -timeout=5 example.com
+```
+
+This will wait for 5 seconds before giving up on the query.
+
+### 15. **Query for the IP address of a subdomain**
+
+If you want to get the IP address of a subdomain (e.g., `www`):
+
+```
+nslookup www.example.com
+```
+
+---
+
+### Example Outputs:
+
+* **Basic query:**
+
+  ```
+  $ nslookup example.com
+  Server:  UnKnown
+  Address:  192.168.1.1
+
+  Non-authoritative answer:
+  Name:    example.com
+  Address:  93.184.216.34
+  ```
+
+* **MX Record query:**
+
+  ```
+  $ nslookup -type=MX example.com
+  Server:  UnKnown
+  Address:  192.168.1.1
+
+  Non-authoritative answer:
+  example.com     MX preference = 10, mail exchanger = mail.example.com
+  ```
+
+* **Reverse DNS Lookup:**
+
+  ```
+  $ nslookup 8.8.8.8
+  Server:  UnKnown
+  Address:  192.168.1.1
+
+  Name:    dns.google
+  Address:  8.8.8.8
+  ```
+</details>
+
