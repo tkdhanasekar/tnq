@@ -19,7 +19,7 @@ sudo systemctl enable mariadb.service
 ```
 To configure mariadb root password
 ```
-mysql_secure_installation
+mariadb-secure-installation
 ```
 ```
 Enter current password for root (enter for none): ENTER
@@ -41,7 +41,20 @@ Reload privilege tables now? [Y/n] Y
 ```
 To login to mariadb
 ```
-mysql -u root -p
+mariadb -u root -p
+```
+```
+MariaDB [(none)]> ALTER USER 'root'@'localhost' IDENTIFIED BY 'kan123!@#';
+```
+```
+MariaDB [(none)]> flush privileges;
+```
+```
+MariaDB [(none)]> exit;
+```
+Now again login it will ask for password
+```
+mariadb -u root -p
 ```
 ```
 MariaDB [(none)]>
