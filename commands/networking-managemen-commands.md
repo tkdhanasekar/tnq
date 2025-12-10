@@ -1,8 +1,6 @@
 <details>
  <summary>lsof</summary>
 
----
-
 ### 1. List all open files
 
 ```
