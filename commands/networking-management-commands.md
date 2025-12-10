@@ -660,4 +660,618 @@ nslookup www.example.com
   Address:  8.8.8.8
   ```
 </details>
+<details>
+<summary>hostname</hostname>
+
+### 1. **Display the current hostname**
+
+This simply displays the name of the current machine (hostname):
+
+```
+hostname
+```
+
+### 2. **Display the fully qualified domain name (FQDN)**
+
+To get the fully qualified domain name (FQDN) of the system, use:
+
+```
+hostname -f
+```
+
+This shows the hostname along with the domain name (e.g., `host.example.com`).
+
+### 3. **Display the system's IP address**
+
+To display the system's IP address (by resolving the hostname):
+
+```
+hostname -I
+```
+
+This will return the IP address(es) assigned to the machine.
+
+### 4. **Display the short hostname**
+
+If you want just the short hostname (without domain information):
+
+```
+hostname -s
+```
+
+This will give you only the system’s name, e.g., `host` for `host.example.com`.
+
+### 5. **Set the hostname temporarily**
+
+To set the hostname for the current session (it will be lost after a reboot), use:
+
+```
+sudo hostname newhostname
+```
+
+For example:
+
+```
+sudo hostname mynewhostname
+```
+
+### 6. **Set the fully qualified domain name (FQDN) temporarily**
+
+To set the FQDN temporarily, you can edit both the hostname and the domain name:
+
+```
+sudo hostname mynewhostname.example.com
+```
+
+### 7. **Set the hostname permanently (on most Linux distributions)**
+
+Edit the `/etc/hostname` file directly and change the hostname. Then, you may need to restart the system or use the following command to apply it immediately:
+
+```
+sudo hostnamectl set-hostname newhostname
+```
+
+This will set the hostname permanently and ensure it survives across reboots.
+
+### 8. **Set the hostname permanently using `hostnamectl`**
+
+For systems using `systemd` (like modern Linux distributions), you can use `hostnamectl` to set the hostname permanently:
+
+```
+sudo hostnamectl set-hostname newhostname
+```
+
+You can also set a **static** or **transient** hostname using this tool:
+
+* Static hostname (permanent):
+
+  ```
+  sudo hostnamectl set-hostname --static newhostname
+  ```
+* Transient hostname (temporary for the current session):
+
+  ```
+  sudo hostnamectl set-hostname --transient newhostname
+  ```
+
+### 9. **Set the hostname with a specific domain name**
+
+You can set the **static hostname** and the **pretty hostname** (often used for human-readable names) using:
+
+```
+sudo hostnamectl set-hostname newhostname.example.com --static
+```
+
+### 10. **Show the hostname details using `hostnamectl`**
+
+To view detailed information about the hostname, use:
+
+```
+hostnamectl
+```
+
+This will show:
+
+* Static hostname
+* Transient hostname
+* Pretty hostname (optional)
+* Machine ID
+* Operating system and kernel details
+
+### 11. **Display the system's DNS domain**
+
+You can use the `dnsdomainname` command to show just the DNS domain name of the system:
+
+```
+dnsdomainname
+```
+
+This shows the domain name part of the fully qualified domain name (FQDN), e.g., `example.com` for `host.example.com`.
+
+---
+
+### Example Outputs:
+
+* **Basic hostname display:**
+
+  ```
+  $ hostname
+  myhostname
+  ```
+
+* **Fully Qualified Domain Name (FQDN):**
+
+  ```
+  $ hostname -f
+  myhostname.example.com
+  ```
+
+* **IP address display:**
+
+  ```
+  $ hostname -I
+  192.168.1.10
+  ```
+
+* **Short hostname:**
+
+  ```
+  $ hostname -s
+  myhostname
+  ```
+
+* **Setting the hostname permanently using `hostnamectl`:**
+
+  ```
+  $ sudo hostnamectl set-hostname newhostname
+  ```
+</details>
+<details>
+<summary>host</summary>
+
+The `host` command is a simple utility used to perform DNS lookups and resolve domain names to IP addresses, or vice versa. It is generally used to retrieve various types of DNS records for a given domain.
+
+### 1. **Basic DNS lookup (resolve domain to IP address)**
+
+To resolve a domain name to its corresponding IP address (A record):
+
+```
+host example.com
+```
+
+This will return the **IPv4 address** (A record) for the domain `example.com`.
+
+### 2. **Query a specific record type (e.g., MX, A, CNAME, etc.)**
+
+You can specify the type of record you want to query using the `-t` option. For example:
+
+* **MX (Mail Exchange) records**:
+
+  ```
+  host -t MX example.com
+  ```
+* **A (IPv4 address) records**:
+
+  ```
+  host -t A example.com
+  ```
+* **CNAME (Canonical Name) records**:
+
+  ```
+  host -t CNAME example.com
+  ```
+* **TXT (Text) records**:
+
+  ```
+  host -t TXT example.com
+  ```
+
+### 3. **Reverse DNS lookup (PTR record)**
+
+To perform a reverse DNS lookup (find the domain associated with an IP address), use the IP address as input:
+
+```
+host 8.8.8.8
+```
+
+This will return the **PTR record** for the IP address `8.8.8.8`, showing the domain name associated with that IP (e.g., `dns.google`).
+
+### 4. **Query a specific DNS server**
+
+You can specify which DNS server to query by using the `@` symbol followed by the DNS server's IP address or hostname:
+
+```
+host example.com 8.8.8.8
+```
+
+This queries Google's public DNS server (`8.8.8.8`) for the domain `example.com`.
+
+### 5. **Get the IP address of a subdomain**
+
+To resolve a subdomain (e.g., `www` or `mail`) to its IP address:
+
+```
+host www.example.com
+```
+
+### 6. **Display all available records (ANY)**
+
+You can retrieve all available DNS records for a domain (if the DNS server allows this) by using `-t ANY`:
+
+```
+host -t ANY example.com
+```
+
+### 7. **Show authoritative name servers (NS) for a domain**
+
+To query the **name servers** (NS records) for a domain:
+
+```
+host -t NS example.com
+```
+
+### 8. **Show the domain's SOA (Start of Authority) record**
+
+To query the **Start of Authority (SOA)** record for a domain (this contains authoritative information about the domain):
+
+```
+host -t SOA example.com
+```
+
+### 9. **Show the domain’s DNS domain name**
+
+To display just the domain name from the DNS (the DNS domain, not the hostname):
+
+```
+host -d example.com
+```
+
+### 10. **Find the domain for a specific IP (reverse lookup)**
+
+You can perform a reverse DNS lookup on an IP address to find the associated domain name:
+
+```
+host 192.168.1.1
+```
+
+### 11. **Show the IP address of a domain (IPv6)**
+
+To specifically query for the **IPv6 address (AAAA record)** of a domain:
+
+```
+host -t AAAA example.com
+```
+
+### 12. **Display verbose output**
+
+To see detailed information about the lookup process, use the `-v` (verbose) flag:
+
+```
+host -v example.com
+```
+
+### 13. **Perform a lookup with a specific DNS server on a specific port**
+
+You can specify both the DNS server and the port number to use for the query:
+
+```
+host example.com @8.8.8.8 -p 5353
+```
+
+This queries DNS server `8.8.8.8` on port `5353` for `example.com`.
+
+### 14. **Use a specific query class**
+
+To specify the query class (such as IN for Internet), you can use the `-C` flag:
+
+```
+host -C IN example.com
+```
+
+### 15. **Check DNS records for a given domain using a different port**
+
+If you need to check DNS records on a non-default port (like for DNS over TLS/HTTPS or a custom DNS server):
+
+```
+host example.com 8.8.8.8 -p 853
+```
+
+This queries Google's DNS server on port `853` (commonly used for DNS over TLS).
+
+---
+
+### Example Outputs:
+
+* **Basic query for A record:**
+
+  ```
+  $ host example.com
+  example.com has address 93.184.216.34
+  ```
+
+* **MX Record query:**
+
+  ```
+  $ host -t MX example.com
+  example.com mail is handled by 10 mail.example.com.
+  ```
+
+* **Reverse DNS lookup (PTR):**
+
+  ```
+  $ host 8.8.8.8
+  8.8.8.8.in-addr.arpa domain name pointer dns.google.
+  ```
+
+* **All available records (ANY):**
+
+  ```
+  $ host -t ANY example.com
+  example.com has address 93.184.216.34
+  example.com mail is handled by 10 mail.example.com.
+  example.com name server ns1.example.com.
+  ```
+
+* **SOA Record query:**
+
+  ```
+  $ host -t SOA example.com
+  example.com has SOA record ns1.example.com. admin.example.com. 2021091101 86400 7200 3600000 86400
+  ```
+  </details>
+  <details>
+  <summary>ip</summary>
+  
+The `ip` command is a more modern and versatile utility for managing network interfaces, routes, and devices on Linux-based systems. It replaces older commands like `ifconfig`, `route`, and `netstat` in most cases. The `ip` command is part of the `iproute2` package and offers a wider range of functionalities for network configuration.
+
+
+### 1. **Display all network interfaces**
+
+To show all network interfaces, including their status, IP addresses, and other details:
+
+```
+ip addr
+```
+
+This is similar to `ifconfig`, but it provides more comprehensive information.
+
+### 2. **Show details for a specific interface**
+
+To display detailed information about a specific network interface (e.g., `eth0`, `wlan0`, or `ens33`):
+
+```
+ip addr show eth0
+```
+
+### 3. **Show all network interfaces (brief output)**
+
+If you only want a brief summary of all interfaces without detailed information, use:
+
+```
+ip a
+```
+
+### 4. **Show IP address of an interface**
+
+To display the IP address of a specific interface (e.g., `eth0`):
+
+```
+ip addr show dev eth0
+```
+
+Alternatively, you can use `ip a` for a shorter output.
+
+### 5. **Assign an IP address to an interface**
+
+To assign a static **IPv4 address** to a network interface:
+
+```
+sudo ip addr add 192.168.1.100/24 dev eth0
+```
+
+This assigns the IP `192.168.1.100` with the subnet mask `/24` (255.255.255.0) to the `eth0` interface.
+
+### 6. **Remove an IP address from an interface**
+
+To **remove** a previously assigned IP address from an interface:
+
+```
+sudo ip addr del 192.168.1.100/24 dev eth0
+```
+
+### 7. **Enable a network interface**
+
+To bring a network interface (e.g., `eth0`) **up** (activate it):
+
+```
+sudo ip link set eth0 up
+```
+
+### 8. **Disable a network interface**
+
+To bring a network interface **down** (deactivate it):
+
+```
+sudo ip link set eth0 down
+```
+
+### 9. **Display the routing table**
+
+To show the **routing table**, which lists network routes and how packets are routed:
+
+```
+ip route show
+```
+
+Or simply:
+
+```
+ip r
+```
+
+### 10. **Add a new route**
+
+To add a **static route** to the routing table:
+
+```
+sudo ip route add 192.168.2.0/24 via 192.168.1.1
+```
+
+This adds a route to the `192.168.2.0/24` network, using `192.168.1.1` as the gateway.
+
+### 11. **Delete a route**
+
+To delete an existing route:
+
+```
+sudo ip route del 192.168.2.0/24
+```
+
+### 12. **Display the default route**
+
+To show the **default gateway** (route):
+
+```
+ip route show default
+```
+
+### 13. **Change the default route (gateway)**
+
+To change the default route (set a new gateway):
+
+```
+sudo ip route change default via 192.168.1.1
+```
+
+### 14. **Show network interfaces with interface status**
+
+To display interface names along with their status (up or down):
+
+```
+ip link show
+```
+
+### 15. **Set a MAC address for an interface**
+
+To change the **MAC address** of an interface (e.g., `eth0`):
+
+```
+sudo ip link set dev eth0 address 00:11:22:33:44:55
+```
+
+### 16. **Show the IP address of a specific interface (IPv6)**
+
+To show the **IPv6 address** of an interface:
+
+```
+ip addr show dev eth0 scope global
+```
+
+### 17. **Add an IPv6 address to an interface**
+
+To add an **IPv6 address** to an interface:
+
+```
+sudo ip addr add 2001:db8::1/64 dev eth0
+```
+
+### 18. **Flush (clear) all IP addresses for an interface**
+
+To **remove all IP addresses** associated with an interface (use with caution):
+
+```
+sudo ip addr flush dev eth0
+```
+
+### 19. **View IP address with additional details (detailed output)**
+
+For a more **detailed view** of IP addresses and other networking information:
+
+```
+ip addr show dev eth0
+```
+
+### 20. **Show all IP addresses (both IPv4 and IPv6)**
+
+To display both **IPv4 and IPv6 addresses** for all interfaces:
+
+```
+ip -6 addr
+```
+
+For IPv4:
+
+```
+ip -4 addr
+```
+
+### 21. **Set interface MTU (Maximum Transmission Unit)**
+
+To configure the **MTU** size (the largest packet that can be transmitted over the interface):
+
+```
+sudo ip link set dev eth0 mtu 1500
+```
+
+### 22. **List all IP addresses and interface status in a concise format**
+
+To display all network interfaces and their IP addresses in a more compact format:
+
+```
+ip -br addr
+```
+
+### 23. **Display the link state of a network interface**
+
+To check if the link is up or down for a specific interface (e.g., `eth0`):
+
+```
+ip link show eth0
+```
+
+---
+
+### Example Outputs:
+
+* **Show interfaces with IPs:**
+
+  ```
+  $ ip addr show eth0
+  3: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+      link/ether 00:0c:29:fe:23:ff brd ff:ff:ff:ff:ff:ff
+      inet 192.168.1.100/24 brd 192.168.1.255 scope global eth0
+         valid_lft forever preferred_lft forever
+      inet6 fe80::20c:29ff:fe23:ffff/64 scope link
+         valid_lft forever preferred_lft forever
+  ```
+
+* **Show routing table:**
+
+  ```
+  $ ip route show
+  default via 192.168.1.1 dev eth0
+  192.168.1.0/24 dev eth0 scope link src 192.168.1.100
+  ```
+
+* **Add a route:**
+
+  ```
+  $ sudo ip route add 192.168.2.0/24 via 192.168.1.1
+  ```
+
+* **Change the MAC address:**
+
+  ```
+  $ sudo ip link set eth0 address 00:11:22:33:44:55
+  ```
+
+* **Show all IPs in a concise format:**
+
+  ```
+  $ ip -br addr
+  eth0     UP     192.168.1.100/24
+  lo       UP     127.0.0.1/8
+  ```
+</summary>
+  
 
