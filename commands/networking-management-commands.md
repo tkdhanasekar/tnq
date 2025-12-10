@@ -284,7 +284,174 @@ Force the use of HTTP/2 protocol (if the server supports it).
 curl --http2 https://example.com
 ```
 </details>
+<details>
+<summary>dig</summary>
 
+### 1. **Basic DNS query for a domain**
 
+Perform a basic query to resolve the A record (IPv4 address) for a domain.
 
+```
+dig example.com
+```
 
+### 2. **Query a specific type of record (e.g., A, MX, CNAME, etc.)**
+
+You can specify the record type you want to query (e.g., A, MX, TXT).
+
+```
+dig example.com A
+```
+
+To query for MX (Mail Exchange) records:
+
+```
+dig example.com MX
+```
+
+### 3. **Query a specific DNS server**
+
+If you want to query a specific DNS server, use the `@` symbol followed by the DNS server's IP address or hostname.
+
+```
+dig @8.8.8.8 example.com
+```
+
+This queries Google's public DNS server (8.8.8.8) for `example.com`.
+
+### 4. **Query for TXT records (commonly used for SPF, DKIM, etc.)**
+
+To fetch the TXT records for a domain:
+
+```
+dig example.com TXT
+```
+
+### 5. **Query for NS (Name Server) records**
+
+Retrieve the name servers for a domain.
+
+```
+dig example.com NS
+```
+
+### 6. **Reverse DNS lookup (PTR record)**
+
+For a reverse DNS lookup (i.e., finding the domain name associated with an IP address):
+
+```
+dig -x 8.8.8.8
+```
+
+### 7. **Show all available records**
+
+Use the `ANY` query type to fetch all available DNS records for a domain (though this may not return everything depending on DNS server configuration):
+
+```
+dig example.com ANY
+```
+
+### 8. **Query with a specific port**
+
+If you want to query a DNS server running on a port other than the default (53):
+
+```
+dig @8.8.8.8 -p 5353 example.com
+```
+
+### 9. **Get a detailed query output**
+
+The `+trace` option helps trace the DNS resolution process, showing all the steps involved (starting from the root DNS servers).
+
+```
+dig +trace example.com
+```
+
+### 10. **Get a shorter output (only answer section)**
+
+By default, `dig` returns detailed information. To show only the answer section (i.e., the resolved records), use the `+short` option.
+
+```
+dig +short example.com
+```
+
+### 11. **Query for the SOA (Start of Authority) record**
+
+To retrieve the Start of Authority (SOA) record, which contains information about the domain’s DNS zone:
+
+```
+dig example.com SOA
+```
+
+### 12. **Query for CNAME (Canonical Name) record**
+
+To get the CNAME record for a domain, use:
+
+```
+dig example.com CNAME
+```
+
+### 13. **Query for the authoritative name servers**
+
+If you want to get authoritative nameservers for a domain, you can use:
+
+```
+dig example.com NS +auth
+```
+
+### 14. **Check the DNS query time**
+
+To check how long the DNS query took, look at the `Query time` in the output or use the `+stats` flag.
+
+```
+dig example.com +stats
+```
+
+### 15. **Query a specific record from a specific server with verbose output**
+
+You can increase verbosity by adding `+noquestion +noauthority +answer +stats`:
+
+```
+dig @8.8.8.8 example.com +noquestion +noauthority +answer +stats
+```
+
+### 16. **Limit the number of returned answers**
+
+You can limit the number of answers returned using the `+nocomments` option.
+
+```
+dig example.com +nocomments
+```
+
+### 17. **Check for DNSSEC**
+
+To check DNSSEC records for a domain:
+
+```
+dig +dnssec example.com
+```
+
+---
+
+### Example outputs:
+
+* **Standard Query**:
+
+  ```
+  ; <<>> DiG 9.10.6 <<>> example.com
+  ;; global options: +cmd
+  ;; Got answer:
+  ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 56183
+  ;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 1
+  ;; QUESTION SECTION:
+  ;example.com.                   IN      A
+  ;; ANSWER SECTION:
+  example.com.            3600    IN      A       93.184.216.34
+  ```
+
+* **Short Output**:
+
+  ```
+  93.184.216.34
+  ```
+</details>
