@@ -661,7 +661,7 @@ nslookup www.example.com
   ```
 </details>
 <details>
-<summary>hostname</hostname>
+<summary>hostname</summary>
 
 ### 1. **Display the current hostname**
 
