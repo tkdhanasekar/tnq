@@ -1,280 +1,259 @@
 <details>
-  <summary>cat</summary>
+<summary>cat</summary>
 
-To display contents of file
+### 1. Display a file’s contents
+
+```bash
+cat file.txt
 ```
-cat /etc/group
+
+### 2. Display multiple files
+
+```bash
+cat file1.txt file2.txt
 ```
-To view contents of multiple files
+
+---
+
+## Creating Files
+
+### 3. Create a new file (overwrite)
+
+```bash
+cat > newfile.txt
 ```
-cat file3.txt file4.txt
+
+(Type your text, then press CTRL + D)
+
+### 4. Append to a file
+
+```bash
+cat >> existing.txt
 ```
-To create a file with cat command
+
+---
+
+## Combining and Redirecting
+
+### 5. Concatenate into a new file
+
+```bash
+cat part1.txt part2.txt > merged.txt
 ```
-cat > file5.txt
-this is file 5
-^D
+
+### 6. Append multiple files into one
+
+```bash
+cat a.txt b.txt >> combined.txt
 ```
-To view cat command with large file size
+
+---
+
+## Viewing With Formatting
+
+### 7. Show line numbers
+
+```bash
+cat -n file.txt
 ```
-cat file.txt | more
+
+### 8. Show non-printing characters
+
+```bash
+cat -A file.txt
 ```
+
+### 9. Squeeze repeated blank lines
+
+```bash
+cat -s file.txt
 ```
-cat file.txt | less
+
+---
+
+## Using Cat With Pipes
+
+### 10. Pipe output into less
+
+```bash
+cat large.log | less
+```
+
+### 11. Use cat with another command
+
+```bash
+ps aux | cat
+```
+
+### 12. Duplicate output using tee
+
+```bash
+cat file.txt | tee copy.txt
+```
+
+---
+
+## Advanced Examples
+
+### 13. Use a here-document
+
+```bash
+cat <<EOF
+line 1
+line 2
+line 3
+EOF
+```
+
+### 14. Combine split binary files
+
+```bash
+cat archive.part* > archive.zip
+```
+
+### 15. Create a multi-line config file
+
+```bash
+cat <<EOF > config.conf
+name=example
+version=1.0
+enabled=true
+EOF
 ```
 </details>
 <details>
-  <summary>cd</summary>
+<summary>cd</summary>
 
-change current directory to /etc/ssh
+### 1. Change to a directory
+
+```bash
+cd foldername
 ```
-cd /etc/ssh
+
+### 2. Move into a path
+
+```bash
+cd /home/user/documents
 ```
-switch back to previous directory
+
+### 3. Go to your home directory
+
+```bash
+cd
 ```
-cd -
+
+or
+
+```bash
+cd ~
 ```
-To change current directory to parent directory
-```
+
+---
+
+## Moving Relative to Current Location
+
+### 4. Go up one directory
+
+```bash
 cd ..
 ```
-</details>
-<details>
-  <summary>cal</summary>
 
-To Show current month calendar
-```
-cal
-```
-To Show calendar of selected month and year
-```
-cal August 2002
-```
-To Show the calendar of current year with the current date highlighted
-```
-cal -y
-```
-</details>
-<details>
-  <summary>cp</summary>
+### 5. Go up two levels
 
-To copying multiple files to a directory
+```bash
+cd ../..
 ```
-cp file1_name file2_name file3_name /opt
-```
-To copying the files interactively
-```
-cp -i file_name /opt
-```
-To copying a directory or folder
-```
-cp -r /home/klug /opt/backup
-```
-To create symbolic links using cp command
-```
-cp -s /home/venus/file1.txt /opt/
-```
-To create hard link using cp command
-```
-cp -l /home/venus/file2.txt /opt/
-```
-</details>
-<details>
-  <summary>mv</summary>
 
-To rename a file1.txt to file2.txt
-```
-mv file1.txt file2.txt
-```
-To interactively rename file1.txt to file2.txt
-```
-mv -i file1.txt file2.txt
-```
-To move multiple directories from one location to another
-```
-mv dir1 dir2 dir3 /opt
-```
-</details>
-<details>
-  <summary>dd</summary>
+### 6. Move into a sibling directory
 
-To copy a file using dd command
+```bash
+cd ../otherfolder
 ```
-dd if=hello.txt of=output.txt status=progress
-```
-Convert Text File to Uppercase
-```
-dd if=hello.txt of=output.txt conv=ucase
-```
-</details>
-<details>
-  <summary>ln</summary>
 
-To create hard link with the name sample_link_file.txt
-```
-ln sample_file.txt sample_link_file.txt
-```
-To unlink the created hard link
-```
-unlink sample_file.txt sample_link_file.txt
-```
-To create a soft link or symbolic link
-```
-ln -s file.txt link_file.txt
-```
-To unlink the soft link or symbolic link
-```
-unlink link_file.txt
-```
-</details>
-<details>
-  <summary>link</summary>
+---
 
-```
-link file1.txt file2.txt
-```
-```
-vim file1.txt
-1 andhra
-2 tamilnadu
-3 kerala
-4 karnataka
-5 pondicherry
-```
-```
-link file1.txt file2.txt
-```
-</details>
-<details>
-  <summary>which</summary>
+## Using Hyphen and Parent Paths
 
-```
-To locate a command
-which -a touch
-which -a free
-which -a du
-which -a df
-```
-</details>
-<details>
-  <summary>whereis</summary>
+### 7. Switch back to the previous directory
 
-To find the directories where the whereis command search
+```bash
+cd -
 ```
-whereis -l
-```
-To get information about the commands
-```
-whereis du
-whereis free
-whereis bash
-```
-To get output for multiple commands
-```
-whereis du free bash
-```
-</details>
-<details>
-  <summary>ls</summary>
 
-To long listing of files
-```
-ls -l
-```
-To view hidden files
-```
-ls -a
-```
-To list files with human readable format
-```
-ls -lh
-```
-</details>
-<details>
-  <summary>tee</summary>
+### 8. Use `.` to refer to the current directory
 
-To create a file that stores information about hostname
+```bash
+cd .
 ```
-hostname -I | tee hostname.txt
-```
-To append a line of text to a file
-```
-echo "This is demo msg " | tee -a demo.txt
-```
-```
-ping google.com | tee -i file.txt
-```
-To write to multiple files
-```
-echo "This is demo msg " | tee demo1.txt demo2.txt
-```
-</details>
-<details>
-  <summary>xargs</summary>
 
-To combine xargs with find
+---
+
+## Using Absolute vs Relative Paths
+
+### 9. Absolute path
+
+```bash
+cd /var/log
 ```
-find /home -name *.txt -type f | xargs rm -f
+
+### 10. Relative path
+
+```bash
+cd projects/code/python
 ```
-To List Number of Lines/Words/Characters in Each File
+
+---
+
+## Using Variables and Special Paths
+
+### 11. Go to the root directory
+
+```bash
+cd /
 ```
-ls | xargs wc
+
+### 12. Go to a user’s home directory
+
+```bash
+cd ~username
 ```
-Delete files using xargs , Safely delete all .log files (handles spaces, special characters).
+
+### 13. Use an environment variable
+
+```bash
+cd $HOME/projects
 ```
-find . -name "*.log" -print0 | xargs -0 rm -f
+
+---
+
+## Combining With Quotes
+
+### 14. Directory with spaces
+
+```bash
+cd "My Projects/2024 Work"
 ```
-Count lines in files, Counts lines in all .txt files
+
+---
+
+## Practical Examples
+
+### 15. Move to the directory of a script
+
+```bash
+cd "$(dirname myscript.sh)"
 ```
-find . -name "*.txt" -print0 | xargs -0 wc -l
+
+### 16. Move to the desktop
+
+```bash
+cd ~/Desktop
 ```
-Copy multiple files , {} is replaced with each filename.
-```
-ls *.jpg | xargs -I {} cp {} /backup/
-```
-Move files 
-```
-find . -name "*.csv" | xargs -I {} mv {} /data/archive/
-```
-Download URLs from a file Downloads each URL listed in urls.txt.
-```
-cat urls.txt | xargs wget
-```
-Remove empty directories
-```
-find . -type d -empty | xargs rmdir
-```
-Kills all Python-related processes (PIDs from column 2).
-```
-ps aux | grep python | awk '{print $2}' | xargs kill
-```
-Compress files
-```
-find . -name "*.txt" | xargs tar -czvf archive.tar.gz
-```
-Using -n to run limited arguments per command , Runs echo with 2 arguments at a time:
-```
-echo "1 2 3 4 5 6" | xargs -n 2 echo
-```
-Prompt before running each command 
-```
-echo *.txt | xargs -p rm
-```
-Replace placeholder with -I
-```
-cat files.txt | xargs -I {} echo FILE: {}
-```
-Find and delete broken symlinks
-```
-find . -xtype l -print0 | xargs -0 rm
-```
-Use xargs to build a long command Executes:
-rm file1 file2 file3
-```
-echo "file1 file2 file3" | xargs echo rm
-```
-Count total bytes in all PDFs
-```
-find . -name "*.pdf" -print0 | xargs -0 cat | wc -c
+
+### 17. Move to a mounted drive
+
+```bash
+cd /mnt/usb
 ```
 </details>
+
