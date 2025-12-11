@@ -1221,7 +1221,7 @@ whereis -b -m -s perl
 ```
 </details>
 <details>
-<summary>ls</summmary>
+<summary>ls</summary>
 
 ### 1. List files in the current directory
 
