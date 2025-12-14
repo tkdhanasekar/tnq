@@ -20,15 +20,13 @@ vim remote-backup.sh
 ```
 ```
 #!/bin/bash
-sshpass -f ".secrets" mysqldump -u root -p --all-databases > all-databases_`date +"%Y-%B-%d_%R"`.sql
-mv *.sql backup/
-sshpass -f ".secrets" rsync -a backup/ kaniyam@172.105.60.91:/home/kaniyam/backup
-
+sshpass -f ".secrets" mysqldump -u root -p --all-databases | gzip > all-databases_`date +"%Y-%B-%d_%R"`.sql.gz
+mv *.sql.gz /root/backup/
+sshpass -f ".remote-secrets" scp -o StrictHostKeyChecking=no -r /root/backup/* root@remote-server-ip:/root/backup/
+```
 :wq! save and exit
 ```
-for rsync with -p 2222
-```
-sshpass -f ".secrets" rsync -arv -e "ssh -p 2222" backup/ dhana@kaniyam.hopto.org:/home/dhana
+chmod +x remote-backup.sh
 ```
 create the cron jon
 ```
