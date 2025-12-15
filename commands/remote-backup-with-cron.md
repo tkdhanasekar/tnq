@@ -12,9 +12,15 @@ passcode123
 
 :wq! save and exit
 ```
+create remote server password hidden file
+```
+touch .remote-secrets
+vim .remote-secrets
+passcode
 
-Next create the shell script to make automated backup and send the backup files to remote server
-using rsync
+:wq! save and exit
+```
+Next create the shell script to make automated backup and send the backup files to remote server using ssh
 ```
 vim remote-backup.sh 
 ```
