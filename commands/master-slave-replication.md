@@ -98,8 +98,8 @@ Find the `[mysqld]` section and make the following changes:
 ```ini
 [mysqld]
 server-id = 2                   # Unique ID for the slave (must be different from master)
-relay-log = /var/log/mysql/mariadb-relay-bin  # Enable relay log
-log_bin = /var/log/mysql/mariadb-bin        # Enable binary logging (only if you want this slave to be capable of acting as a master)
+relay-log = /var/lib/mysql/mariadb-relay-bin  # Enable relay log
+log_bin = /var/lib/mysql/mariadb-bin        # Enable binary logging (only if you want this slave to be capable of acting as a master)
 read_only = 1                    # Mark slave as read-only
 ```
 :wq!
