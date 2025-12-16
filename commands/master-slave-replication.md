@@ -29,7 +29,7 @@ You need to configure the master server to enable binary logging and unique serv
 Edit the MariaDB configuration file (`/etc/mysql/mariadb.conf.d/50-server.cnf`):
 
 ```bash
-sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+sudo vim /etc/mysql/mariadb.conf.d/50-server.cnf
 ```
 
 Find the `[mysqld]` section and make the following changes:
@@ -37,12 +37,12 @@ Find the `[mysqld]` section and make the following changes:
 ```ini
 [mysqld]
 server-id = 1                   # Unique ID for the master
-log_bin = /var/log/mysql/mariadb-bin  # Enable binary logging
+log_bin = /var/lib/mysql/mariadb-bin  # Enable binary logging
 binlog_format = mixed           # Use mixed binlog format for replication
 bind-address = 0.0.0.0          # Allow connections from all IPs
 ```
-
-Save and close the file (`Ctrl + X`, then `Y`, and `Enter`).
+wq!
+Save and Exit
 
 #### 2.2. Restart MariaDB on the Master
 
@@ -55,7 +55,7 @@ sudo systemctl restart mariadb
 On the master server, log in to MariaDB and create a user that the slave can use for replication.
 
 ```bash
-sudo mysql -u root -p
+sudo mariadb -u root -p
 ```
 
 Run the following SQL commands to create the replication user:
@@ -90,7 +90,7 @@ Make a note of the `File` and `Position` values. You will need these for the sla
 Edit the MariaDB configuration file on the slave to configure a unique `server-id` and to disable binary logging.
 
 ```bash
-sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+sudo vim /etc/mysql/mariadb.conf.d/50-server.cnf
 ```
 
 Find the `[mysqld]` section and make the following changes:
@@ -102,8 +102,8 @@ relay-log = /var/log/mysql/mariadb-relay-bin  # Enable relay log
 log_bin = /var/log/mysql/mariadb-bin        # Enable binary logging (only if you want this slave to be capable of acting as a master)
 read_only = 1                    # Mark slave as read-only
 ```
-
-Save and close the file.
+:wq!
+Save and Exit
 
 #### 3.2. Restart MariaDB on the Slave
 
@@ -116,7 +116,7 @@ sudo systemctl restart mariadb
 Log in to MariaDB on the slave server and run the following commands:
 
 ```bash
-sudo mysql -u root -p
+sudo mariadb -u root -p
 ```
 
 Run the following SQL commands:
@@ -127,14 +127,14 @@ CHANGE MASTER TO
     MASTER_USER = 'replica_user',  # Replication user created on the master
     MASTER_PASSWORD = 'replica_password',  # Replication user's password
     MASTER_LOG_FILE = 'mariadb-bin.000001',  # Binary log file name from SHOW MASTER STATUS on the master
-    MASTER_LOG_POS =  154;  # Position from SHOW MASTER STATUS on the master
+    MASTER_LOG_POS =  ***;  # Position from SHOW MASTER STATUS on the master
 ```
 
 Replace:
 
 * `master_ip` with the IP address of the master server.
 * `mariadb-bin.000001` with the file name from `SHOW MASTER STATUS` on the master.
-* `154` with the position from `SHOW MASTER STATUS`.
+* `***` with the position from `SHOW MASTER STATUS`.
 
 #### 3.4. Start the Replication Process
 

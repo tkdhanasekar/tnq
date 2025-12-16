@@ -34,7 +34,7 @@ sudo apt install mariadb-server mariadb-client
 Edit the MariaDB configuration file on **Server 1** to enable binary logging, set a unique server ID, and configure other replication parameters.
 
 ```bash
-sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+sudo vim /etc/mysql/mariadb.conf.d/50-server.cnf
 ```
 
 In the `[mysqld]` section, make the following changes:
@@ -48,11 +48,12 @@ bind-address = 0.0.0.0       # Allow connections from all IPs
 auto_increment_increment = 2 # Set to 2 for Master-Master, avoid auto-increment conflicts
 auto_increment_offset = 1    # Set to 1 for Master 1, 2 for Master 2
 ```
-
+:wq!
+Save and Exit
 * `server-id = 1`: This is unique for each server, set to 1 on Master 1.
 * `auto_increment_increment = 2` and `auto_increment_offset = 1`: These settings prevent conflicts in auto-incremented primary keys by ensuring the two masters don’t generate the same ID at the same time.
 
-Save and close the file (`Ctrl + X`, then `Y`, and `Enter`).
+
 
 #### 2.2. Restart MariaDB on Server 1
 
@@ -65,7 +66,7 @@ sudo systemctl restart mariadb
 Log in to MariaDB on **Server 1** and create a user for replication:
 
 ```bash
-sudo mysql -u root -p
+sudo mariadb -u root -p
 ```
 
 Run the following SQL commands to create the replication user:
@@ -95,7 +96,7 @@ Make a note of the `File` and `Position` values. These will be used on the Slave
 Repeat the process for Server 2. Edit the MariaDB configuration file `/etc/mysql/mariadb.conf.d/50-server.cnf` on **Server 2**:
 
 ```bash
-sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+sudo vim /etc/mysql/mariadb.conf.d/50-server.cnf
 ```
 
 In the `[mysqld]` section, make the following changes:
@@ -109,11 +110,11 @@ bind-address = 0.0.0.0
 auto_increment_increment = 2 # Set to 2 for Master-Master
 auto_increment_offset = 2    # Set to 2 for Master 2
 ```
-
+:wq! save and exit
 * `server-id = 2`: Set this to 2 for Server 2.
 * `auto_increment_offset = 2`: This ensures unique auto-increment IDs for Server 2.
 
-Save and close the file.
+
 
 #### 3.2. Restart MariaDB on Server 2
 
@@ -126,7 +127,7 @@ sudo systemctl restart mariadb
 Log in to MariaDB on **Server 2** and create a replication user:
 
 ```bash
-sudo mysql -u root -p
+sudo mariadb -u root -p
 ```
 
 Run the following SQL commands:
@@ -154,7 +155,7 @@ Note down the `File` and `Position` values, which you will need for configuring 
 #### 4.1. Log in to MariaDB on Server 1
 
 ```bash
-sudo mysql -u root -p
+sudo mariadb -u root -p
 ```
 
 Run the following command to tell **Server 1** to replicate from **Server 2**:
@@ -192,7 +193,7 @@ Look for `Slave_IO_Running: Yes` and `Slave_SQL_Running: Yes`. If both are `Yes`
 #### 5.1. Log in to MariaDB on Server 2
 
 ```bash
-sudo mysql -u root -p
+sudo mariadb -u root -p
 ```
 
 Run the following command to tell **Server 2** to replicate from **Server 1**:
