@@ -161,16 +161,11 @@ sudo mariadb -u root -p
 Run the following command to tell **Server 1** to replicate from **Server 2**:
 
 ```sql
-CHANGE MASTER TO
-    MASTER_HOST = 'Server2_IP',    # IP of Server 2
-    MASTER_USER = 'replica_user',
-    MASTER_PASSWORD = 'replica_password',
-    MASTER_LOG_FILE = 'mariadb-bin.000001',  # Use the File from Server 2
-    MASTER_LOG_POS =  154;          # Use the Position from Server 2
+CHANGE MASTER TO MASTER_HOST = 'master_server2_IP', MASTER_USER = 'replica_user', MASTER_PASSWORD = 'replica_password', MASTER_LOG_FILE = 'mysql-bin.000001', MASTER_LOG_POS = 805;
 ```
 
 * Replace `'Server2_IP'` with the actual IP of **Server 2**.
-* Replace `mariadb-bin.000001` and `154` with the binary log file and position from **Server 2**.
+* Replace `mysql-bin.000001` and `***` with the binary log file and position from **Server 2**.
 
 #### 4.2. Start Replication on Server 1
 
@@ -199,16 +194,11 @@ sudo mariadb -u root -p
 Run the following command to tell **Server 2** to replicate from **Server 1**:
 
 ```sql
-CHANGE MASTER TO
-    MASTER_HOST = 'Server1_IP',    # IP of Server 1
-    MASTER_USER = 'replica_user',
-    MASTER_PASSWORD = 'replica_password',
-    MASTER_LOG_FILE = 'mariadb-bin.000001',  # Use the File from Server 1
-    MASTER_LOG_POS =  154;          # Use the Position from Server 1
+CHANGE MASTER TO MASTER_HOST = 'master_server1_IP', MASTER_USER = 'replica_user', MASTER_PASSWORD = 'replica_password', MASTER_LOG_FILE = 'mysql-bin.000001', MASTER_LOG_POS = 805;
 ```
 
 * Replace `'Server1_IP'` with the actual IP of **Server 1**.
-* Replace `mariadb-bin.000001` and `154` with the binary log file and position from **Server 1**.
+* Replace `mysql-bin.000001` and `***` with the binary log file and position from **Server 1**.
 
 #### 5.2. Start Replication on Server 2
 
