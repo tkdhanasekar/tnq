@@ -34,7 +34,7 @@ sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
 
 Find the `[mysqld]` section and make the following changes:
 
-```
+```ini
 [mysqld]
 server-id = 1                   # Unique ID for the master
 log_bin = /var/log/mysql/mariadb-bin  # Enable binary logging
