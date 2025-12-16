@@ -122,12 +122,7 @@ sudo mariadb -u root -p
 Run the following SQL commands:
 
 ```sql
-CHANGE MASTER TO
-    MASTER_HOST = 'master_ip',     # IP address of the master server
-    MASTER_USER = 'replica_user',  # Replication user created on the master
-    MASTER_PASSWORD = 'replica_password',  # Replication user's password
-    MASTER_LOG_FILE = 'mariadb-bin.000001',  # Binary log file name from SHOW MASTER STATUS on the master
-    MASTER_LOG_POS =  ***;  # Position from SHOW MASTER STATUS on the master
+CHANGE MASTER TO MASTER_HOST = 'master_ip', MASTER_USER = 'replica_user', MASTER_PASSWORD ='replica_password', MASTER_LOG_FILE = 'mariadb-bin.000001', MASTER_LOG_POS =  ***;
 ```
 
 Replace:
