@@ -42,7 +42,7 @@ In the `[mysqld]` section, make the following changes:
 ```ini
 [mysqld]
 server-id = 1                # Unique ID for Server 1 (must be different for each server)
-log_bin = /var/log/mysql/mariadb-bin  # Enable binary logging
+log_bin = /var/lib/mysql/mariadb-bin  # Enable binary logging
 binlog_format = mixed        # Mixed binlog format for better compatibility
 bind-address = 0.0.0.0       # Allow connections from all IPs
 auto_increment_increment = 2 # Set to 2 for Master-Master, avoid auto-increment conflicts
@@ -104,7 +104,7 @@ In the `[mysqld]` section, make the following changes:
 ```ini
 [mysqld]
 server-id = 2                # Unique ID for Server 2
-log_bin = /var/log/mysql/mariadb-bin
+log_bin = /var/lib/mysql/mariadb-bin
 binlog_format = mixed
 bind-address = 0.0.0.0
 auto_increment_increment = 2 # Set to 2 for Master-Master
