@@ -83,7 +83,7 @@ sudo systemctl enable nfs-server
 ```
 ---
 
-## 8. Install NFS client on another machine
+## 7. Install NFS client on another machine
 
 On the **client system**:
 
@@ -93,7 +93,7 @@ sudo apt install nfs-common -y
 
 ---
 
-## 9. Mount NFS share on the client
+## 8. Mount NFS share on the client
 
 Create mount point:
 
@@ -114,7 +114,7 @@ df -h
 
 ---
 
-## 10. Permanent mount (optional)
+## 9. Permanent mount
 
 Edit `/etc/fstab` on the client:
 
@@ -136,7 +136,7 @@ sudo mount -a
 
 ---
 
-## 11. Test the setup
+## 10. Test the setup
 
 On the client:
 
