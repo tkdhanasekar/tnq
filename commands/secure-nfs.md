@@ -155,15 +155,6 @@ sudo exportfs -v
 * [ ] Firewall enabled
 * [ ] Read-only where possible
 
----
-
-### If you want, I can also provide:
-
-* **Kerberos-secured NFS (enterprise level)**
-* **Audit checklist for production NFS**
-* **RHCSA / Linux admin exam notes**
-
-Just tell me 👍
 
 =================================================
 
@@ -274,12 +265,6 @@ all_squash,anonuid=65534,anongid=65534
 | `no_root_squash` | Client root = server root (insecure)   |
 | `all_squash`     | All users → nobody (most restrictive)  |
 
----
 
-### One-line exam answer (RHCSA / admin):
-
-> **`no_root_squash` allows the root user on an NFS client to have root privileges on the NFS server, which is insecure and should be avoided in production.**
-
-If you want, I can also explain **UID/GID mapping**, **`anonuid/anongid`**, or **real-world attack examples**.
 
 
