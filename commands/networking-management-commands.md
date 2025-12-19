@@ -3137,6 +3137,555 @@ sudo tcpdump -X -i eth0
 -X   hex + ASCII
 ```
 </details>
+<details>
+<summary>telnet</summary>
+
+`telnet` connects to a remote host over TCP to test or interact with network services, typically for troubleshooting or management.
+
+### 1. Connect to a remote host (default port 23)
+
+```bash
+telnet example.com
+```
+
+---
+
+### 2. Connect to a remote host on a specific port
+
+```bash
+telnet example.com 80
+```
+
+---
+
+### 3. Connect to a local host
+
+```bash
+telnet localhost 23
+```
+
+---
+
+### 4. Test if SSH port is open
+
+```bash
+telnet 192.168.1.10 22
+```
+
+---
+
+### 5. Test if HTTP port is open
+
+```bash
+telnet 192.168.1.10 80
+```
+
+---
+
+### 6. Connect to SMTP server (mail)
+
+```bash
+telnet mail.example.com 25
+```
+
+---
+
+### 7. Connect to POP3 mail server
+
+```bash
+telnet mail.example.com 110
+```
+
+---
+
+### 8. Connect to IMAP mail server
+
+```bash
+telnet mail.example.com 143
+```
+
+---
+
+### 9. Connect to MySQL server port
+
+```bash
+telnet 192.168.1.10 3306
+```
+
+---
+
+### 10. Connect to PostgreSQL server port
+
+```bash
+telnet 192.168.1.10 5432
+```
+
+---
+
+### 11. Connect to Redis server
+
+```bash
+telnet 192.168.1.10 6379
+```
+
+---
+
+### 12. Connect to FTP server port
+
+```bash
+telnet 192.168.1.10 21
+```
+
+---
+
+### 13. Test connection to custom application port
+
+```bash
+telnet 192.168.1.10 8080
+```
+
+---
+
+### 14. Check if a firewall blocks a port
+
+```bash
+telnet 8.8.8.8 53
+```
+
+---
+
+### 15. Connect to HTTP and manually send a request
+
+```bash
+telnet example.com 80
+```
+
+Then type:
+
+```
+GET / HTTP/1.1
+Host: example.com
+```
+</details>
+<details>
+<summary>traceroute</summary>
+
+`traceroute` shows the path packets take from your machine to a destination host, listing all intermediate routers and measuring the time to each hop.
+
+### 1. Basic traceroute to a host
+
+```bash
+traceroute example.com
+```
+
+---
+
+### 2. Traceroute to an IP address
+
+```bash
+traceroute 8.8.8.8
+```
+
+---
+
+### 3. Specify maximum number of hops
+
+```bash
+traceroute -m 20 example.com
+```
+
+---
+
+### 4. Set wait time for each probe
+
+```bash
+traceroute -w 3 example.com
+```
+
+---
+
+### 5. Change packet size
+
+```bash
+traceroute -q 3 -s 60 example.com
+```
+
+---
+
+### 6. Limit number of queries per hop
+
+```bash
+traceroute -q 1 example.com
+```
+
+---
+
+### 7. Use ICMP instead of UDP
+
+```bash
+traceroute -I example.com
+```
+
+---
+
+### 8. Use TCP SYN packets
+
+```bash
+traceroute -T -p 80 example.com
+```
+
+---
+
+### 9. Use IPv4 only
+
+```bash
+traceroute -4 example.com
+```
+
+---
+
+### 10. Use IPv6 only
+
+```bash
+traceroute -6 example.com
+```
+
+---
+
+### 11. Set source address
+
+```bash
+traceroute -s 192.168.1.10 example.com
+```
+
+---
+
+### 12. Display numeric addresses only
+
+```bash
+traceroute -n example.com
+```
+
+---
+
+### 13. Set port number for TCP/UDP probes
+
+```bash
+traceroute -p 443 example.com
+```
+
+---
+
+### 14. Increase packet timeout per hop
+
+```bash
+traceroute -w 5 example.com
+```
+
+---
+
+### 15. Verbose mode (show details)
+
+```bash
+traceroute -v example.com
+```
+
+---
+
+### Common options (short)
+
+```text
+-m   max hops
+-w   wait time
+-q   number of queries per hop
+-I   ICMP mode
+-T   TCP SYN
+-4   IPv4 only
+-6   IPv6 only
+-n   numeric output
+-p   port number
+-s   source address
+```
+</details>
+<details>
+<summary>resolvectl</summary>
+
+`resolvectl` queries or configures DNS and name resolution on a systemd-based Linux system.
+
+### 1. Show current DNS configuration
+
+```bash
+resolvectl status
+```
+
+---
+
+### 2. Show DNS servers for a specific interface
+
+```bash
+resolvectl dns eth0
+```
+
+---
+
+### 3. Set a DNS server for an interface
+
+```bash
+sudo resolvectl dns eth0 8.8.8.8
+```
+
+---
+
+### 4. Set multiple DNS servers
+
+```bash
+sudo resolvectl dns eth0 8.8.8.8 8.8.4.4
+```
+
+---
+
+### 5. Show default domain for an interface
+
+```bash
+resolvectl domain eth0
+```
+
+---
+
+### 6. Set a search domain for an interface
+
+```bash
+sudo resolvectl domain eth0 example.com
+```
+
+---
+
+### 7. Show DNSSEC status
+
+```bash
+resolvectl status
+```
+
+---
+
+### 8. Flush DNS cache
+
+```bash
+sudo resolvectl flush-caches
+```
+
+---
+
+### 9. Query a domain using systemd-resolved
+
+```bash
+resolvectl query example.com
+```
+
+---
+
+### 10. Query a domain using a specific interface
+
+```bash
+resolvectl query example.com eth0
+```
+
+---
+
+### 11. Show LLMNR (Link-Local Multicast Name Resolution) status
+
+```bash
+resolvectl llmnr
+```
+
+---
+
+### 12. Enable LLMNR
+
+```bash
+sudo resolvectl llmnr eth0 yes
+```
+
+---
+
+### 13. Disable LLMNR
+
+```bash
+sudo resolvectl llmnr eth0 no
+```
+
+---
+
+### 14. Show current hostname
+
+```bash
+resolvectl hostname
+```
+
+---
+
+### 15. Set the system hostname
+
+```bash
+sudo resolvectl set-hostname myhost
+```
+
+---
+
+### Common options (short)
+
+```text
+dns      show/set DNS servers
+domain   show/set search domains
+flush-caches   clear DNS cache
+query    query a domain
+llmnr    manage LLMNR
+hostname show/set system hostname
+status   display overall resolver status
+```
+</details>
+<details>
+<summary>wget</summary>
+
+`wget` is a command-line tool that **downloads files from the web** via HTTP, HTTPS, or FTP, supporting recursive downloads, resume, and background operation.
+
+### 1. Download a single file
+
+```bash
+wget http://example.com/file.txt
+```
+
+---
+
+### 2. Download a file and save with a different name
+
+```bash
+wget -O newname.txt http://example.com/file.txt
+```
+
+---
+
+### 3. Download in the background
+
+```bash
+wget -b http://example.com/file.txt
+```
+
+---
+
+### 4. Limit download speed
+
+```bash
+wget --limit-rate=100k http://example.com/file.txt
+```
+
+---
+
+### 5. Download recursively from a website
+
+```bash
+wget -r http://example.com/
+```
+
+---
+
+### 6. Download recursively with level limit
+
+```bash
+wget -r -l 2 http://example.com/
+```
+
+---
+
+### 7. Download only specific file types
+
+```bash
+wget -r -A pdf http://example.com/
+```
+
+---
+
+### 8. Resume a partially downloaded file
+
+```bash
+wget -c http://example.com/file.zip
+```
+
+---
+
+### 9. Mirror a website
+
+```bash
+wget -m http://example.com/
+```
+
+---
+
+### 10. Download using FTP
+
+```bash
+wget ftp://user:password@ftp.example.com/file.txt
+```
+
+---
+
+### 11. Download multiple files listed in a text file
+
+```bash
+wget -i filelist.txt
+```
+
+---
+
+### 12. Ignore robots.txt rules
+
+```bash
+wget -e robots=off -r http://example.com/
+```
+
+---
+
+### 13. Set user-agent string
+
+```bash
+wget --user-agent="Mozilla/5.0" http://example.com/file.txt
+```
+
+---
+
+### 14. Turn off certificate check (HTTPS)
+
+```bash
+wget --no-check-certificate https://example.com/file.txt
+```
+
+---
+
+### 15. Quiet mode (no output)
+
+```bash
+wget -q http://example.com/file.txt
+```
+
+---
+
+### Common options (short)
+
+```text
+-O      save as different name
+-b      background download
+-c      continue/resume download
+-r      recursive download
+-l      recursion depth
+-A      accept only specific file types
+-i      read URLs from file
+-m      mirror website
+-q      quiet mode
+--limit-rate  limit download speed
+--user-agent  set user-agent
+--no-check-certificate  skip SSL check
+```
+</details>
 
 
 
