@@ -5942,4 +5942,156 @@ sudo nmap -sU 192.168.1.1
 nmap -oN output.txt 192.168.1.1
 ```
 </details>
+<details>
+<summary>mtr</summary>
 
+`mtr` (My Traceroute) is a network diagnostic command that combines ping and traceroute to show real-time path, latency, and packet loss to a destination.
+
+### 1. Basic interactive mode
+
+Continuously shows route and packet loss to a host.
+
+```bash
+mtr google.com
+```
+
+---
+
+### 2. Use IP addresses instead of hostnames
+
+Disables DNS lookup for faster results.
+
+```bash
+mtr -n google.com
+```
+
+---
+
+### 3. Report mode (non-interactive)
+
+Runs and prints a final report, useful for logs.
+
+```bash
+mtr -r google.com
+```
+
+---
+
+### 4. Send a fixed number of packets
+
+Runs 10 probes and exits.
+
+```bash
+mtr -c 10 google.com
+```
+
+---
+
+### 5. Report mode with packet count
+
+Combines report mode with 20 packets.
+
+```bash
+mtr -r -c 20 google.com
+```
+
+---
+
+### 6. Wide report format
+
+Prevents line wrapping for long hostnames.
+
+```bash
+mtr -r -w google.com
+```
+
+---
+
+### 7. TCP instead of ICMP
+
+Useful when ICMP is blocked by firewalls.
+
+```bash
+mtr -T google.com
+```
+
+---
+
+### 8. UDP mode
+
+Uses UDP packets instead of ICMP.
+
+```bash
+mtr -u google.com
+```
+
+---
+
+### 9. Specify destination port (TCP)
+
+Checks connectivity to a specific service port.
+
+```bash
+mtr -T -P 443 google.com
+```
+
+---
+
+### 10. Set packet size
+
+Sends packets of 100 bytes.
+
+```bash
+mtr -s 100 google.com
+```
+
+---
+
+### 11. Change interval between probes
+
+Sends a probe every 2 seconds.
+
+```bash
+mtr -i 2 google.com
+```
+
+---
+
+### 12. Limit maximum hops
+
+Stops after 15 hops.
+
+```bash
+mtr -m 15 google.com
+```
+
+---
+
+### 13. Show MPLS labels (if supported)
+
+Helpful for ISP-level troubleshooting.
+
+```bash
+mtr --mpls google.com
+```
+
+---
+
+### 14. Output in CSV format
+
+Useful for scripting or importing into tools.
+
+```bash
+mtr -r --csv google.com
+```
+
+---
+
+### 15. Run quietly with report mode
+
+Suppresses interactive display.
+
+```bash
+mtr -r -q google.com
+```
+</details>
