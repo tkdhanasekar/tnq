@@ -5846,3 +5846,100 @@ getent hosts 192.168.1.0/24
 
 This will return any hosts in the specified subnet if the system is configured to resolve that range.
 </details>
+<details>
+<summary>nmap</summary>
+
+`nmap` is a Linux command-line tool used to scan networks and systems to discover active hosts, open ports, running services, and operating system details.
+
+
+1. Scan a single host
+
+```bash
+nmap 192.168.1.1
+```
+
+2. Scan multiple hosts
+
+```bash
+nmap 192.168.1.1 192.168.1.10
+```
+
+3. Scan an entire subnet
+
+```bash
+nmap 192.168.1.0/24
+```
+
+4. Scan a domain name
+
+```bash
+nmap example.com
+```
+
+5. Scan specific ports
+
+```bash
+nmap -p 22,80,443 192.168.1.1
+```
+
+6. Scan a range of ports
+
+```bash
+nmap -p 1-1000 192.168.1.1
+```
+
+7. Scan all ports
+
+```bash
+nmap -p- 192.168.1.1
+```
+
+8. Fast scan (top common ports)
+
+```bash
+nmap -F 192.168.1.1
+```
+
+9. Service and version detection
+
+```bash
+nmap -sV 192.168.1.1
+```
+
+10. Default script scan
+
+```bash
+nmap -sC 192.168.1.1
+```
+
+11. Aggressive scan (OS, version, scripts)
+
+```bash
+nmap -A 192.168.1.1
+```
+
+12. OS detection (requires root)
+
+```bash
+sudo nmap -O 192.168.1.1
+```
+
+13. TCP SYN scan
+
+```bash
+sudo nmap -sS 192.168.1.1
+```
+
+14. UDP scan
+
+```bash
+sudo nmap -sU 192.168.1.1
+```
+
+15. Save scan output to a file
+
+```bash
+nmap -oN output.txt 192.168.1.1
+```
+</details>
+
