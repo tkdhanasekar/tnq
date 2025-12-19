@@ -2762,4 +2762,147 @@ Press Ctrl + C
 * ttl: Time to Live
 * time: Round-trip time
 </details>
+<details>
+<summary>rsync</summary>
+
+`rsync` synchronizes files and directories between two locations by copying only the differences, making transfers fast and efficient (locally or over a network).
+
+### 1. Basic file copy
+
+```bash
+rsync file1.txt file2.txt
+```
+
+---
+
+### 2. Copy a file to a directory
+
+```bash
+rsync file1.txt /backup/
+```
+
+---
+
+### 3. Copy a directory recursively
+
+```bash
+rsync -r source_dir/ dest_dir/
+```
+
+---
+
+### 4. Archive mode (recommended)
+
+Preserves permissions, ownership, timestamps, and copies recursively.
+
+```bash
+rsync -a source_dir/ dest_dir/
+```
+
+---
+
+### 5. Show progress while copying
+
+```bash
+rsync -av --progress source_dir/ dest_dir/
+```
+
+---
+
+### 6. Copy and compress over network
+
+```bash
+rsync -avz source_dir/ user@remote:/backup/
+```
+
+---
+
+### 7. Copy from remote system
+
+```bash
+rsync -av user@remote:/data/ /local_backup/
+```
+
+---
+
+### 8. Delete files in destination not in source
+
+```bash
+rsync -av --delete source_dir/ dest_dir/
+```
+
+---
+
+### 9. Exclude files or directories
+
+```bash
+rsync -av --exclude='*.log' source_dir/ dest_dir/
+```
+
+---
+
+### 10. Dry run (no actual changes)
+
+```bash
+rsync -av --dry-run source_dir/ dest_dir/
+```
+
+---
+
+### 11. Preserve hard links
+
+```bash
+rsync -aH source_dir/ dest_dir/
+```
+
+---
+
+### 12. Limit bandwidth usage
+
+```bash
+rsync -av --bwlimit=500 source_dir/ dest_dir/
+```
+
+---
+
+### 13. Copy using SSH on a custom port
+
+```bash
+rsync -av -e "ssh -p 2222" source_dir/ user@remote:/backup/
+```
+
+---
+
+### 14. Mirror two directories
+
+```bash
+rsync -av --delete /data/ /mirror/
+```
+
+---
+
+### Commonly used options (short)
+
+```text
+-a  archive mode
+-v  verbose
+-z  compress
+-r  recursive
+--delete  remove extra files
+--progress  show progress
+--dry-run  test only
+```
+
+---
+
+### Important tip
+
+Trailing slashes matter:
+
+```bash
+rsync -a dir1/ dir2/   # copy contents
+rsync -a dir1  dir2/   # copy directory
+```
+</details>
+
 
