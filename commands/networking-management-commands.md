@@ -2904,5 +2904,241 @@ rsync -a dir1/ dir2/   # copy contents
 rsync -a dir1  dir2/   # copy directory
 ```
 </details>
+<details>
+<summary>scp</summary>
+
+`scp` securely copies files or directories between a local and a remote host (or between two remote hosts) over SSH.
+
+### 1. Copy a local file to a remote server
+
+```bash
+scp file.txt user@remote:/home/user/
+```
+
+---
+
+### 2. Copy a remote file to local system
+
+```bash
+scp user@remote:/home/user/file.txt /local/directory/
+```
+
+---
+
+### 3. Copy a directory recursively
+
+```bash
+scp -r /local/dir user@remote:/home/user/
+```
+
+---
+
+### 4. Copy using a custom SSH port
+
+```bash
+scp -P 2222 file.txt user@remote:/home/user/
+```
+
+---
+
+### 5. Copy multiple files at once
+
+```bash
+scp file1.txt file2.txt user@remote:/home/user/
+```
+
+---
+
+### 6. Copy from remote to remote (through local machine)
+
+```bash
+scp user1@host1:/path/file.txt user2@host2:/path/
+```
+
+---
+
+### 7. Limit bandwidth usage
+
+```bash
+scp -l 500 file.txt user@remote:/home/user/
+```
+
+---
+
+### 8. Enable verbose output
+
+```bash
+scp -v file.txt user@remote:/home/user/
+```
+
+---
+
+### 9. Preserve file attributes (timestamps, permissions)
+
+```bash
+scp -p file.txt user@remote:/home/user/
+```
+
+---
+
+### 10. Using identity (private key) for authentication
+
+```bash
+scp -i ~/.ssh/id_rsa file.txt user@remote:/home/user/
+```
+
+---
+
+### Common options
+
+```text
+-r   recursive (for directories)
+-P   specify port
+-p   preserve file attributes
+-l   limit bandwidth
+-v   verbose mode
+-i   specify SSH key
+```
+</details>
+<details>
+<summary>tcpdump</summary>
+
+`tcpdump` captures and analyzes network packets transmitted or received on a network interface, allowing you to inspect traffic in real time or save it for later analysis.
+
+### 1. Capture packets on the default interface
+
+```bash
+sudo tcpdump
+```
+
+---
+
+### 2. Capture packets on a specific interface
+
+```bash
+sudo tcpdump -i eth0
+```
+
+---
+
+### 3. Capture a specific number of packets
+
+```bash
+sudo tcpdump -c 10 -i eth0
+```
+
+---
+
+### 4. Capture packets and display in verbose mode
+
+```bash
+sudo tcpdump -v -i eth0
+```
+
+---
+
+### 5. Capture only TCP packets
+
+```bash
+sudo tcpdump tcp -i eth0
+```
+
+---
+
+### 6. Capture only UDP packets
+
+```bash
+sudo tcpdump udp -i eth0
+```
+
+---
+
+### 7. Capture only ICMP (ping) packets
+
+```bash
+sudo tcpdump icmp -i eth0
+```
+
+---
+
+### 8. Capture packets from a specific host
+
+```bash
+sudo tcpdump host 192.168.1.10 -i eth0
+```
+
+---
+
+### 9. Capture packets from a specific source
+
+```bash
+sudo tcpdump src 192.168.1.10 -i eth0
+```
+
+---
+
+### 10. Capture packets to a specific destination
+
+```bash
+sudo tcpdump dst 8.8.8.8 -i eth0
+```
+
+---
+
+### 11. Capture packets on a specific port
+
+```bash
+sudo tcpdump port 80 -i eth0
+```
+
+---
+
+### 12. Write captured packets to a file
+
+```bash
+sudo tcpdump -i eth0 -w capture.pcap
+```
+
+---
+
+### 13. Read packets from a file
+
+```bash
+sudo tcpdump -r capture.pcap
+```
+
+---
+
+### 14. Display packets in readable ASCII
+
+```bash
+sudo tcpdump -A -i eth0
+```
+
+---
+
+### 15. Display packets in hex and ASCII
+
+```bash
+sudo tcpdump -X -i eth0
+```
+
+---
+
+### Common options (short)
+
+```text
+-i   interface
+-c   number of packets
+-w   write to file
+-r   read from file
+-v   verbose
+-A   ASCII
+-X   hex + ASCII
+```
+</details>
+
+
+
 
 
