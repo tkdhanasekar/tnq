@@ -2629,3 +2629,137 @@ This will give you detailed stats on TCP, such as retransmission counts, connect
    UdpOutDatagrams    12K
    ```
 </details>
+<details>
+<summary>ping</summary>
+
+### 1. Basic ping to a host
+
+```bash
+ping google.com
+```
+
+---
+
+### 2. Ping a specific IP address
+
+```bash
+ping 8.8.8.8
+```
+
+---
+
+### 3. Send a fixed number of packets
+
+```bash
+ping -c 4 google.com
+```
+
+---
+
+### 4. Set time interval between packets
+
+```bash
+ping -i 2 google.com
+```
+
+---
+
+### 5. Set packet size
+
+```bash
+ping -s 1000 google.com
+```
+
+---
+
+### 6. Flood ping (root only, for testing)
+
+```bash
+sudo ping -f 8.8.8.8
+```
+
+---
+
+### 7. Quiet output (summary only)
+
+```bash
+ping -q google.com
+```
+
+---
+
+### 8. Set timeout for ping
+
+```bash
+ping -w 5 google.com
+```
+
+---
+
+### 9. Set TTL (Time To Live)
+
+```bash
+ping -t 64 google.com
+```
+
+---
+
+### 10. Ping IPv4 only
+
+```bash
+ping -4 google.com
+```
+
+---
+
+### 11. Ping IPv6 only
+
+```bash
+ping -6 google.com
+```
+
+---
+
+### 12. Audible ping
+
+```bash
+ping -a google.com
+```
+
+---
+
+### 13. Record route (may be blocked)
+
+```bash
+ping -R google.com
+```
+
+---
+
+### 14. Ping local gateway
+
+```bash
+ping 192.168.1.1
+```
+
+---
+
+### 15. Stop ping command
+
+```text
+Press Ctrl + C
+```
+
+---
+
+### Common ping output fields
+
+```text
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=18.3 ms
+```
+
+* icmp_seq: Packet sequence number
+* ttl: Time to Live
+* time: Round-trip time
+</details>
+
