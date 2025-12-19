@@ -3686,8 +3686,559 @@ wget -q http://example.com/file.txt
 --no-check-certificate  skip SSL check
 ```
 </details>
+<details>
+<summary>yt-dlp</summary>
 
+`yt-dlp` is a command-line tool to **download videos and audio from YouTube and many other websites**, with options for format selection, playlists, subtitles, and metadata.
 
+### 1. Download a video from YouTube
 
+```bash
+yt-dlp https://www.youtube.com/watch?v=VIDEO_ID
+```
 
+---
+
+### 2. Download video in best quality
+
+```bash
+yt-dlp -f best https://www.youtube.com/watch?v=VIDEO_ID
+```
+
+---
+
+### 3. Download audio only
+
+```bash
+yt-dlp -x --audio-format mp3 https://www.youtube.com/watch?v=VIDEO_ID
+```
+
+---
+
+### 4. Download multiple videos from a file
+
+```bash
+yt-dlp -a urls.txt
+```
+
+---
+
+### 5. Save with custom filename
+
+```bash
+yt-dlp -o '%(title)s.%(ext)s' https://www.youtube.com/watch?v=VIDEO_ID
+```
+
+---
+
+### 6. Download a playlist
+
+```bash
+yt-dlp -i https://www.youtube.com/playlist?list=PLAYLIST_ID
+```
+
+---
+
+### 7. Resume interrupted download
+
+```bash
+yt-dlp -c https://www.youtube.com/watch?v=VIDEO_ID
+```
+
+---
+
+### 8. Limit download speed
+
+```bash
+yt-dlp --limit-rate 500K https://www.youtube.com/watch?v=VIDEO_ID
+```
+
+---
+
+### 9. Download subtitles only
+
+```bash
+yt-dlp --write-sub --skip-download https://www.youtube.com/watch?v=VIDEO_ID
+```
+
+---
+
+### 10. Embed subtitles into video
+
+```bash
+yt-dlp --embed-subs https://www.youtube.com/watch?v=VIDEO_ID
+```
+
+---
+
+### 11. Download videos older than a certain date
+
+```bash
+yt-dlp --datebefore 20220101 https://www.youtube.com/playlist?list=PLAYLIST_ID
+```
+
+---
+
+### 12. Download videos newer than a certain date
+
+```bash
+yt-dlp --dateafter 20230101 https://www.youtube.com/playlist?list=PLAYLIST_ID
+```
+
+---
+
+### 13. Extract metadata only
+
+```bash
+yt-dlp --print-json https://www.youtube.com/watch?v=VIDEO_ID
+```
+
+---
+
+### 14. Download from a restricted site with cookies
+
+```bash
+yt-dlp --cookies cookies.txt https://www.youtube.com/watch?v=VIDEO_ID
+```
+
+---
+
+### 15. Combine video and audio manually
+
+```bash
+yt-dlp -f bestvideo+bestaudio https://www.youtube.com/watch?v=VIDEO_ID
+```
+
+---
+
+### Common options (short)
+
+```text
+-f             select format
+-x             extract audio
+--audio-format specify audio format
+-o             output template
+-i             ignore errors
+-c             resume download
+--limit-rate   limit download speed
+--write-sub    download subtitles
+--embed-subs   embed subtitles
+--datebefore   videos before date
+--dateafter    videos after date
+--cookies      use cookies
+```
+</details>
+<details>
+<summary>whois</summary>
+
+`whois` queries the public **WHOIS database** to retrieve registration and ownership information about a domain name, IP address, or autonomous system.
+
+### 1. Basic domain lookup
+
+```bash
+whois example.com
+```
+
+---
+
+### 2. Lookup a domain with a specific WHOIS server
+
+```bash
+whois -h whois.verisign-grs.com example.com
+```
+
+---
+
+### 3. Lookup an IP address
+
+```bash
+whois 8.8.8.8
+```
+
+---
+
+### 4. Lookup multiple domains at once
+
+```bash
+whois example.com example.net example.org
+```
+
+---
+
+### 5. Display only the registrar information
+
+```bash
+whois example.com | grep Registrar
+```
+
+---
+
+### 6. Display domain creation date
+
+```bash
+whois example.com | grep 'Creation Date'
+```
+
+---
+
+### 7. Display domain expiration date
+
+```bash
+whois example.com | grep 'Expiry Date'
+```
+
+---
+
+### 8. Query using verbose mode
+
+```bash
+whois -v example.com
+```
+
+---
+
+### 9. Lookup a country-specific TLD
+
+```bash
+whois example.co.uk
+```
+
+---
+
+### 10. Lookup a `.org` domain
+
+```bash
+whois example.org
+```
+
+---
+
+### 11. Lookup a `.net` domain
+
+```bash
+whois example.net
+```
+
+---
+
+### 12. Save WHOIS output to a file
+
+```bash
+whois example.com > whois_output.txt
+```
+
+---
+
+### 13. Search for a domain by keyword (using grep)
+
+```bash
+whois example.com | grep 'Name Server'
+```
+
+---
+
+### 14. Lookup using port 43 (manual)
+
+```bash
+whois -h whois.verisign-grs.com -p 43 example.com
+```
+
+---
+
+### 15. Display only lines containing "Domain"
+
+```bash
+whois example.com | grep -i domain
+```
+
+---
+
+### Common options (short)
+
+```text
+-h    specify WHOIS server
+-p    specify port
+-v    verbose output
+```
+</details>
+<details>
+<summary>ipcalc</summary>
+
+`ipcalc` is a command-line tool that **calculates and displays IP address information**, including network, broadcast, netmask, and range, helping with subnetting and network planning.
+
+### 1. Basic IP calculation
+
+```bash
+ipcalc 192.168.1.10/24
+```
+
+---
+
+### 2. Specify IP and netmask separately
+
+```bash
+ipcalc 192.168.1.10 255.255.255.0
+```
+
+---
+
+### 3. Show network and broadcast addresses only
+
+```bash
+ipcalc -n -b 192.168.1.10/24
+```
+
+---
+
+### 4. Show all details with verbosity
+
+```bash
+ipcalc -v 192.168.1.10/24
+```
+
+---
+
+### 5. Calculate CIDR notation from netmask
+
+```bash
+ipcalc 192.168.1.10 255.255.255.0
+```
+
+---
+
+### 6. Display only network address
+
+```bash
+ipcalc -n 192.168.1.10/24
+```
+
+---
+
+### 7. Display only broadcast address
+
+```bash
+ipcalc -b 192.168.1.10/24
+```
+
+---
+
+### 8. Display only netmask
+
+```bash
+ipcalc -m 192.168.1.10/24
+```
+
+---
+
+### 9. Display only wildcard mask
+
+```bash
+ipcalc -w 192.168.1.10/24
+```
+
+---
+
+### 10. Display all in a single line
+
+```bash
+ipcalc -s 192.168.1.10/24
+```
+
+---
+
+### 11. Calculate subnet from IP range
+
+```bash
+ipcalc 192.168.1.0/24 -s
+```
+
+---
+
+### 12. Calculate multiple IPs at once
+
+```bash
+ipcalc 192.168.1.10/24 192.168.2.5/24
+```
+
+---
+
+### 13. Show usable host range
+
+```bash
+ipcalc -u 192.168.1.10/24
+```
+
+---
+
+### 14. Show all in concise output
+
+```bash
+ipcalc -cb 192.168.1.10/24
+```
+
+---
+
+### 15. Combine options for network troubleshooting
+
+```bash
+ipcalc -n -b -m -s 192.168.1.10/24
+```
+
+---
+
+### Common options (short)
+
+```text
+-n   network address
+-b   broadcast address
+-m   netmask
+-w   wildcard mask
+-s   single line summary
+-u   usable host range
+-v   verbose
+-c   concise
+```
+</details>
+<details>
+<summary>tracepath</summary>
+
+`tracepath` traces the network path from your machine to a destination host, showing each hop along the route and its latency, similar to `traceroute` but without requiring root privileges.
+
+### 1. Basic tracepath to a host
+
+```bash
+tracepath example.com
+```
+
+---
+
+### 2. Tracepath to an IP address
+
+```bash
+tracepath 8.8.8.8
+```
+
+---
+
+### 3. Set maximum number of hops
+
+```bash
+tracepath -n example.com
+```
+
+> `-n` shows numeric IP addresses instead of hostnames.
+
+---
+
+### 4. Display numeric output only
+
+```bash
+tracepath -n 8.8.8.8
+```
+
+---
+
+### 5. Tracepath to a host on a specific MTU
+
+```bash
+tracepath -m 1400 example.com
+```
+
+---
+
+### 6. Use IPv4 only
+
+```bash
+tracepath -4 example.com
+```
+
+---
+
+### 7. Use IPv6 only
+
+```bash
+tracepath -6 example.com
+```
+
+---
+
+### 8. Combine numeric output with IPv4
+
+```bash
+tracepath -n -4 example.com
+```
+
+---
+
+### 9. Combine numeric output with IPv6
+
+```bash
+tracepath -n -6 example.com
+```
+
+---
+
+### 10. Tracepath for a local network host
+
+```bash
+tracepath 192.168.1.1
+```
+
+---
+
+### 11. Tracepath and check MTU along the route
+
+```bash
+tracepath example.com
+```
+
+> Default behavior shows MTU changes per hop.
+
+---
+
+### 12. Tracepath and save output to a file
+
+```bash
+tracepath example.com > trace_output.txt
+```
+
+---
+
+### 13. Tracepath with verbose output
+
+```bash
+tracepath -v example.com
+```
+
+---
+
+### 14. Tracepath using a custom hop limit (not all versions)
+
+```bash
+tracepath --max-hops 20 example.com
+```
+
+---
+
+### 15. Combine numeric, verbose, and IPv4
+
+```bash
+tracepath -n -v -4 example.com
+```
+
+---
+
+### Common options (short)
+
+```text
+-n   numeric IP addresses
+-4   force IPv4
+-6   force IPv6
+-m   set MTU
+-v   verbose
+--max-hops  set maximum hops (if supported)
+```
+</details>
+<details>
+<summary></summary>
 
