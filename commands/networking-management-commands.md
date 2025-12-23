@@ -6095,3 +6095,164 @@ Suppresses interactive display.
 mtr -r -q google.com
 ```
 </details>
+<details>
+<summary>sftp</summary>
+
+## Connect to an SFTP server
+
+```bash
+sftp user@host
+```
+
+With a custom port:
+
+```bash
+sftp -P 2222 user@host
+```
+
+Using an identity (SSH key):
+
+```bash
+sftp -i ~/.ssh/id_rsa user@host
+```
+
+---
+
+## Basic navigation (inside sftp prompt)
+
+```bash
+pwd            # show remote working directory
+lpwd           # show local working directory
+ls             # list remote files
+lls            # list local files
+cd /remote/dir
+lcd /local/dir
+```
+
+---
+
+## Upload files
+
+Upload one file:
+
+```bash
+put file.txt
+```
+
+Upload with a different remote name:
+
+```bash
+put local.txt remote.txt
+```
+
+Upload multiple files:
+
+```bash
+put file1.txt file2.txt
+```
+
+Upload a directory recursively:
+
+```bash
+put -r myfolder
+```
+
+---
+
+## Download files
+
+Download one file:
+
+```bash
+get file.txt
+```
+
+Download with a different local name:
+
+```bash
+get remote.txt local.txt
+```
+
+Download multiple files:
+
+```bash
+get file1.txt file2.txt
+```
+
+Download a directory recursively:
+
+```bash
+get -r myfolder
+```
+
+---
+
+## File management (remote)
+
+```bash
+mkdir newdir
+rmdir emptydir
+rm file.txt
+rename oldname.txt newname.txt
+chmod 644 file.txt
+```
+
+---
+
+## File management (local, from sftp)
+
+```bash
+lmkdir localdir
+lrmdir localdir
+lrm file.txt
+```
+
+---
+
+## Check transfer progress and size
+
+```bash
+df             # remote disk usage
+stat file.txt  # remote file info
+```
+
+---
+
+## Non-interactive (one-liner) usage
+
+Upload a file:
+
+```bash
+sftp user@host:/remote/dir <<< $'put file.txt'
+```
+
+Download a file:
+
+```bash
+sftp user@host:/remote/dir <<< $'get file.txt'
+```
+
+Batch mode with a script:
+
+```bash
+sftp user@host <<EOF
+cd /remote/dir
+put file.txt
+get other.txt
+bye
+EOF
+```
+
+---
+
+## Exit SFTP
+
+```bash
+exit
+```
+
+or
+
+```bash
+bye
+```
