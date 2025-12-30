@@ -88,10 +88,7 @@ update A records in DNS management of your domain (here godaddy)
 step 8:
 Install SSL certificate for the sites
 ```
-sudo snap install snapd
-sudo systemctl restart snapd
-sudo snap install --classic certbot
-ln -s /snap/bin/certbot /usr/bin/certbot
+apt install certbot python3-certbot-apache
 sudo certbot --apache
 sudo certbot renew
 ```
