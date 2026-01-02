@@ -17,16 +17,16 @@ sudo apt install nginx -y
 Create separate folders for each site.
 
 ```bash
-sudo mkdir -p /var/www/apple.hashlabs.in
-sudo mkdir -p /var/www/orange.hashlabs.in
+sudo mkdir -p /var/www/html/apple.hashlabs.in
+sudo mkdir -p /var/www/html/orange.hashlabs.in
 ```
 
 Set ownership and permissions:
 
 ```bash
-sudo chown -R $USER:$USER /var/www/apple.hashlabs.in
-sudo chown -R $USER:$USER /var/www/orange.hashlabs.in
-sudo chmod -R 755 /var/www
+sudo chown -R $USER:$USER /var/www/html/apple.hashlabs.in
+sudo chown -R $USER:$USER /var/www/html/orange.hashlabs.in
+sudo chmod -R 755 /var/www/html
 ```
 
 ---
@@ -38,7 +38,7 @@ This helps verify each site works.
 ### Apple site
 
 ```bash
-vim /var/www/apple.hashlabs.in/index.html
+vim /var/www/html/apple.hashlabs.in/index.html
 ```
 
 ```html
@@ -49,7 +49,7 @@ vim /var/www/apple.hashlabs.in/index.html
 ### Orange site
 
 ```bash
-vim /var/www/orange.hashlabs.in/index.html
+vim /var/www/html/orange.hashlabs.in/index.html
 ```
 
 ```html
@@ -72,7 +72,7 @@ server {
     listen 80;
     server_name apple.hashlabs.in www.apple.hashlabs.in;
 
-    root /var/www/apple.hashlabs.in;
+    root /var/www/html/apple.hashlabs.in;
     index index.html;
 
     location / {
@@ -94,7 +94,7 @@ server {
     listen 80;
     server_name orange.hashlabs.in www.orange.hashlabs.in;
 
-    root /var/www/orange.hashlabs.in;
+    root /var/www/html/orange.hashlabs.in;
     index index.html;
 
     location / {
