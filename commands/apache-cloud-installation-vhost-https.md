@@ -86,11 +86,18 @@ step 7:
 update A records in DNS management of your domain (here godaddy)
 
 step 8:
-Install SSL certificate for the sites
+Install SSL certificate for the single site
 ```
 apt install certbot python3-certbot-apache
 sudo certbot --apache
 sudo certbot renew
+```
+Install SSL certificates for multiple sites separately
+```
+sudo certbot --apache -d site1.example.com
+```
+```
+sudo certbot --apache -d site2.example.com
 ```
 now access the sites</br>
 https://apple.hashlabs.in</br>
