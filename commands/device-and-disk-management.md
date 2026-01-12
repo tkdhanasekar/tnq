@@ -328,3 +328,265 @@ check with free command
 free -h
 ```
 </details>
+<details>
+ <summary>swap-commands</summary>
+
+### **1. View swap usage**
+
+* **Check total swap and usage**
+
+```
+swapon --show
+```
+
+```
+free -h
+```
+
+```
+cat /proc/swaps
+```
+
+---
+
+### **2. Enable swap**
+
+* **Turn on a swap partition or file**
+
+```
+sudo swapon /swapfile
+```
+
+---
+
+### **3. Disable swap**
+
+* **Turn off a swap partition or file**
+
+```
+sudo swapoff /swapfile
+```
+
+---
+
+### **4. Create a swap file**
+
+* **Allocate a swap file of 1 GB**
+
+```
+sudo fallocate -l 1G /swapfile
+```
+
+* **Or using `dd`**
+
+```
+sudo dd if=/dev/zero of=/swapfile bs=1M count=1024
+```
+
+---
+
+### **5. Set permissions for swap file**
+
+```
+sudo chmod 600 /swapfile
+```
+
+---
+
+### **6. Format a file as swap**
+
+```
+sudo mkswap /swapfile
+```
+
+---
+
+### **7. Make swap permanent (auto-mount at boot)**
+
+* **Add entry to `/etc/fstab`**
+
+```
+/swapfile none swap sw 0 0
+```
+
+---
+
+### **8. Adjust swap usage priority**
+
+* **Check priority of swap devices**
+
+```
+cat /proc/swaps
+```
+
+* **Set priority when enabling swap**
+
+```
+sudo swapon --priority 10 /swapfile
+```
+
+---
+
+### **9. Change swappiness**
+
+* **View current swappiness (how aggressively Linux uses swap)**
+
+```
+cat /proc/sys/vm/swappiness
+```
+
+* **Temporarily set swappiness**
+
+```
+sudo sysctl vm.swappiness=10
+```
+
+* **Make it permanent**
+
+```
+echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.conf
+```
+
+---
+
+### **10. Remove swap file safely**
+
+```
+sudo swapoff /swapfile
+sudo rm /swapfile
+```
+</details>
+<details>
+ <summary>swapon</summary>
+
+1. **Show all active swap devices and files**
+
+```
+swapon --show
+```
+
+2. **Enable a swap file**
+
+```
+sudo swapon /swapfile
+```
+
+3. **Enable a swap partition**
+
+```
+sudo swapon /dev/sda2
+```
+
+4. **Enable multiple swap files at once**
+
+```
+sudo swapon /swapfile1 /swapfile2
+```
+
+5. **Enable a swap file with priority**
+
+```
+sudo swapon --priority 10 /swapfile
+```
+
+6. **Enable a swap file and display summary**
+
+```
+sudo swapon -s
+```
+
+*Note: `swapon -s` is legacy but still widely used.*
+
+7. **Check swap usage in human-readable format**
+
+```
+swapon --show=NAME,SIZE,USED,PRIO
+```
+
+8. **Enable swap with verbose output**
+
+```
+sudo swapon -v /swapfile
+```
+
+9. **Enable all swap entries listed in `/etc/fstab`**
+
+```
+sudo swapon -a
+```
+
+10. **Enable swap on a device with a specific filesystem type**
+
+```
+sudo swapon --fstype=swap /dev/sdb1
+```
+</details>
+<details>
+ <summary>swapoff</summary>
+
+1. **Turn off a specific swap file**
+
+```
+sudo swapoff /swapfile
+```
+
+2. **Turn off a specific swap partition**
+
+```
+sudo swapoff /dev/sda2
+```
+
+3. **Turn off all swap devices listed in `/etc/fstab`**
+
+```
+sudo swapoff -a
+```
+
+4. **Turn off swap and show verbose output**
+
+```
+sudo swapoff -v /swapfile
+```
+
+5. **Turn off swap for multiple files or partitions**
+
+```
+sudo swapoff /swapfile1 /swapfile2
+```
+
+6. **Temporarily disable swap before resizing a swap file**
+
+```
+sudo swapoff /swapfile
+sudo fallocate -l 2G /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+```
+
+7. **Turn off all swap devices without reading `/etc/fstab`**
+
+```
+sudo swapoff --all
+```
+
+8. **Turn off a swap partition and monitor with `free`**
+
+```
+sudo swapoff /dev/sda2
+free -h
+```
+
+9. **Disable swap on a device with verbose and debug info**
+
+```
+sudo swapoff -v /dev/sdb1
+```
+
+10. **Turn off swap temporarily for system performance testing**
+
+```
+sudo swapoff -a
+```
+
+*Then turn it back on with `sudo swapon -a`.*
+</details>
