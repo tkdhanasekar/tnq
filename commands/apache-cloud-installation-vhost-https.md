@@ -99,6 +99,10 @@ sudo certbot --apache -d site1.example.com
 ```
 sudo certbot --apache -d site2.example.com
 ```
+check for certificates
+```
+sudo certbot certificates
+```
 now access the sites</br>
 https://apple.hashlabs.in</br>
 and</br>

@@ -590,3 +590,337 @@ sudo swapoff -a
 
 *Then turn it back on with `sudo swapon -a`.*
 </details>
+<details>
+ <summary>create-partition</summary>
+
+## 1. List available disks
+
+First, identify the disk you want to partition.
+
+```bash
+lsblk
+```
+
+or
+
+```bash
+sudo fdisk -l
+```
+
+Example disks:
+
+* `/dev/sda` → main hard disk
+* `/dev/sdb` → secondary disk or USB
+
+---
+
+## 2. Open the disk with fdisk
+
+Replace **`/dev/sdb`** with your actual disk name
+
+```bash
+sudo fdisk /dev/sdb
+```
+
+You’ll enter the interactive `fdisk` prompt.
+
+---
+
+## 3. View existing partitions (optional)
+
+Inside `fdisk`, type:
+
+```
+p
+```
+
+This prints the current partition table.
+
+---
+
+## 4. Create a new partition
+
+Type:
+
+```
+n
+```
+
+Then follow the prompts:
+
+1. **Partition type**
+
+   * `p` → primary
+   * `e` → extended (MBR only)
+
+2. **Partition number**
+
+   * Usually press **Enter** to accept default
+
+3. **First sector**
+
+   * Press **Enter** to accept default
+
+4. **Last sector / size**
+
+   * Press **Enter** to use remaining space
+   * OR specify size, e.g.:
+
+     ```
+     +10G
+     ```
+
+---
+
+## 5. (Optional) Change partition type
+
+For example, to set Linux filesystem type:
+
+```
+t
+```
+
+Then enter the partition number and type code (e.g., `83` for Linux).
+
+---
+
+## 6. Verify the partition
+
+Check your changes before saving:
+
+```
+p
+```
+
+---
+
+## 7. Write changes to disk
+
+To save and exit:
+
+```
+w
+```
+
+> If you want to cancel without saving, use:
+>
+> ```
+> q
+> ```
+
+---
+
+## 8. Inform the kernel of changes
+
+Run:
+
+```bash
+sudo partprobe
+```
+
+or reboot if the partition doesn’t appear.
+
+---
+
+## 9. Format the new partition
+
+Example: formatting as **ext4**
+
+```bash
+sudo mkfs.ext4 /dev/sdb1
+```
+
+---
+
+## 10. Mount the partition
+
+```bash
+sudo mkdir /mnt/mydisk
+sudo mount /dev/sdb1 /mnt/mydisk
+```
+check with
+```
+df -Th
+```
+---
+
+## Common fdisk commands (cheat sheet)
+
+| Command | Description           |
+| ------- | --------------------- |
+| `n`     | New partition         |
+| `p`     | Print partition table |
+| `d`     | Delete partition      |
+| `t`     | Change partition type |
+| `w`     | Write changes         |
+| `q`     | Quit without saving   |
+| `m`     | Help                  |
+</details>
+<details>
+ <summary>delete-partition</summary>
+
+To delete the partition **`/dev/sdb1`**
+
+## 1. Make sure the partition is unmounted
+
+Check:
+
+```bash
+lsblk
+```
+
+If it’s mounted, unmount it:
+
+```bash
+sudo umount /dev/sdb1
+```
+
+---
+
+## 2. Open the disk with fdisk
+
+You must open the **disk**, not the partition:
+
+```bash
+sudo fdisk /dev/sdb
+```
+
+---
+
+## 3. Delete the partition
+
+Inside the `fdisk` prompt:
+
+1. Type:
+
+   ```
+   d
+   ```
+2. If prompted, enter the partition number:
+
+   ```
+   1
+   ```
+
+---
+
+## 4. Verify the change
+
+Check the partition table:
+
+```
+p
+```
+
+Make sure `/dev/sdb1` is gone.
+
+---
+
+## 5. Write changes to disk
+
+Save and exit:
+
+```
+w
+```
+
+> To cancel without saving, use:
+>
+> ```
+> q
+> ```
+
+---
+
+## 6. Reload partition table
+
+```bash
+sudo partprobe
+```
+
+(or reboot if needed)
+
+---
+
+## 7. Confirm deletion
+
+```bash
+lsblk
+```
+
+or
+
+```bash
+sudo fdisk -l /dev/sdb
+```
+check with
+```
+df -Th
+```
+</details>
+<details>
+ <summary>lsblk</summary>
+ 
+**`lsblk`** is a Linux command that lists information about block devices (disks, partitions, and logical volumes) in a tree-like format.
+
+1. **Basic usage – list all block devices**
+
+   ```bash
+   lsblk
+   ```
+
+2. **Show filesystem type and UUID**
+
+   ```bash
+   lsblk -f
+   ```
+
+3. **Display device sizes in bytes**
+
+   ```bash
+   lsblk -b
+   ```
+
+4. **List only disks (exclude partitions)**
+
+   ```bash
+   lsblk -d
+   ```
+
+5. **Show mount points**
+
+   ```bash
+   lsblk -o NAME,SIZE,TYPE,MOUNTPOINT
+   ```
+
+6. **List a specific device**
+
+   ```bash
+   lsblk /dev/sda
+   ```
+
+7. **Show permissions and ownership**
+
+   ```bash
+   lsblk -o NAME,MAJ:MIN,RM,SIZE,RO,TYPE,MOUNTPOINT,OWNER,GROUP
+   ```
+
+8. **Display all devices including empty ones**
+
+   ```bash
+   lsblk -a
+   ```
+
+9. **List devices in JSON format**
+
+   ```bash
+   lsblk -J
+   ```
+
+10. **Show only NAME and SIZE in a clean view**
+
+    ```bash
+    lsblk -o NAME,SIZE
+    ```
+</details>
+
