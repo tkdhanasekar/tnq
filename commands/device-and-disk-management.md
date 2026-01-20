@@ -1177,6 +1177,7 @@ df -Th
     ```
 
     Commonly used in rescue or shutdown scripts to safely release storage.
+</details>
 <details>
  <summary>cfdisk</summary>
 
