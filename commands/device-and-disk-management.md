@@ -2029,7 +2029,7 @@ sudo fsck.ext4 -M /dev/sda1
 Prevents checking the filesystem if it is currently mounted.
 </details>
 <details>
- <summay>hdparm</summary>
+ <summary>hdparm</summary>
 
 `hdparm` is a command-line utility for viewing and tuning hard disk parameters, including performance and power management.
 
