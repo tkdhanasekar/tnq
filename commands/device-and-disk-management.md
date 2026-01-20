@@ -2115,88 +2115,1037 @@ sudo hdparm --security-erase NULL /dev/sda
 Performs a secure erase, wiping all data (use with caution).
 </details>
 <details>
- <summary>lsblk</summary>
+ <summary>mkswap</summary>
 
-`lsblk` lists information about all available block devices in a tree-like format, showing partitions, sizes, and mount points.
+`mkswap` initializes a partition or file as swap space so Linux can use it for virtual memory.
 
-1. **List all block devices**
+1. **Create swap on a partition**
+
+```bash
+sudo mkswap /dev/sda2
+```
+
+Initializes `/dev/sda2` as swap space.
+
+2. **Set a label for the swap space**
+
+```bash
+sudo mkswap -L SWAP /dev/sda2
+```
+
+Creates swap with the label `SWAP`.
+
+3. **Use a swap file instead of a partition**
+
+```bash
+sudo mkswap /swapfile
+```
+
+Initializes a regular file as swap space.
+
+4. **Enable the swap space immediately**
+
+```bash
+sudo swapon /dev/sda2
+```
+
+Activates the newly created swap partition.
+
+5. **Check swap space UUID**
+
+```bash
+sudo mkswap -U random /dev/sda2
+```
+
+Generates a UUID for the swap partition.
+
+6. **Set swap priority**
+
+```bash
+sudo mkswap -p 10 /dev/sda2
+```
+
+Assigns a priority to the swap space (higher runs first).
+
+7. **Reinitialize existing swap space**
+
+```bash
+sudo mkswap -f /dev/sda2
+```
+
+Forces creation, overwriting existing swap metadata.
+
+8. **Display verbose output**
+
+```bash
+sudo mkswap -v /dev/sda2
+```
+
+Shows detailed information about swap creation.
+
+9. **Create swap with specific UUID**
+
+```bash
+sudo mkswap -U 123e4567-e89b-12d3-a456-426614174000 /dev/sda2
+```
+
+Assigns a specific UUID to the swap space.
+
+10. **Add swap entry to `/etc/fstab`**
+
+```bash
+echo '/dev/sda2 none swap sw 0 0' | sudo tee -a /etc/fstab
+```
+
+Makes the swap permanent so it activates on boot.
+</details>
+<details>
+ <summary>mke2fs</summary>
+
+`mke2fs` creates a new ext2/ext3/ext4 filesystem on a partition or disk.
+
+1. **Create a basic ext4 filesystem**
+
+```bash
+sudo mke2fs /dev/sda1
+```
+
+Formats `/dev/sda1` with a default ext4 filesystem.
+
+2. **Specify filesystem type ext3**
+
+```bash
+sudo mke2fs -t ext3 /dev/sda1
+```
+
+Creates an ext3 filesystem instead of ext4.
+
+3. **Specify filesystem type ext2**
+
+```bash
+sudo mke2fs -t ext2 /dev/sda1
+```
+
+Creates a legacy ext2 filesystem.
+
+4. **Set a volume label**
+
+```bash
+sudo mke2fs -L DATA /dev/sda1
+```
+
+Assigns the label `DATA` to the new filesystem.
+
+5. **Specify block size**
+
+```bash
+sudo mke2fs -b 4096 /dev/sda1
+```
+
+Uses 4 KB blocks for the filesystem.
+
+6. **Create a filesystem with a specific number of inodes**
+
+```bash
+sudo mke2fs -N 100000 /dev/sda1
+```
+
+Creates 100,000 inodes on the partition.
+
+7. **Create filesystem quietly (minimal output)**
+
+```bash
+sudo mke2fs -q /dev/sda1
+```
+
+Suppresses verbose output during formatting.
+
+8. **Create filesystem with verbose output**
+
+```bash
+sudo mke2fs -v /dev/sda1
+```
+
+Shows detailed progress and filesystem parameters.
+
+9. **Specify reserved blocks percentage**
+
+```bash
+sudo mke2fs -m 1 /dev/sda1
+```
+
+Reserves 1% of blocks for root and system use.
+
+10. **Use existing backup superblock location**
+
+```bash
+sudo mke2fs -b 8192 /dev/sda1
+```
+
+Adjusts the superblock location or block size for compatibility.
+</details>
+<details>
+ <summary>mkfs</summary>
+
+`mkfs` creates a new filesystem on a partition, disk, or file, supporting various filesystem types like ext4, xfs, vfat, etc.
+
+1. **Create an ext4 filesystem**
+
+```bash
+sudo mkfs -t ext4 /dev/sda1
+```
+
+Formats `/dev/sda1` as an ext4 filesystem.
+
+2. **Create an ext3 filesystem**
+
+```bash
+sudo mkfs -t ext3 /dev/sda1
+```
+
+Formats the partition with ext3.
+
+3. **Create an ext2 filesystem**
+
+```bash
+sudo mkfs -t ext2 /dev/sda1
+```
+
+Formats `/dev/sda1` with ext2, useful for legacy systems.
+
+4. **Create an XFS filesystem**
+
+```bash
+sudo mkfs -t xfs /dev/sda1
+```
+
+Formats the partition as an XFS filesystem.
+
+5. **Create a FAT32 filesystem**
+
+```bash
+sudo mkfs -t vfat /dev/sdb1
+```
+
+Formats `/dev/sdb1` as FAT32, commonly used for USB drives.
+
+6. **Set a filesystem label**
+
+```bash
+sudo mkfs -t ext4 -L DATA /dev/sda1
+```
+
+Creates an ext4 filesystem with the label `DATA`.
+
+7. **Create a swap filesystem**
+
+```bash
+sudo mkfs -t swap /dev/sda2
+```
+
+Initializes a swap partition (alternative to `mkswap`).
+
+8. **Create filesystem quietly**
+
+```bash
+sudo mkfs -q -t ext4 /dev/sda1
+```
+
+Suppresses verbose output during formatting.
+
+9. **Force filesystem creation**
+
+```bash
+sudo mkfs -F -t ext4 /dev/sda1
+```
+
+Forces creation even if the device appears to contain a filesystem.
+
+10. **Use a specific block size**
+
+```bash
+sudo mkfs -t ext4 -b 4096 /dev/sda1
+```
+
+Formats the filesystem with 4 KB block size for optimized performance.
+</details>
+<details>
+ <summary>mkfs.ext4</summary>
+
+`mkfs.ext4` creates a new ext4 filesystem on a partition or disk, with options for labels, block size, and reserved space.
+
+1. **Create a basic ext4 filesystem**
+
+```bash
+sudo mkfs.ext4 /dev/sda1
+```
+
+Formats `/dev/sda1` with the default ext4 settings.
+
+2. **Set a filesystem label**
+
+```bash
+sudo mkfs.ext4 -L DATA /dev/sda1
+```
+
+Assigns the label `DATA` to the new filesystem.
+
+3. **Specify block size**
+
+```bash
+sudo mkfs.ext4 -b 4096 /dev/sda1
+```
+
+Uses 4 KB blocks for optimized performance.
+
+4. **Reserve space for root user**
+
+```bash
+sudo mkfs.ext4 -m 1 /dev/sda1
+```
+
+Reserves 1% of blocks for system use.
+
+5. **Force creation even if a filesystem exists**
+
+```bash
+sudo mkfs.ext4 -F /dev/sda1
+```
+
+Overwrites any existing filesystem on the partition.
+
+6. **Create filesystem with verbose output**
+
+```bash
+sudo mkfs.ext4 -v /dev/sda1
+```
+
+Shows detailed progress during formatting.
+
+7. **Create filesystem with specific number of inodes**
+
+```bash
+sudo mkfs.ext4 -N 100000 /dev/sda1
+```
+
+Sets the total number of inodes to 100,000.
+
+8. **Use an existing backup superblock location**
+
+```bash
+sudo mkfs.ext4 -b 8192 /dev/sda1
+```
+
+Sets the filesystem block size and backup superblock location.
+
+9. **Create filesystem quickly (sparse superblock)**
+
+```bash
+sudo mkfs.ext4 -E lazy_itable_init=1 /dev/sda1
+```
+
+Speeds up filesystem creation by delaying inode table initialization.
+
+10. **Check the device before creating**
+
+```bash
+sudo mkfs.ext4 -c /dev/sda1
+```
+
+Checks for bad blocks before formatting the partition.
+</details>
+<details>
+ <summary>mkfs.xfs</summary>
+
+`mkfs.xfs` creates a new XFS filesystem on a partition or disk, optimized for high-performance and large files.
+
+1. **Create a basic XFS filesystem**
+
+```bash
+sudo mkfs.xfs /dev/sda1
+```
+
+Formats `/dev/sda1` with default XFS settings.
+
+2. **Set a filesystem label**
+
+```bash
+sudo mkfs.xfs -L DATA /dev/sda1
+```
+
+Assigns the label `DATA` to the new XFS filesystem.
+
+3. **Force creation even if device has a filesystem**
+
+```bash
+sudo mkfs.xfs -f /dev/sda1
+```
+
+Overwrites any existing filesystem on the partition.
+
+4. **Specify inode size**
+
+```bash
+sudo mkfs.xfs -i size=512 /dev/sda1
+```
+
+Creates inodes of 512 bytes instead of the default size.
+
+5. **Set block size**
+
+```bash
+sudo mkfs.xfs -b size=4096 /dev/sda1
+```
+
+Uses 4 KB blocks for improved performance.
+
+6. **Create filesystem with verbose output**
+
+```bash
+sudo mkfs.xfs -v /dev/sda1
+```
+
+Displays detailed progress and parameters during creation.
+
+7. **Specify stripe unit and width (for RAID setups)**
+
+```bash
+sudo mkfs.xfs -d su=64k,sw=4 /dev/sda1
+```
+
+Optimizes XFS for RAID arrays with 64 KB stripe unit and 4 devices.
+
+8. **Check the device for bad blocks before formatting**
+
+```bash
+sudo mkfs.xfs -c /dev/sda1
+```
+
+Performs a read-only check for bad blocks before creating the filesystem.
+
+9. **Create filesystem with large directories support**
+
+```bash
+sudo mkfs.xfs -n size=16384 /dev/sda1
+```
+
+Configures directory block size for better performance with many files.
+
+10. **Force overwrite and set label at the same time**
+
+```bash
+sudo mkfs.xfs -f -L BACKUP /dev/sda1
+```
+
+Overwrites existing data and assigns the label `BACKUP`.
+</details>
+<details>
+ <summary>btrfs</summary>
+
+`mkfs.btrfs` creates a new Btrfs filesystem on a partition or disk, supporting advanced features like snapshots, compression, and RAID.
+
+1. **Create a basic Btrfs filesystem**
+
+```bash
+sudo mkfs.btrfs /dev/sda1
+```
+
+Formats `/dev/sda1` with default Btrfs settings.
+
+2. **Set a filesystem label**
+
+```bash
+sudo mkfs.btrfs -L DATA /dev/sda1
+```
+
+Assigns the label `DATA` to the new Btrfs filesystem.
+
+3. **Force creation even if device is not empty**
+
+```bash
+sudo mkfs.btrfs -f /dev/sda1
+```
+
+Overwrites any existing filesystem or data on the partition.
+
+4. **Enable metadata and data RAID1 on multiple devices**
+
+```bash
+sudo mkfs.btrfs -m raid1 -d raid1 /dev/sda1 /dev/sdb1
+```
+
+Creates a Btrfs filesystem with RAID1 for both metadata and data across two devices.
+
+5. **Enable compression (zstd) by default**
+
+```bash
+sudo mkfs.btrfs -O compress-force=zstd /dev/sda1
+```
+
+Creates a filesystem that forces zstd compression for all data.
+
+6. **Set sector size for advanced performance tuning**
+
+```bash
+sudo mkfs.btrfs -s 4096 /dev/sda1
+```
+
+Sets 4 KB sectors for optimized disk alignment.
+
+7. **Check the device before creating the filesystem**
+
+```bash
+sudo mkfs.btrfs -c /dev/sda1
+```
+
+Performs a read-only check for bad blocks before formatting.
+
+8. **Create filesystem with verbose output**
+
+```bash
+sudo mkfs.btrfs -v /dev/sda1
+```
+
+Displays detailed progress and settings during creation.
+
+9. **Specify node size (metadata block size)**
+
+```bash
+sudo mkfs.btrfs -n 16384 /dev/sda1
+```
+
+Uses 16 KB nodes for better performance with large directories.
+
+10. **Create a filesystem using multiple devices without RAID**
+
+```bash
+sudo mkfs.btrfs /dev/sda1 /dev/sdb1
+```
+
+Creates a Btrfs filesystem spanning multiple devices without redundancy.
+</details>
+<details>
+ <summary>xfs_repair</summary>
+
+`xfs_repair` checks and repairs XFS filesystems for consistency and corruption.
+
+1. **Check and repair an XFS filesystem**
+
+```bash
+sudo xfs_repair /dev/sda1
+```
+
+Scans `/dev/sda1` for errors and attempts repairs.
+
+2. **Force repair even if filesystem appears clean**
+
+```bash
+sudo xfs_repair -L /dev/sda1
+```
+
+Forces repair by zeroing the log, useful if the journal is corrupted.
+
+3. **Run in dry-run mode (simulate repair)**
+
+```bash
+sudo xfs_repair -n /dev/sda1
+```
+
+Checks for problems without making changes.
+
+4. **Use verbose output**
+
+```bash
+sudo xfs_repair -v /dev/sda1
+```
+
+Displays detailed progress and information during repair.
+
+5. **Repair multiple devices at once**
+
+```bash
+sudo xfs_repair /dev/sda1 /dev/sdb1
+```
+
+Scans and repairs multiple XFS partitions sequentially.
+
+6. **Repair filesystem using alternate log device**
+
+```bash
+sudo xfs_repair -l /dev/sdb1 /dev/sda1
+```
+
+Specifies a separate log device for repair (used in advanced setups).
+
+7. **Force log zeroing for corrupted journal**
+
+```bash
+sudo xfs_repair -L /dev/sda1
+```
+
+Resets the journal to allow the filesystem to mount.
+
+8. **Skip certain metadata checks**
+
+```bash
+sudo xfs_repair -o skip-log-recovery /dev/sda1
+```
+
+Skips the log recovery step, useful for damaged or unmountable filesystems.
+
+9. **Repair read-only mounted filesystem**
+
+```bash
+sudo umount /dev/sda1 && sudo xfs_repair /dev/sda1
+```
+
+Unmounts the filesystem first, required because XFS cannot be repaired while mounted.
+
+10. **Check filesystem size and blocks before repair**
+
+```bash
+sudo xfs_repair -m /dev/sda1
+```
+
+Displays information about block usage and sizes prior to repair (metadata info).
+</details>
+<details>
+ <summary>btrfs check</summary>
+
+`btrfs check` scans and verifies a Btrfs filesystem for errors and inconsistencies; it can also repair the filesystem in certain cases.
+
+1. **Check a Btrfs filesystem**
+
+```bash
+sudo btrfs check /dev/sda1
+```
+
+Performs a read-only consistency check on `/dev/sda1`.
+
+2. **Check with verbose output**
+
+```bash
+sudo btrfs check -v /dev/sda1
+```
+
+Displays detailed information about detected errors and filesystem structure.
+
+3. **Repair a Btrfs filesystem**
+
+```bash
+sudo btrfs check --repair /dev/sda1
+```
+
+Attempts to repair errors found on the filesystem (use with caution).
+
+4. **Check metadata only**
+
+```bash
+sudo btrfs check --metadata-only /dev/sda1
+```
+
+Verifies only the metadata structures without scanning data blocks.
+
+5. **Skip data checks (metadata-only check)**
+
+```bash
+sudo btrfs check --metadata-only /dev/sda1
+```
+
+Faster check that ignores data blocks, useful for large filesystems.
+
+6. **Perform a dry-run repair**
+
+```bash
+sudo btrfs check --repair-dry-run /dev/sda1
+```
+
+Simulates a repair without making changes.
+
+7. **Check a mounted read-only filesystem**
+
+```bash
+sudo btrfs check --readonly /dev/sda1
+```
+
+Ensures no modifications occur during the check, even if repair options are specified.
+
+8. **Limit memory usage during check**
+
+```bash
+sudo btrfs check --max-mem=1G /dev/sda1
+```
+
+Restricts memory usage to 1 GB, useful for large filesystems.
+
+9. **Check multiple devices in a Btrfs RAID**
+
+```bash
+sudo btrfs check /dev/sda1 /dev/sdb1
+```
+
+Checks a multi-device Btrfs filesystem spanning multiple disks.
+
+10. **Print usage and filesystem info only**
+
+```bash
+sudo btrfs check -s /dev/sda1
+```
+
+Shows superblock information and general filesystem stats without full verification.
+</details>
+<details>
+ <summary>mount</summary>
+
+`mount` attaches a filesystem or storage device to a directory so it can be accessed by the system.
+
+1. **Mount a filesystem**
+
+```bash
+sudo mount /dev/sda1 /mnt
+```
+
+Attaches `/dev/sda1` to the `/mnt` directory.
+
+2. **Mount with a specific filesystem type**
+
+```bash
+sudo mount -t ext4 /dev/sda1 /mnt
+```
+
+Specifies the filesystem type as ext4 during mounting.
+
+3. **Mount a device read-only**
+
+```bash
+sudo mount -o ro /dev/sda1 /mnt
+```
+
+Mounts the filesystem in read-only mode.
+
+4. **Mount with user-defined options**
+
+```bash
+sudo mount -o noatime,nodiratime /dev/sda1 /mnt
+```
+
+Disables access time updates for performance optimization.
+
+5. **Mount a network filesystem (NFS)**
+
+```bash
+sudo mount -t nfs 192.168.1.100:/shared /mnt
+```
+
+Mounts a remote NFS share at `/mnt`.
+
+6. **Mount a CIFS/SMB network share**
+
+```bash
+sudo mount -t cifs //server/share /mnt -o username=user,password=pass
+```
+
+Mounts a Windows network share using credentials.
+
+7. **Remount a filesystem**
+
+```bash
+sudo mount -o remount,rw /mnt
+```
+
+Remounts an already mounted filesystem with read-write access.
+
+8. **Mount all filesystems listed in `/etc/fstab`**
+
+```bash
+sudo mount -a
+```
+
+Mounts all filesystems defined in the fstab file.
+
+9. **Mount a loopback file as a filesystem**
+
+```bash
+sudo mount -o loop disk_image.img /mnt
+```
+
+Mounts an image file as if it were a disk.
+
+10. **Mount a temporary filesystem (tmpfs)**
+
+```bash
+sudo mount -t tmpfs -o size=1G tmpfs /mnt
+```
+
+Creates an in-memory filesystem of 1 GB at `/mnt`.
+
+**quick reference table of common `mount` options** in Linux with their purpose and usage examples:
+
+| Option        | Description                                                       | Example                                     |
+| ------------- | ----------------------------------------------------------------- | ------------------------------------------- |
+| `ro`          | Mount the filesystem as read-only                                 | `sudo mount -o ro /dev/sda1 /mnt`           |
+| `rw`          | Mount the filesystem as read-write                                | `sudo mount -o rw /dev/sda1 /mnt`           |
+| `loop`        | Mount a file as a loopback device                                 | `sudo mount -o loop disk_image.img /mnt`    |
+| `remount`     | Remount an already mounted filesystem with new options            | `sudo mount -o remount,rw /mnt`             |
+| `noatime`     | Do not update access times on files (improves performance)        | `sudo mount -o noatime /dev/sda1 /mnt`      |
+| `nodiratime`  | Do not update directory access times                              | `sudo mount -o nodiratime /dev/sda1 /mnt`   |
+| `size=<size>` | For tmpfs, sets the maximum size of the in-memory filesystem      | `sudo mount -t tmpfs -o size=1G tmpfs /mnt` |
+| `defaults`    | Uses default mount options (`rw,suid,dev,exec,auto,nouser,async`) | `sudo mount -o defaults /dev/sda1 /mnt`     |
+| `user`        | Allows a non-root user to mount the filesystem                    | `mount -o user /dev/sdb1 /mnt`              |
+| `bind`        | Mounts an existing directory to another location                  | `sudo mount --bind /source /destination`    |
+</details>
+<details>
+ <summary>parted</summary>
+
+`parted` is a command-line utility for creating, resizing, deleting, and managing disk partitions.
+
+1. **Start parted on a disk interactively**
+
+```bash
+sudo parted /dev/sda
+```
+
+Opens `/dev/sda` for interactive partition management.
+
+2. **Print partition table**
+
+```bash
+sudo parted /dev/sda print
+```
+
+Displays the current partitions and their sizes on the disk.
+
+3. **Create a new GPT partition table**
+
+```bash
+sudo parted /dev/sda mklabel gpt
+```
+
+Initializes the disk with a GPT partition table.
+
+4. **Create a new partition**
+
+```bash
+sudo parted /dev/sda mkpart primary ext4 1MiB 20GiB
+```
+
+Creates a primary ext4 partition from 1 MiB to 20 GiB.
+
+5. **Resize a partition**
+
+```bash
+sudo parted /dev/sda resizepart 1 50GiB
+```
+
+Resizes partition 1 to 50 GiB.
+
+6. **Delete a partition**
+
+```bash
+sudo parted /dev/sda rm 1
+```
+
+Deletes partition number 1.
+
+7. **Set a partition flag**
+
+```bash
+sudo parted /dev/sda set 1 boot on
+```
+
+Marks partition 1 as bootable.
+
+8. **Check the disk for alignment issues**
+
+```bash
+sudo parted /dev/sda align-check optimal 1
+```
+
+Checks if partition 1 is optimally aligned.
+
+9. **Create a partition with a specific filesystem type**
+
+```bash
+sudo parted /dev/sda mkpart primary xfs 20GiB 100GiB
+```
+
+Creates a primary XFS partition from 20 GiB to 100 GiB.
+
+10. **Run parted in non-interactive mode**
+
+```bash
+sudo parted -s /dev/sda mkpart primary ext4 1MiB 20GiB
+```
+
+Executes commands without prompting for confirmation.
+</details>
+<details>
+ <summary>partprobe</summary>
+
+`partprobe` informs the kernel of partition table changes so that newly created or modified partitions are recognized without rebooting.
+
+1. **Update kernel with changes on a disk**
+
+```bash
+sudo partprobe /dev/sda
+```
+
+Notifies the kernel about new or modified partitions on `/dev/sda`.
+
+2. **Update all disks**
+
+```bash
+sudo partprobe
+```
+
+Scans all block devices for partition table changes.
+
+3. **Force kernel to re-read partition table**
+
+```bash
+sudo partprobe -s
+```
+
+Shows the current partition table after notifying the kernel.
+
+4. **Check if kernel recognized new partitions**
+
+```bash
+sudo fdisk -l
+```
+
+Used after `partprobe` to confirm new partitions are detected.
+
+5. **Use with parted to create a new partition**
+
+```bash
+sudo parted /dev/sda mkpart primary ext4 1MiB 20GiB && sudo partprobe /dev/sda
+```
+
+Creates a partition and immediately updates the kernel.
+
+6. **Re-read partition table without reboot**
+
+```bash
+sudo partprobe /dev/sdb
+```
+
+Applies changes made by `fdisk` or `parted` to `/dev/sdb`.
+
+7. **Use after cloning a disk**
+
+```bash
+sudo partprobe /dev/sdc
+```
+
+Notifies the kernel of partitions copied from another disk.
+
+8. **Confirm kernel recognizes all partitions**
 
 ```bash
 lsblk
 ```
 
-Shows all disks and partitions in a tree format.
+After running `partprobe`, `lsblk` shows newly added partitions.
 
-2. **List devices with filesystem type**
-
-```bash
-lsblk -f
-```
-
-Displays filesystem type, label, UUID, and mount points.
-
-3. **List devices with sizes**
+9. **Combine with mkfs for automated setup**
 
 ```bash
-lsblk -o NAME,SIZE
+sudo parted -s /dev/sda mkpart primary ext4 1MiB 20GiB && sudo partprobe /dev/sda && sudo mkfs.ext4 /dev/sda1
 ```
 
-Shows only the device name and size.
+Creates a partition, updates the kernel, and formats it.
 
-4. **Show all details including partitions and devices**
+10. **Script usage for multiple disks**
 
 ```bash
-lsblk -a
+for disk in /dev/sd[a-d]; do sudo partprobe $disk; done
 ```
 
-Lists all devices, including empty or unpartitioned ones.
-
-5. **Show mount points**
-
-```bash
-lsblk -o NAME,MOUNTPOINT
-```
-
-Displays each device and where it is mounted.
-
-6. **List devices in JSON format**
-
-```bash
-lsblk -J
-```
-
-Outputs block device information as JSON for scripting.
-
-7. **List devices in list format (no tree)**
-
-```bash
-lsblk -l
-```
-
-Shows all devices in a flat list format instead of a tree.
-
-8. **Include filesystem UUIDs and labels**
-
-```bash
-lsblk -o NAME,FSTYPE,LABEL,UUID
-```
-
-Displays devices along with filesystem type, label, and UUID.
-
-9. **Show only disks (exclude partitions)**
-
-```bash
-lsblk -d
-```
-
-Lists only the top-level disks, not their partitions.
-
-10. **Filter by a specific device**
-
-```bash
-lsblk /dev/sda
-```
-
-Displays information only for `/dev/sda` and its partitions.
+Updates the kernel on multiple disks in one command.
 </details>
 <details>
+ <summary>partx</summary>
+
+`partx` tells the kernel about partitions on a block device, allowing new or changed partitions to be added, removed, or listed without rebooting.
+
+1. **Add all partitions from a disk to the kernel**
+
+```bash
+sudo partx -a /dev/sda
+```
+
+Adds all partitions of `/dev/sda` to the kernel.
+
+2. **Remove all partitions from the kernel**
+
+```bash
+sudo partx -d /dev/sda
+```
+
+Removes all partitions of `/dev/sda` from the kernel.
+
+3. **List partitions recognized by the kernel**
+
+```bash
+sudo partx -l /dev/sda
+```
+
+Shows partition table details of `/dev/sda`.
+
+4. **Add a specific partition**
+
+```bash
+sudo partx -a -n 1 /dev/sda
+```
+
+Adds only partition number 1 to the kernel.
+
+5. **Remove a specific partition**
+
+```bash
+sudo partx -d -n 1 /dev/sda
+```
+
+Removes only partition number 1 from the kernel.
+
+6. **Add partitions from multiple devices**
+
+```bash
+sudo partx -a /dev/sd[a-c]
+```
+
+Adds partitions from `/dev/sda`, `/dev/sdb`, and `/dev/sdc`.
+
+7. **Add partitions with verbose output**
+
+```bash
+sudo partx -v -a /dev/sda
+```
+
+Displays details about partitions being added to the kernel.
+
+8. **Remove partitions with force**
+
+```bash
+sudo partx -f -d /dev/sda
+```
+
+Forcefully removes partitions from the kernel even if they are in use.
+
+9. **Synchronize kernel with partition table**
+
+```bash
+sudo partx -u /dev/sda
+```
+
+Updates the kernel partition table without adding or removing.
+
+10. **Combine with mkfs to format new partitions**
+
+```bash
+sudo parted -s /dev/sda mkpart primary ext4 1MiB 20GiB && sudo partx -a /dev/sda && sudo mkfs.ext4 /dev/sda1
+```
+
+Creates a partition, updates the kernel, and formats it.
+</details>
