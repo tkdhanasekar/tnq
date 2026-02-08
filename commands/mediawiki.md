@@ -1,7 +1,3 @@
-Alright, let’s walk through a clean, practical **MediaWiki install on Ubuntu 24.04 using LAMP**. I’ll assume a fresh-ish server and that you’re using **Apache + MariaDB + PHP 8.3** (the Ubuntu 24.04 default).
-
----
-
 ## 1. Update your system
 
 Always a good warm-up:
