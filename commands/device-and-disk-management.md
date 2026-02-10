@@ -3149,3 +3149,183 @@ sudo parted -s /dev/sda mkpart primary ext4 1MiB 20GiB && sudo partx -a /dev/sda
 
 Creates a partition, updates the kernel, and formats it.
 </details>
+<details>
+ <summary>/etc/fstab</summary>
+
+`/etc/fstab` is a **configuration file that defines how and where filesystems are automatically mounted** at boot or on demand.
+
+---
+
+### Common `/etc/fstab` examples
+
+> **Format reminder**
+
+```
+<device|UUID|LABEL>  <mount_point>  <fs_type>  <options>  <dump>  <fsck>
+```
+
+---
+
+1. **Mount root filesystem**
+
+```
+UUID=3f2a1c4e-9d3a-4b1f-9a3d-123456789abc  /  ext4  defaults  1  1
+```
+
+2. **Mount `/home` partition**
+
+```
+UUID=aa12bb34-cc56-dd78-ee90-ff1122334455  /home  ext4  defaults  0  2
+```
+
+3. **Mount swap partition**
+
+```
+UUID=1122-3344  none  swap  sw  0  0
+```
+
+4. **Mount a USB drive by UUID**
+
+```
+UUID=9A3C-1F2B  /mnt/usb  vfat  defaults,noatime  0  0
+```
+
+5. **Mount an ISO file (loop device)**
+
+```
+/iso/ubuntu.iso  /mnt/iso  iso9660  loop,ro  0  0
+```
+
+6. **Mount a network share (NFS)**
+
+```
+192.168.1.10:/exports/data  /mnt/nfs  nfs  defaults,_netdev  0  0
+```
+
+7. **Mount a Samba/CIFS share**
+
+```
+# //server/share  /mnt/share  cifs  credentials=/root/.smbcred,_netdev  0  0
+```
+
+8. **Temporary filesystem (tmpfs)**
+
+```
+tmpfs  /tmp  tmpfs  defaults,noatime,mode=1777  0  0
+```
+
+9. **Read-only filesystem**
+
+```
+UUID=abcd1234  /mnt/backup  ext4  ro  0  2
+```
+
+10. **Filesystem with quota enabled**
+
+```
+UUID=feedbeef-1234-5678-90ab-cdef12345678  /home  ext4  defaults,usrquota,grpquota  0  2
+```
+
+---
+
+### Pro tip
+
+After editing `/etc/fstab`, always test:
+
+```bash
+mount -a
+```
+
+## `<options>` in `/etc/fstab`
+
+**Mount options that control how the filesystem behaves.**
+
+Multiple options are **comma-separated**.
+
+### Common options
+
+* `defaults` → `rw,suid,dev,exec,auto,nouser,async`
+* `rw` / `ro` → read-write or read-only
+* `noatime` → don’t update file access time (faster)
+* `nodiratime` → don’t update directory access time
+* `auto` / `noauto` → mount at boot or only manually
+* `user` / `nouser` → allow non-root users to mount
+* `exec` / `noexec` → allow or block execution of binaries
+* `suid` / `nosuid` → allow or block SUID bits
+* `usrquota`, `grpquota` → enable user/group quotas
+* `_netdev` → network filesystem (wait for network)
+
+Example:
+
+```
+defaults,noatime,usrquota
+```
+
+---
+
+## `<dump>` in `/etc/fstab`
+
+**Controls whether the filesystem is backed up by the `dump` utility.**
+
+### Values
+
+* `0` → do **not** dump (almost always used)
+* `1` → dump this filesystem
+
+Example:
+
+```
+0
+```
+
+💡 **Reality check:**
+`dump` is rarely used today, so this field is almost always `0`.
+
+---
+
+## `<fsck>` in `/etc/fstab`
+
+**Controls the order in which filesystems are checked at boot by `fsck`.**
+
+### Values
+
+* `0` → never check
+* `1` → check **first** (root filesystem only)
+* `2` → check **after root** (other filesystems)
+
+### Typical setup
+
+* `/` → `1`
+* `/home`, `/var`, etc. → `2`
+* swap, network mounts → `0`
+
+Example:
+
+```
+1
+```
+
+---
+
+## Putting it all together (real example)
+
+```
+UUID=abcd-1234  /home  ext4  defaults,noatime,usrquota  0  2
+```
+
+**Meaning:**
+
+* mounted read-write with defaults
+* no access time updates
+* user quotas enabled
+* not dumped
+* fsck runs after root filesystem
+
+---
+
+### Quick rule of thumb (easy to remember)
+
+* `<options>` → *how it mounts*
+* `<dump>` → *backup?* (almost always `0`)
+* `<fsck>` → *boot-time check order*
+</details>
