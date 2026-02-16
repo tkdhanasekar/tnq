@@ -3,11 +3,6 @@
 
 `bg` resumes a **stopped job in the background**, allowing it to keep running without occupying the terminal.
 
-> **Reminder:**
-> `bg` works with **jobs**, not PIDs, and is used after `Ctrl+Z`.
-
----
-
 1. **Resume the most recent stopped job**
 
 ```bash
