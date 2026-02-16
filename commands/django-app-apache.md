@@ -230,3 +230,16 @@ Django app is now running with:
 * Virtual environment
 * Static files configured
 * Optional SSL
+
+To login Django admin page
+create user and password
+```
+python manage.py migrate
+```
+```
+python manage.py createsuperuser
+```
+login
+```
+http://server_ip/admin
+```
