@@ -54,7 +54,7 @@ pip install flask
 
 ---
 
-# ✅ 5. Create Flask Application
+# 5. Create Flask Application
 
 Create `app.py`:
 
