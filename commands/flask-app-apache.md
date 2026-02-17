@@ -111,7 +111,7 @@ Add:
 <VirtualHost *:80>
     ServerName your_domain_or_ip
 
-    WSGIDaemonProcess myflaskapp python-home=/var/www/myflaskapp/venv python-path=/var/www/myflaskapp
+    
     WSGIProcessGroup myflaskapp
     WSGIScriptAlias / /var/www/myflaskapp/myflaskapp.wsgi
 
@@ -122,6 +122,8 @@ Add:
     ErrorLog ${APACHE_LOG_DIR}/myflaskapp_error.log
     CustomLog ${APACHE_LOG_DIR}/myflaskapp_access.log combined
 </VirtualHost>
+WSGIDaemonProcess myflaskapp python-home=/var/www/myflaskapp/venv python-path=/var/www/myflaskapp
+
 ```
 
 ---
