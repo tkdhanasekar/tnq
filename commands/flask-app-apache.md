@@ -1,196 +1,145 @@
-deploy a Flask application using Apache on Ubuntu** with **mod_wsgi**
-
+**FastAPI hit counter app** running on **Apache** on **Ubuntu**
 ---
 
-# 1. Update Your Ubuntu Server
+## Install Required Packages
+
+Update Ubuntu and install dependencies:
 
 ```bash
 sudo apt update
+sudo apt install python3 python3-pip python3-venv apache2 libapache2-mod-proxy-uwsgi -y
 ```
+
+(Optional: `libapache2-mod-proxy-uwsgi` for uWSGI proxying)
 
 ---
 
-# 2. Install Required Packages
+## Create FastAPI App with Hit Counter
 
-Install Apache, Python, pip, virtualenv, and mod_wsgi:
-
-```bash
-sudo apt install apache2 python3 python3-pip python3-venv libapache2-mod-wsgi-py3 -y
-```
-
-Enable Apache and start it:
+Create a project folder:
 
 ```bash
-sudo systemctl enable apache2
-sudo systemctl start apache2
-```
-
----
-
-# 3. Create Project Directory
-
-Example project structure:
-
-```bash
-sudo mkdir -p /var/www/myflaskapp
-sudo chown -R $USER:$USER /var/www/myflaskapp
-cd /var/www/myflaskapp
-```
-
----
-
-# 4. Create Virtual Environment
-
-```bash
+mkdir ~/fastapi_hit_counter
+cd ~/fastapi_hit_counter
 python3 -m venv venv
 source venv/bin/activate
+pip install fastapi uvicorn
 ```
-
-Install Flask (and other dependencies):
-
-```bash
-pip install flask
-```
-
----
-
-# 5. Create Flask Application
 
 Create `app.py`:
 
 ```python
-from flask import Flask
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
+import threading
 
-app = Flask(__name__)
+app = FastAPI()
+lock = threading.Lock()
+hits = 0
 
-counter = 0
-
-@app.route("/")
-def home():
-    global counter
-    counter += 1
-    return f"Page visited {counter} times"
-
-if __name__ == "__main__":
-    app.run()
+@app.get("/")
+def read_root():
+    global hits
+    with lock:
+        hits += 1
+        count = hits
+    return JSONResponse(content={"message": f"Hello! This page has been visited {count} times."})
 ```
 
-Test locally:
-
-```bash
-python app.py
-```
-Press CTRL+C to stop.
+This simple version uses **thread-safe in-memory counter**.
 
 ---
 
-# 6. Create WSGI File
+## Test Locally
 
-Create `myflaskapp.wsgi`:
-
-```python
-import sys
-sys.path.insert(0, "/var/www/myflaskapp")
-
-from app import app as application
+```bash
+uvicorn app:app --host 0.0.0.0 --port 8000
 ```
+
+Visit `http://your_server_ip:8000/` and the hit counter should increment.
 
 ---
 
-# 7. Configure Apache
+## Configure Apache as a Reverse Proxy
 
-Create a new config file:
+Apache will forward requests to FastAPI running via Uvicorn. Enable necessary modules:
 
 ```bash
-sudo vim /etc/apache2/sites-available/myflaskapp.conf
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+sudo systemctl restart apache2
+```
+
+Create a new site file:
+
+```bash
+sudo vim /etc/apache2/sites-available/fastapi_hit_counter.conf
 ```
 
 Add:
 
 ```apache
 <VirtualHost *:80>
-    ServerName your_domain_or_ip
+    ServerName yourdomain.com
+    ServerAdmin admin@yourdomain.com
 
-    
-    WSGIProcessGroup myflaskapp
-    WSGIScriptAlias / /var/www/myflaskapp/myflaskapp.wsgi
+    ProxyPreserveHost On
+    ProxyPass / http://127.0.0.1:8000/
+    ProxyPassReverse / http://127.0.0.1:8000/
 
-    <Directory /var/www/myflaskapp>
-        Require all granted
-    </Directory>
-
-    ErrorLog ${APACHE_LOG_DIR}/myflaskapp_error.log
-    CustomLog ${APACHE_LOG_DIR}/myflaskapp_access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/fastapi_error.log
+    CustomLog ${APACHE_LOG_DIR}/fastapi_access.log combined
 </VirtualHost>
-WSGIDaemonProcess myflaskapp python-home=/var/www/myflaskapp/venv python-path=/var/www/myflaskapp
+```
 
+Enable the site and reload Apache:
+
+```bash
+sudo a2ensite fastapi_hit_counter.conf
+sudo systemctl reload apache2
 ```
 
 ---
 
-# 8. Enable Site & Restart Apache
+## Run FastAPI in the Background
+
+Use **systemd** to run FastAPI automatically on boot.
+
+Create service file:
 
 ```bash
-sudo a2ensite myflaskapp.conf
-sudo a2enmod wsgi
-sudo systemctl restart apache2
+sudo vim /etc/systemd/system/fastapi.service
 ```
 
----
+Add:
 
-# 9. Test Your App
+```ini
+[Unit]
+Description=FastAPI Hit Counter App
+After=network.target
 
-Open browser:
+[Service]
+User=root
+Group=root
+WorkingDirectory=/root/fastapi_hit_counter
+Environment="PATH=/root/fastapi_hit_counter/venv/bin"
+ExecStart=/root/fastapi_hit_counter/venv/bin/uvicorn app:app --host 127.0.0.1 --port 8000
 
+[Install]
+WantedBy=multi-user.target
 ```
-http://your_server_ip
-```
 
-You should see:
-
-```
-Page visited times
-```
-
----
-
-# Enable HTTPS with Let’s Encrypt
-
-Install Certbot:
+Enable and start:
 
 ```bash
-sudo apt install certbot python3-certbot-apache -y
+sudo systemctl daemon-reload
+sudo systemctl enable fastapi
+sudo systemctl start fastapi
+sudo systemctl status fastapi
 ```
 
-Run:
+Now Apache proxies requests to FastAPI running in the background.
 
-```bash
-sudo certbot --apache
-```
+check with 
+http://server_ip
 
----
-
-# Recommended Production Structure
-
-```
-/var/www/myflaskapp/
-    ├── venv/
-    ├── app.py
-    ├── myflaskapp.wsgi
-```
-
----
-
-### 500 Internal Server Error
-
-Check logs:
-
-```bash
-sudo tail -f /var/log/apache2/error.log
-```
-
-### Permission Errors
-
-```bash
-sudo chown -R www-data:www-data /var/www/myflaskapp
-```
