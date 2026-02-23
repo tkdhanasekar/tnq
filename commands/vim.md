@@ -42,6 +42,8 @@ enter normal mode ```Esc```\
 then type\
 ```b```
 
+---
+
 ```dw```	Delete word\
 ```d$```	Delete to end of line\
 ```dd```	Delete current line\
@@ -50,34 +52,34 @@ then type\
 ```Ctrl+r```	Redo
 
 ##  Copy, Cut, and Paste
-```yy```	Yank (copy) line
-```yw```	Yank word
-```y$```	Yank to end of line
-```p``` 	Paste after cursor
-```P``` 	Paste before cursor
-```dd```	Cut (delete) line
-```yap```       Copy a paragraph
+```yy```	Yank (copy) line\
+```yw```	Yank word\
+```y$```	Yank to end of line\
+```p``` 	Paste after cursor\
+```P``` 	Paste before cursor\
+```dd```	Cut (delete) line\
+```yap```       Copy a paragraph\
 ```dap```       Delete a paragraph
 
 ## Searching
-```/pattern```		Search forward
-```?pattern```		Search backward
-```:%s/old/new/g```	Replace all occurrences in file
-```:n,m s/old/new/g```	Replace in lines n to m
+```/pattern```		Search forward\
+```?pattern```		Search backward\
+```:%s/old/new/g```	Replace all occurrences in file\
+```:n,m s/old/new/g```	Replace in lines n to m\
 
-To set line numbers
+To set line numbers\
 : set nu
 
-To unset line numbers
+To unset line numbers\
 : set nonu
 
-To set highlight search
+To set highlight search\
 :set hlsearch
 
-To set permanent parameters in vim 
-```vim ~/.vimrc```
-set hlsearch
-set nu
+To set permanent parameters in vim\
+```vim ~/.vimrc```\
+set hlsearch\
+set nu\
 ```source ~/.vimrc```
 
 
