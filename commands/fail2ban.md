@@ -18,6 +18,7 @@ add parameters to the
 ```
 vim /etc/fail2ban/jail.local
 ```
+```
 [DEFAULT]
 bantime = 1h
 findtime = 10m
