@@ -10,19 +10,16 @@ start, enable and check status
 ```
 systemctl start fail2ban && systemctl enable fail2ban && systemctl status fail2ban --no-pager
 ```
-Copy the default configuration file to create a local override file
-```
-sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-```
 add parameters to the
 ```
 vim /etc/fail2ban/jail.local
 ```
 ```
-[DEFAULT]
 bantime = 1h
 findtime = 10m
-maxretry = 2
+maxretry = 5
+backend = systemd
+
 
 [sshd]
 enabled = true
