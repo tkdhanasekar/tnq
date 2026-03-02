@@ -116,7 +116,7 @@ Replace an entire line:
 ```bash
 sed '3c\This is the new line content' hello.txt
 ```
-<details>
+</details>
 <details>
  <summary>awk</summary>
  
