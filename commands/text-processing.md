@@ -1291,4 +1291,566 @@ top -b -n 1 | tee top_snapshot1.txt top_snapshot2.txt
 * `top -b -n 1` runs `top` in batch mode once.
 * `tee` writes the output to **multiple files simultaneously**.
 </details>
+<details>
+ <summary>comm</summary>
+
+The `comm` command in Linux **compares two sorted files line by line** and outputs lines that are unique to each file or common to both.
+
+> **Important:** Files must be **sorted** before using `comm`.
+
+# Example 1: Basic Comparison
+
+### File 1: `file1.txt`
+
+```
+apple
+banana
+grapes
+orange
+```
+
+### File 2: `file2.txt`
+
+```
+banana
+kiwi
+orange
+pear
+```
+
+### Command:
+
+```bash
+comm file1.txt file2.txt
+```
+
+### Output:
+
+```
+apple
+        banana
+grapes
+        kiwi
+        orange
+        pear
+```
+
+* Column 1 → lines only in file1
+* Column 2 → lines only in file2
+* Column 3 → lines common to both
+
+---
+
+# Example 2: Show Only Lines Unique to File1
+
+```bash
+comm -23 file1.txt file2.txt
+```
+
+### Output:
+
+```
+apple
+grapes
+```
+
+> `-2 -3` hides columns 2 and 3.
+
+---
+
+# Example 3: Show Only Lines Unique to File2
+
+```bash
+comm -13 file1.txt file2.txt
+```
+
+### Output:
+
+```
+kiwi
+pear
+```
+
+> `-1 -3` hides columns 1 and 3.
+
+---
+
+# Example 4: Show Only Common Lines
+
+```bash
+comm -12 file1.txt file2.txt
+```
+
+### Output:
+
+```
+banana
+orange
+```
+
+> `-1 -2` hides columns 1 and 2, leaving only lines present in both files.
+
+---
+
+# Example 5: Ignore Case Differences
+
+### Files:
+
+`file1.txt`
+
+```
+Apple
+Banana
+Grapes
+Orange
+```
+
+`file2.txt`
+
+```
+apple
+banana
+Kiwi
+Orange
+```
+
+### Command:
+
+```bash
+comm -i file1.txt file2.txt
+```
+
+> `-i` ignores case differences (available in some versions of `comm`).
+
+---
+
+**Tip:** Always **sort files** first:
+
+```bash
+sort file1.txt -o file1.txt
+sort file2.txt -o file2.txt
+```
+
+before using `comm`.
+</details>
+<details>
+ <summary>cmp</summary>
+
+The `cmp` command in Linux **compares two files byte by byte** and reports the first difference; it is mainly used for **binary or text file comparison**.
+
+# Example 1: Basic Comparison
+
+### File 1: `file1.txt`
+
+```
+Hello
+World
+```
+
+### File 2: `file2.txt`
+
+```
+Hello
+Linux
+```
+
+### Command:
+
+```bash
+cmp file1.txt file2.txt
+```
+
+### Output:
+
+```
+file1.txt file2.txt differ: byte 7, line 2
+```
+
+> Reports the **first differing byte and line**.
+
+---
+
+# Example 2: Silent Comparison (Check Only If Files Differ)
+
+```bash
+cmp -s file1.txt file2.txt
+echo $?
+```
+
+### Output:
+
+```
+1
+```
+
+> `-s` suppresses output; `$?` returns `0` if files are identical, `1` if different.
+
+---
+
+# Example 3: Compare Binary Files
+
+### Files:
+
+`image1.png`
+`image2.png`
+
+### Command:
+
+```bash
+cmp image1.png image2.png
+```
+
+### Output (example):
+
+```
+image1.png image2.png differ: byte 1024, line 1
+```
+
+> `cmp` works on **text and binary files**.
+
+---
+
+# Example 4: Show All Differences with `-l`
+
+```bash
+cmp -l file1.txt file2.txt
+```
+
+### Output (example):
+
+```
+7 157 154
+```
+
+* Shows **byte position**, **octal value in file1**, **octal value in file2** for all differences.
+
+---
+
+# Example 5: Use in Scripts to Check File Integrity
+
+```bash
+if cmp -s backup.txt original.txt; then
+    echo "Files are identical"
+else
+    echo "Files differ"
+fi
+```
+
+### Output (if files differ):
+
+```
+Files differ
+```
+
+> Useful for automated verification or checksum comparisons.
+</details>
+<details>
+ <summary>diff</summary>
+
+The `diff` command in Linux **compares two files line by line** and outputs the differences between them, showing what needs to be changed to make the files identical.
+
+# Example 1: Basic Comparison
+
+### File 1: `file1.txt`
+
+```
+Hello
+World
+Linux
+```
+
+### File 2: `file2.txt`
+
+```
+Hello
+World
+Unix
+```
+
+### Command:
+
+```bash
+diff file1.txt file2.txt
+```
+
+### Output:
+
+```
+3c3
+< Linux
+---
+> Unix
+```
+
+> `3c3` → line 3 changed, `<` = file1, `>` = file2.
+
+---
+
+# Example 2: Ignore Case Differences
+
+```bash
+diff -i file1.txt file2.txt
+```
+
+> `-i` ignores uppercase/lowercase differences.
+
+---
+
+# Example 3: Ignore White Spaces
+
+```bash
+diff -w file1.txt file2.txt
+```
+
+> `-w` ignores all whitespace differences.
+
+---
+
+# Example 4: Side-by-Side Comparison
+
+```bash
+diff -y file1.txt file2.txt
+```
+
+### Output:
+
+```
+Hello                   Hello
+World                   World
+Linux                  | Unix
+```
+
+> `-y` displays differences **side by side** for easier visual comparison.
+
+---
+
+# Example 5: Only Show Differences, Suppress Common Lines
+
+```bash
+diff --suppress-common-lines -y file1.txt file2.txt
+```
+
+### Output:
+
+```
+Linux                  | Unix
+```
+
+> Shows **only the differing lines**, ignoring lines that are the same.
+
+---
+
+**Tip:** For scripts, you can combine with `wc -l` or check exit codes:
+
+```bash
+diff file1.txt file2.txt > diff_output.txt
+if [ $? -eq 0 ]; then
+    echo "Files are identical"
+else
+    echo "Files differ"
+fi
+```
+</details>
+<details>
+ <summary>sdiff</summary>
+
+The `sdiff` command in Linux **displays differences between two files side by side**, showing which lines are unique to each file and which lines are common.
+
+> Files should ideally be **sorted or aligned** for clear comparison.
+
+---
+
+# Example 1: Basic Side-by-Side Comparison
+
+### File 1: `file1.txt`
+
+```
+apple
+banana
+grapes
+orange
+```
+
+### File 2: `file2.txt`
+
+```
+banana
+kiwi
+orange
+pear
+```
+
+### Command:
+
+```bash
+sdiff file1.txt file2.txt
+```
+
+### Output:
+
+```
+apple              | 
+banana             banana
+grapes             | kiwi
+orange             orange
+                   | pear
+```
+
+* `|` → line differs between files
+* `<` → line only in left file
+* `>` → line only in right file
+
+---
+
+# Example 2: Use Custom Column Width
+
+```bash
+sdiff -w 30 file1.txt file2.txt
+```
+
+* `-w 30` sets **maximum width** of the output columns for better readability.
+
+---
+
+# Example 3: Merge Interactively
+
+```bash
+sdiff -o merged.txt file1.txt file2.txt
+```
+
+* Opens an **interactive mode** allowing you to merge differences line by line.
+* Result is saved to `merged.txt`.
+
+---
+
+# Example 4: Suppress Common Lines
+
+```bash
+sdiff -s file1.txt file2.txt
+```
+
+* `-s` suppresses lines that are identical in both files, showing **only differences**.
+
+---
+
+# Example 5: Compare Larger Files
+
+### File 1: `students.txt`
+
+```
+1 John
+2 Mary
+3 David
+4 Alex
+```
+
+### File 2: `marks.txt`
+
+```
+1 John
+2 Mary
+3 David
+4 Alice
+```
+
+### Command:
+
+```bash
+sdiff students.txt marks.txt
+```
+
+### Output:
+
+```
+1 John           1 John
+2 Mary           2 Mary
+3 David          3 David
+4 Alex           | 4 Alice
+```
+
+> Clearly shows that **line 4 differs** between the two files.
+
+---
+
+**difference between `diff` and `sdiff`** in Linux:
+
+---
+
+## 1. Purpose
+
+| Feature     | `diff`                                                                    | `sdiff`                                                                         |               |
+| ----------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------- |
+| Primary Use | Shows **line-by-line differences** between two files in a textual format. | Shows **differences side by side**, visually aligning the files for comparison. |               |
+| Output Type | Textual instructions (e.g., `3c3` means line 3 changed).                  | Two columns showing left and right files with markers (`                        | `, `<`, `>`). |
+
+---
+
+## 2. Output Style
+
+* **diff**:
+
+```
+3c3
+< Linux
+---
+> Unix
+```
+
+* **sdiff**:
+
+```
+Linux         | Unix
+```
+
+> `diff` is more suitable for scripts or patch creation.
+> `sdiff` is easier for humans to read and manually compare.
+
+---
+
+## 3. Interactivity
+
+| Feature       | `diff` | `sdiff`                                      |
+| ------------- | ------ | -------------------------------------------- |
+| Merge Support |  No   | Can merge interactively using `-o` option. |
+
+---
+
+## 4. Use Cases
+
+* **diff**:
+
+  * Generate patches for version control.
+  * Compare files in scripts.
+  * Detect line differences programmatically.
+
+* **sdiff**:
+
+  * Manually inspect differences in files.
+  * Merge files interactively.
+  * Side-by-side comparison for reports.
+
+---
+
+## 5. Typical Commands
+
+* `diff`:
+
+```bash
+diff file1.txt file2.txt
+```
+
+* `sdiff`:
+
+```bash
+sdiff file1.txt file2.txt
+```
+
+---
+
+**Summary:**
+
+* Use **`diff`** for scripting, automated comparison, or patch files.
+* Use **`sdiff`** for **human-readable, side-by-side comparison** and interactive merging.
+
+</details>
 
