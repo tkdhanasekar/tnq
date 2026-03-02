@@ -1772,9 +1772,9 @@ sdiff students.txt marks.txt
 
 ---
 
-**difference between `diff` and `sdiff`** in Linux:
+## **difference between `diff` and `sdiff`** in Linux:
 
----
+
 
 ## 1. Purpose
 
@@ -1852,5 +1852,376 @@ sdiff file1.txt file2.txt
 * Use **`diff`** for scripting, automated comparison, or patch files.
 * Use **`sdiff`** for **human-readable, side-by-side comparison** and interactive merging.
 
+</details>
+<details>
+ <summary>fmt</summary>
+
+The `fmt` command in Linux **formats text by adjusting line width**, wrapping long lines into neat, readable paragraphs.
+
+> Unlike `fold`, `fmt` tries to break lines at **word boundaries** and maintains paragraph structure.
+
+# Example 1: Basic Formatting
+
+### File: `text.txt`
+
+```
+This is a very long line of text that should be wrapped properly to improve readability in a terminal.
+```
+
+### Command:
+
+```bash
+fmt text.txt
+```
+
+### Output:
+
+```
+This is a very long line of text that should be wrapped properly to
+improve readability in a terminal.
+```
+
+> Default line width is 75 characters.
+
+---
+
+# Example 2: Set Custom Width
+
+```bash
+fmt -w 40 text.txt
+```
+
+### Output:
+
+```
+This is a very long line of text that
+should be wrapped properly to improve
+readability in a terminal.
+```
+
+> `-w 40` sets the maximum line width to 40 characters.
+
+---
+
+# Example 3: Format Multiple Files
+
+### File 1: `para1.txt`
+
+```
+Linux is a free and open-source operating system that is widely used in servers, desktops, and embedded systems.
+```
+
+### File 2: `para2.txt`
+
+```
+It was originally created by Linus Torvalds and has since grown into a large collaborative project.
+```
+
+### Command:
+
+```bash
+fmt para1.txt para2.txt
+```
+
+### Output:
+
+```
+Linux is a free and open-source operating
+system that is widely used in servers,
+desktops, and embedded systems.
+
+It was originally created by Linus Torvalds
+and has since grown into a large
+collaborative project.
+```
+
+---
+
+# Example 4: Combine with Pipe
+
+```bash
+cat text.txt | fmt -w 50
+```
+
+* Reads from `cat` and formats text with width 50.
+* Useful in **scripts** or pipelines.
+
+---
+
+# Example 5: Preserve Existing Paragraphs
+
+### File: `story.txt`
+
+```
+This is the first paragraph. It contains several sentences that should be formatted properly.
+
+This is the second paragraph. It also needs proper formatting.
+```
+
+### Command:
+
+```bash
+fmt -w 60 story.txt
+```
+
+### Output:
+
+```
+This is the first paragraph. It contains several sentences
+that should be formatted properly.
+
+This is the second paragraph. It also needs proper
+formatting.
+```
+
+> `fmt` preserves **blank lines** between paragraphs.
+</details>
+<details>
+ <summary>cut</summary>
+
+The `cut` command in Linux is used to **extract specific columns or fields from a file or input**, based on delimiters or character positions.
+
+# Example 1: Extract a Single Column
+
+### File: `users.txt`
+
+```
+alice:1001:/home/alice
+bob:1002:/home/bob
+carol:1003:/home/carol
+```
+
+### Command:
+
+```bash
+cut -d ':' -f 1 users.txt
+```
+
+### Output:
+
+```
+alice
+bob
+carol
+```
+
+> `-d ':'` sets the delimiter, `-f 1` extracts the first field.
+
+---
+
+# Example 2: Extract Multiple Columns
+
+### Command:
+
+```bash
+cut -d ':' -f 1,3 users.txt
+```
+
+### Output:
+
+```
+alice:/home/alice
+bob:/home/bob
+carol:/home/carol
+```
+
+> Extracts **first and third fields** separated by `:`.
+
+---
+
+# Example 3: Extract by Character Position
+
+### File: `data.txt`
+
+```
+abcdef
+ghijkl
+mnopqr
+```
+
+### Command:
+
+```bash
+cut -c 2-4 data.txt
+```
+
+### Output:
+
+```
+bcd
+hij
+nop
+```
+
+> `-c 2-4` extracts **characters 2 to 4** from each line.
+
+---
+
+# Example 4: Use with Pipe
+
+```bash
+ps aux | cut -d ' ' -f 1
+```
+
+* Extracts the **first column (user)** from `ps aux` output.
+* Useful for scripts or quick column filtering.
+
+---
+
+# Example 5: Extract Last Field from a File
+
+### File: `marks.txt`
+
+```
+John,85,Math
+Mary,92,Science
+David,78,History
+```
+
+### Command:
+
+```bash
+cut -d ',' -f 3 marks.txt
+```
+
+### Output:
+
+```
+Math
+Science
+History
+```
+
+> Extracts the **third column** separated by a comma.
+</details>
+<details>
+ <summary>tr</summary>
+
+The `tr` command in Linux **translates, replaces, or deletes characters** from input text, usually used in pipelines.
+
+---
+
+# Example 1: Convert Lowercase to Uppercase
+
+### File: `text.txt`
+
+```
+hello world
+linux commands
+```
+
+### Command:
+
+```bash
+cat text.txt | tr 'a-z' 'A-Z'
+```
+
+### Output:
+
+```
+HELLO WORLD
+LINUX COMMANDS
+```
+
+> Converts all lowercase letters to uppercase.
+
+---
+
+# Example 2: Replace Characters
+
+### File: `file.txt`
+
+```
+2026-03-02
+```
+
+### Command:
+
+```bash
+cat file.txt | tr '-' '/'
+```
+
+### Output:
+
+```
+2026/03/02
+```
+
+> Replaces `-` with `/`.
+
+---
+
+# Example 3: Delete Specific Characters
+
+### File: `numbers.txt`
+
+```
+1a2b3c4d5
+```
+
+### Command:
+
+```bash
+cat numbers.txt | tr -d 'a-d'
+```
+
+### Output:
+
+```
+12345
+```
+
+> `-d` deletes all characters `a` through `d`.
+
+---
+
+# Example 4: Squeeze Repeated Characters
+
+### File: `text2.txt`
+
+```
+hellooo    world
+```
+
+### Command:
+
+```bash
+cat text2.txt | tr -s ' '
+```
+
+### Output:
+
+```
+hellooo world
+```
+
+> `-s` squeezes multiple spaces into a single space.
+
+---
+
+# Example 5: Replace Newlines with Spaces
+
+### File: `list.txt`
+
+```
+apple
+banana
+orange
+grapes
+```
+
+### Command:
+
+```bash
+cat list.txt | tr '\n' ' '
+```
+
+### Output:
+
+```
+apple banana orange grapes 
+```
+
+> Converts **line breaks to spaces**, useful for formatting output.
 </details>
 
