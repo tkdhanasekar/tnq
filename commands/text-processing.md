@@ -2224,4 +2224,1607 @@ apple banana orange grapes
 
 > Converts **line breaks to spaces**, useful for formatting output.
 </details>
+<details>
+ <summary>split</summary>
 
+The `split` command in Linux is used to **divide a large file into smaller files** based on number of lines or file size.
+
+# Example 1: Split File by Number of Lines
+
+### File: `data.txt`
+
+```
+Line1
+Line2
+Line3
+Line4
+Line5
+Line6
+```
+
+### Command:
+
+```bash
+split -l 2 data.txt
+```
+
+### Output Files Created:
+
+* `xaa`
+
+```
+Line1
+Line2
+```
+
+* `xab`
+
+```
+Line3
+Line4
+```
+
+* `xac`
+
+```
+Line5
+Line6
+```
+
+> `-l 2` splits the file into chunks of 2 lines each.
+> Default output filenames start with `x`.
+
+---
+
+# Example 2: Specify Output File Prefix
+
+```bash
+split -l 2 data.txt part_
+```
+
+### Output Files:
+
+* `part_aa`
+* `part_ab`
+* `part_ac`
+
+> `part_` is the custom prefix for output files.
+
+---
+
+# Example 3: Split by File Size
+
+### File: `bigfile.txt`
+
+```
+1234567890
+abcdefghij
+ABCDEFGHIJ
+```
+
+### Command:
+
+```bash
+split -b 10 bigfile.txt chunk_
+```
+
+### Output Files:
+
+* `chunk_aa` (first 10 bytes)
+* `chunk_ab` (next 10 bytes)
+* `chunk_ac` (remaining bytes)
+
+> `-b 10` splits file into 10-byte pieces.
+
+---
+
+# Example 4: Split and Use Numeric Suffix
+
+```bash
+split -l 2 -d data.txt section_
+```
+
+### Output Files:
+
+* `section_00`
+* `section_01`
+* `section_02`
+
+> `-d` uses numeric suffix instead of alphabetical.
+
+---
+
+# Example 5: Split into Specific Number of Files
+
+### File: `numbers.txt`
+
+```
+1
+2
+3
+4
+5
+6
+```
+
+### Command:
+
+```bash
+split -n 3 numbers.txt group_
+```
+
+### Output Files:
+
+* `group_aa`
+* `group_ab`
+* `group_ac`
+
+> `-n 3` splits the file into 3 equal parts.
+</details>
+<details>
+ <summary>nl</summary>
+
+The `nl` command in Linux is used to **number the lines of a file**, adding line numbers to the output.
+
+---
+
+# Example 1: Basic Line Numbering
+
+### File: `names.txt`
+
+```
+John
+Mary
+David
+Alex
+```
+
+### Command:
+
+```bash
+nl names.txt
+```
+
+### Output:
+
+```
+     1  John
+     2  Mary
+     3  David
+     4  Alex
+```
+
+> Adds line numbers to all non-empty lines by default.
+
+---
+
+# Example 2: Number All Lines (Including Blank Lines)
+
+### File: `data.txt`
+
+```
+apple
+
+banana
+orange
+```
+
+### Command:
+
+```bash
+nl -b a data.txt
+```
+
+### Output:
+
+```
+     1  apple
+     2  
+     3  banana
+     4  orange
+```
+
+> `-b a` numbers all lines (including empty lines).
+
+---
+
+# Example 3: Do Not Number Blank Lines (Default Behavior)
+
+```bash
+nl -b t data.txt
+```
+
+### Output:
+
+```
+     1  apple
+
+     2  banana
+     3  orange
+```
+
+> `-b t` numbers only non-empty lines (default).
+
+---
+
+# Example 4: Change Starting Line Number
+
+```bash
+nl -v 10 names.txt
+```
+
+### Output:
+
+```
+    10  John
+    11  Mary
+    12  David
+    13  Alex
+```
+
+> `-v 10` starts numbering from 10.
+
+---
+
+# Example 5: Change Number Format
+
+```bash
+nl -n rz -w 3 names.txt
+```
+
+### Output:
+
+```
+001  John
+002  Mary
+003  David
+004  Alex
+```
+
+* `-n rz` → right-justified with leading zeros
+* `-w 3` → width of number field is 3 digits
+</details>
+<details>
+ <summary>cat</summary>
+
+The `cat` command in Linux is used to **display, create, and concatenate (combine) files**.
+
+---
+
+# Example 1: Display File Content
+
+### File: `file1.txt`
+
+```
+Hello
+Linux
+World
+```
+
+### Command:
+
+```bash
+cat file1.txt
+```
+
+### Output:
+
+```
+Hello
+Linux
+World
+```
+
+> Displays the content of the file.
+
+---
+
+# Example 2: Display Multiple Files
+
+### File: `file2.txt`
+
+```
+Welcome
+To
+Unix
+```
+
+### Command:
+
+```bash
+cat file1.txt file2.txt
+```
+
+### Output:
+
+```
+Hello
+Linux
+World
+Welcome
+To
+Unix
+```
+
+> Combines and displays multiple files.
+
+---
+
+# Example 3: Create a New File
+
+### Command:
+
+```bash
+cat > newfile.txt
+```
+
+Then type:
+
+```
+This is a new file.
+Linux is powerful.
+```
+
+Press `Ctrl + D` to save.
+
+### File: `newfile.txt`
+
+```
+This is a new file.
+Linux is powerful.
+```
+
+> Creates a file and allows manual input.
+
+---
+
+# Example 4: Append to an Existing File
+
+### Command:
+
+```bash
+cat >> file1.txt
+```
+
+Add:
+
+```
+New Line Added
+```
+
+Press `Ctrl + D`.
+
+### Updated `file1.txt`
+
+```
+Hello
+Linux
+World
+New Line Added
+```
+
+> `>>` appends instead of overwriting.
+
+---
+
+# Example 5: Show Line Numbers
+
+```bash
+cat -n file1.txt
+```
+
+### Output:
+
+```
+     1  Hello
+     2  Linux
+     3  World
+     4  New Line Added
+```
+
+> `-n` displays line numbers.
+</details>
+<details>
+ <summary>tac</summary>
+
+The `tac` command in Linux is used to **display the contents of a file in reverse order (last line first)**.
+
+---
+
+# Example 1: Reverse File Content
+
+### File: `numbers.txt`
+
+```
+1
+2
+3
+4
+5
+```
+
+### Command:
+
+```bash
+tac numbers.txt
+```
+
+### Output:
+
+```
+5
+4
+3
+2
+1
+```
+
+> Prints the file from bottom to top.
+
+---
+
+# Example 2: Reverse Log File
+
+### File: `log.txt`
+
+```
+Start service
+Load configuration
+Service running
+Error detected
+Shutdown
+```
+
+### Command:
+
+```bash
+tac log.txt
+```
+
+### Output:
+
+```
+Shutdown
+Error detected
+Service running
+Load configuration
+Start service
+```
+
+> Useful for viewing latest log entries first.
+
+---
+
+# Example 3: Reverse Multiple Files
+
+### File 1: `file1.txt`
+
+```
+A
+B
+C
+```
+
+### File 2: `file2.txt`
+
+```
+D
+E
+F
+```
+
+### Command:
+
+```bash
+tac file1.txt file2.txt
+```
+
+### Output:
+
+```
+C
+B
+A
+F
+E
+D
+```
+
+> Reverses each file individually in the order provided.
+
+---
+
+# Example 4: Use with Pipe
+
+```bash
+cat numbers.txt | tac
+```
+
+### Output:
+
+```
+5
+4
+3
+2
+1
+```
+
+> Reads input from pipe and reverses it.
+
+---
+
+# Example 5: Reverse File and Save Output
+
+```bash
+tac numbers.txt > reversed.txt
+```
+
+### File: `reversed.txt`
+
+```
+5
+4
+3
+2
+1
+```
+
+> Saves reversed content into a new file.
+</details>
+<details>
+ <summary>less</summary>
+
+The `less` command in Linux is used to **view the contents of a file one page at a time**, allowing forward and backward navigation.
+
+# Example 1: View a File
+
+### File: `file1.txt`
+
+```
+Line1
+Line2
+Line3
+Line4
+Line5
+Line6
+Line7
+Line8
+Line9
+Line10
+```
+
+### Command:
+
+```bash
+less file1.txt
+```
+
+### Usage:
+
+* Scroll down: `Space` or `Down Arrow`
+* Scroll up: `b` or `Up Arrow`
+* Exit: `q`
+
+> Opens the file in a scrollable viewer.
+
+---
+
+# Example 2: View Multiple Files
+
+```bash
+less file1.txt file2.txt
+```
+
+* Navigate between files: `:n` for next, `:p` for previous.
+
+---
+
+# Example 3: Search Inside File
+
+```bash
+less file1.txt
+```
+
+* Press `/Linux` to search forward for “Linux”
+* Press `?Linux` to search backward
+
+> Highlights search matches.
+
+---
+
+# Example 4: View Output of a Command
+
+```bash
+ps aux | less
+```
+
+* Allows **scrolling through long command output** page by page.
+
+---
+
+# Example 5: Line Numbers and Options
+
+```bash
+less -N file1.txt
+```
+
+* `-N` displays **line numbers** on the left.
+* Useful for viewing large files with reference to line numbers.
+</details>
+<details>
+ <summary>more</summary>
+
+The `more` command in Linux is used to **view the contents of a file one screen at a time**, allowing forward navigation through large files.
+
+# Example 1: View a File
+
+### File: `file1.txt`
+
+```
+Line1
+Line2
+Line3
+Line4
+Line5
+Line6
+Line7
+Line8
+Line9
+Line10
+```
+
+### Command:
+
+```bash
+more file1.txt
+```
+
+### Usage:
+
+* Scroll down one screen: `Space`
+* Scroll down one line: `Enter`
+* Exit: `q`
+
+> Useful for reading large files page by page.
+
+---
+
+# Example 2: View Multiple Files
+
+```bash
+more file1.txt file2.txt
+```
+
+* After reaching the end of `file1.txt`, it automatically moves to `file2.txt`.
+
+---
+
+# Example 3: View Command Output
+
+```bash
+ls -l /etc | more
+```
+
+* Displays **long command output** page by page.
+
+---
+
+# Example 4: Start Viewing from a Specific Line
+
+```bash
+more +5 file1.txt
+```
+
+* Starts displaying the file from **line 5**.
+
+---
+
+# Example 5: Combine with Pipe
+
+```bash
+cat file1.txt | more
+```
+
+* Allows viewing piped content **one page at a time**.
+* Useful in scripts or when output is too long for one screen.
+</details>
+<details>
+ <summary>head/tail</summary>
+
+* **`head`** displays the **first lines** of a file or input.
+* **`tail`** displays the **last lines** of a file or input.
+
+# Example 1: Display First 5 Lines Using `head`
+
+### File: `data.txt`
+
+```
+Line1
+Line2
+Line3
+Line4
+Line5
+Line6
+Line7
+Line8
+Line9
+Line10
+```
+
+### Command:
+
+```bash
+head data.txt
+```
+
+### Output:
+
+```
+Line1
+Line2
+Line3
+Line4
+Line5
+```
+
+> Default is first 10 lines; here only 5 are visible because file is smaller than default.
+
+---
+
+# Example 2: Display Last 5 Lines Using `tail`
+
+```bash
+tail data.txt
+```
+
+### Output:
+
+```
+Line6
+Line7
+Line8
+Line9
+Line10
+```
+
+> Default is last 10 lines; works similarly for larger files.
+
+---
+
+# Example 3: Specify Number of Lines
+
+```bash
+head -n 3 data.txt
+tail -n 4 data.txt
+```
+
+### Output `head -n 3`:
+
+```
+Line1
+Line2
+Line3
+```
+
+### Output `tail -n 4`:
+
+```
+Line7
+Line8
+Line9
+Line10
+```
+
+> `-n` lets you specify exact number of lines.
+
+---
+
+# Example 4: View Output from a Command
+
+```bash
+ps aux | head -n 5
+```
+
+* Displays **first 5 processes** from `ps aux`.
+
+```bash
+ps aux | tail -n 5
+```
+
+* Displays **last 5 processes**.
+
+---
+
+# Example 5: Follow a File in Real-Time (`tail -f`)
+
+```bash
+tail -f /var/log/syslog
+```
+
+* Shows **last lines** and continues to display **new lines as they are added**.
+* Useful for monitoring logs in real-time.
+</details>
+<details>
+ <summary>wc</summary>
+
+The `wc` (word count) command in Linux is used to **count lines, words, and characters in a file or input**.
+
+# Example 1: Count Lines, Words, and Characters
+
+### File: `file1.txt`
+
+```
+Hello World
+Linux Commands
+OpenAI ChatGPT
+```
+
+### Command:
+
+```bash
+wc file1.txt
+```
+
+### Output:
+
+```
+3 5 34 file1.txt
+```
+
+* 3 → number of lines
+* 5 → number of words
+* 34 → number of characters
+
+---
+
+# Example 2: Count Only Lines
+
+```bash
+wc -l file1.txt
+```
+
+### Output:
+
+```
+3 file1.txt
+```
+
+> `-l` counts only the number of lines.
+
+---
+
+# Example 3: Count Only Words
+
+```bash
+wc -w file1.txt
+```
+
+### Output:
+
+```
+5 file1.txt
+```
+
+> `-w` counts only words.
+
+---
+
+# Example 4: Count Only Characters
+
+```bash
+wc -c file1.txt
+```
+
+### Output:
+
+```
+34 file1.txt
+```
+
+> `-c` counts characters including spaces and newline characters.
+
+---
+
+# Example 5: Count Words in Command Output
+
+```bash
+ls -l | wc -l
+```
+
+* Counts **number of lines** in `ls -l` output, essentially showing the number of files and directories in the folder.
+</details>
+<details>
+ <summary>grep</summary>
+
+The `grep` command in Linux is used to **search for a specific pattern or text in a file or input** and display matching lines.
+
+# Example 1: Basic Search
+
+### File: `fruits.txt`
+
+```
+apple
+banana
+orange
+grapes
+banana
+```
+
+### Command:
+
+```bash
+grep banana fruits.txt
+```
+
+### Output:
+
+```
+banana
+banana
+```
+
+> Searches for the word `banana` in the file and prints matching lines.
+
+---
+
+# Example 2: Case-Insensitive Search
+
+```bash
+grep -i APPLE fruits.txt
+```
+
+### Output:
+
+```
+apple
+```
+
+> `-i` ignores case while searching.
+
+---
+
+# Example 3: Search and Show Line Numbers
+
+```bash
+grep -n banana fruits.txt
+```
+
+### Output:
+
+```
+2:banana
+5:banana
+```
+
+> `-n` shows the line number where the match occurs.
+
+---
+
+# Example 4: Search for Lines Not Matching a Pattern
+
+```bash
+grep -v banana fruits.txt
+```
+
+### Output:
+
+```
+apple
+orange
+grapes
+```
+
+> `-v` displays lines that **do not contain the pattern**.
+
+---
+
+# Example 5: Search Using Regular Expressions
+
+```bash
+grep '^a' fruits.txt
+```
+
+### Output:
+
+```
+apple
+```
+
+> `^a` matches lines that **start with the letter “a”**.
+> `grep` supports full **regular expressions** for advanced searches.
+</details>
+<details>
+ <summary>egrep</summary>
+
+The `egrep` command in Linux is used to **search files for extended regular expressions (ERE)**, allowing more complex pattern matching than `grep`.
+
+> Note: Modern Linux systems recommend `grep -E` instead of `egrep`.
+
+---
+
+# Example 1: Search for Multiple Patterns
+
+### File: `fruits.txt`
+
+```
+apple
+banana
+orange
+grapes
+kiwi
+```
+
+### Command:
+
+```bash
+egrep 'apple|orange' fruits.txt
+```
+
+### Output:
+
+```
+apple
+orange
+```
+
+> `|` matches **either pattern**.
+
+---
+
+# Example 2: Match Lines Starting with a Letter
+
+```bash
+egrep '^b' fruits.txt
+```
+
+### Output:
+
+```
+banana
+```
+
+> `^b` matches lines that **start with “b”**.
+
+---
+
+# Example 3: Match Lines Ending with a Letter
+
+```bash
+egrep 'i$' fruits.txt
+```
+
+### Output:
+
+```
+kiwi
+```
+
+> `$` matches lines that **end with “i”**.
+
+---
+
+# Example 4: Match Lines with a Character Set
+
+```bash
+egrep '[ae]' fruits.txt
+```
+
+### Output:
+
+```
+apple
+banana
+orange
+grapes
+```
+
+> `[ae]` matches lines containing **either “a” or “e”**.
+
+---
+
+# Example 5: Count Matching Lines
+
+```bash
+egrep -c 'a' fruits.txt
+```
+
+### Output:
+
+```
+4
+```
+
+> `-c` counts the number of lines that contain **the letter “a”**.
+</details>
+<details>
+ <summary>fgrep</summary>
+
+The `fgrep` command in Linux is used to **search for fixed strings (literal text) in a file**, without interpreting regular expressions.
+
+> Note: Modern Linux systems recommend `grep -F` instead of `fgrep`.
+
+---
+
+# Example 1: Basic Literal Search
+
+### File: `fruits.txt`
+
+```
+apple
+banana
+orange
+grapes
+apple-pie
+```
+
+### Command:
+
+```bash
+fgrep apple fruits.txt
+```
+
+### Output:
+
+```
+apple
+apple-pie
+```
+
+> Matches lines containing the **exact string “apple”**.
+
+---
+
+# Example 2: Search for Multiple Strings
+
+```bash
+fgrep -e apple -e orange fruits.txt
+```
+
+### Output:
+
+```
+apple
+orange
+apple-pie
+```
+
+> `-e` allows searching for **multiple fixed strings**.
+
+---
+
+# Example 3: Case-Insensitive Search
+
+```bash
+fgrep -i Banana fruits.txt
+```
+
+### Output:
+
+```
+banana
+```
+
+> `-i` ignores case when searching.
+
+---
+
+# Example 4: Count Matching Lines
+
+```bash
+fgrep -c apple fruits.txt
+```
+
+### Output:
+
+```
+2
+```
+
+> `-c` counts how many lines contain the string “apple”.
+
+---
+
+# Example 5: Search Using a Pipe
+
+```bash
+cat fruits.txt | fgrep grape
+```
+
+### Output:
+
+```
+grapes
+```
+
+> Reads input from a command and searches for the literal string.
+</details>
+<details>
+ <summary>find</summary>
+
+The `find` command in Linux is used to **search for files and directories in a directory hierarchy based on name, type, size, or other attributes**.
+
+---
+
+# Example 1: Find Files by Name
+
+### Directory Structure:
+
+```
+/home/user/test/
+├── file1.txt
+├── file2.log
+├── data.csv
+└── script.sh
+```
+
+### Command:
+
+```bash
+find /home/user/test -name "*.txt"
+```
+
+### Output:
+
+```
+/home/user/test/file1.txt
+```
+
+> Searches for files ending with `.txt`.
+
+---
+
+# Example 2: Find Files by Type
+
+```bash
+find /home/user/test -type d
+```
+
+### Output:
+
+```
+/home/user/test
+```
+
+> `-type d` finds **directories**.
+> `-type f` would find **regular files**.
+
+---
+
+# Example 3: Find Files by Size
+
+```bash
+find /home/user/test -size +1k
+```
+
+### Output (example):
+
+```
+/home/user/test/file1.txt
+```
+
+> Finds files **larger than 1 kilobyte**.
+> `+` → greater than, `-` → less than.
+
+---
+
+# Example 4: Find and Execute Command
+
+```bash
+find /home/user/test -name "*.log" -exec rm {} \;
+```
+
+* Finds all `.log` files and deletes them.
+* `{}` is replaced by the filename, `\;` ends the `-exec` command.
+
+---
+
+# Example 5: Find Files Modified in Last N Days
+
+```bash
+find /home/user/test -type f -mtime -7
+```
+
+### Output (example):
+
+```
+/home/user/test/file2.log
+```
+
+> Finds files **modified in the last 7 days**.
+> `-mtime +7` → modified more than 7 days ago.
+</details>
+<details>
+ <summary>locate</summary>
+
+The `locate` command in Linux is used to **quickly find the location of files and directories by name**, using a prebuilt database.
+
+> Note: The database is updated periodically using `updatedb`.
+
+---
+
+# Example 1: Find Files by Name
+
+### Command:
+
+```bash
+locate file1.txt
+```
+
+### Output (example):
+
+```
+/home/user/test/file1.txt
+/home/user/backup/file1.txt
+```
+
+> Lists all files matching `file1.txt` in the system.
+
+---
+
+# Example 2: Search for Files with a Pattern
+
+```bash
+locate "*.log"
+```
+
+### Output (example):
+
+```
+/var/log/syslog.log
+/home/user/test/error.log
+```
+
+> Finds all `.log` files using a wildcard.
+
+---
+
+# Example 3: Limit Number of Results
+
+```bash
+locate -l 5 file
+```
+
+### Output:
+
+```
+/home/user/test/file1.txt
+/home/user/test/file2.txt
+/home/user/docs/file.docx
+/home/user/backup/file1.txt
+/home/user/scripts/file.sh
+```
+
+> `-l 5` shows only **first 5 results**.
+
+---
+
+# Example 4: Case-Insensitive Search
+
+```bash
+locate -i README
+```
+
+### Output (example):
+
+```
+/home/user/docs/README.txt
+/home/user/projects/readme.md
+```
+
+> `-i` ignores case while searching.
+
+---
+
+# Example 5: Use with Pipe for Filtering
+
+```bash
+locate "*.txt" | grep notes
+```
+
+### Output (example):
+
+```
+/home/user/notes.txt
+/home/user/work/meeting_notes.txt
+```
+
+> Combines `locate` with `grep` to **filter results**.
+</details>
+<details>
+ <summary><</summary>
+
+The `<` operator in Linux is used to **redirect a file as input to a command**, instead of typing input manually.
+
+# Example 1: Redirect File to `cat`
+
+### File: `file1.txt`
+
+```
+Hello
+Linux
+World
+```
+
+### Command:
+
+```bash
+cat < file1.txt
+```
+
+### Output:
+
+```
+Hello
+Linux
+World
+```
+
+> Reads content of `file1.txt` and passes it to `cat`.
+
+---
+
+# Example 2: Redirect File as Input to `wc`
+
+```bash
+wc -l < file1.txt
+```
+
+### Output:
+
+```
+3
+```
+
+> Counts **number of lines** in `file1.txt`.
+
+---
+
+# Example 3: Redirect File as Input to `sort`
+
+### File: `unsorted.txt`
+
+```
+banana
+apple
+grapes
+orange
+```
+
+### Command:
+
+```bash
+sort < unsorted.txt
+```
+
+### Output:
+
+```
+apple
+banana
+grapes
+orange
+```
+
+> Sorts file content using `<` instead of passing the filename directly.
+
+---
+
+# Example 4: Redirect File to `grep`
+
+```bash
+grep Linux < file1.txt
+```
+
+### Output:
+
+```
+Linux
+```
+
+> Searches for the pattern `Linux` in the file.
+
+---
+
+# Example 5: Combine with Pipe
+
+```bash
+tr 'a-z' 'A-Z' < file1.txt | sort
+```
+
+### Output:
+
+```
+HELLO
+LINUX
+WORLD
+```
+
+> Reads from `file1.txt`, converts text to uppercase, and sorts it.
+</details>
+<details>
+ <summary>|</summary>
+
+The `|` (pipe) operator in Linux is used to **send the output of one command as input to another command**, enabling command chaining.
+
+# Example 1: Pipe `ls` to `less`
+
+```bash
+ls -l | less
+```
+
+* Displays the **long listing of a directory** one page at a time.
+* Useful for directories with many files.
+
+---
+
+# Example 2: Pipe `cat` to `grep`
+
+### File: `fruits.txt`
+
+```
+apple
+banana
+orange
+grapes
+kiwi
+```
+
+```bash
+cat fruits.txt | grep a
+```
+
+### Output:
+
+```
+apple
+banana
+orange
+grapes
+```
+
+* Filters lines containing the letter `a`.
+
+---
+
+# Example 3: Pipe `ps` to `grep`
+
+```bash
+ps aux | grep ssh
+```
+
+* Shows **processes related to ssh**.
+* Combines process listing with pattern search.
+
+---
+
+# Example 4: Pipe `dmesg` to `tail`
+
+```bash
+dmesg | tail -n 10
+```
+
+* Displays the **last 10 kernel messages**.
+* Useful for quickly checking recent system logs.
+
+---
+
+# Example 5: Multiple Pipes
+
+```bash
+cat fruits.txt | tr 'a-z' 'A-Z' | sort
+```
+
+### Output:
+
+```
+APPLE
+BANANA
+GRAPES
+KIWI
+ORANGE
+```
+
+* Converts all text to uppercase and sorts the lines alphabetically.
+* Demonstrates **chaining multiple commands** with `|`.
+</details>
