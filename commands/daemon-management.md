@@ -295,3 +295,115 @@ sudo systemctl daemon-reexec
 ```
 sudo systemctl reenable <service>
 ```
+
+---
+
+# ✅ Method 1: Create a Daemon Using systemd (Recommended)
+
+We’ll create a simple background service that writes the date to a log file every 10 seconds.
+
+---
+
+## Step 1: Create the Script
+
+Create a script file:
+
+```bash
+sudo nano /usr/local/bin/mydaemon.sh
+```
+
+Paste this:
+
+```bash
+#!/bin/bash
+
+while true
+do
+    echo "Daemon running at $(date)" >> /var/log/mydaemon.log
+    sleep 10
+done
+```
+
+Make it executable:
+
+```bash
+sudo chmod +x /usr/local/bin/mydaemon.sh
+```
+
+---
+
+## Step 2: Create systemd Service File
+
+Create a service file:
+
+```bash
+sudo nano /etc/systemd/system/mydaemon.service
+```
+
+Add this content:
+
+```ini
+[Unit]
+Description=My Custom Daemon Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/mydaemon.sh
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+```
+
+---
+
+## Step 3: Reload systemd
+
+```bash
+sudo systemctl daemon-reload
+```
+
+---
+
+## Step 4: Start the Daemon
+
+```bash
+sudo systemctl start mydaemon
+```
+
+Check status:
+
+```bash
+systemctl status mydaemon
+```
+
+---
+
+## Step 5: Enable at Boot
+
+```bash
+sudo systemctl enable mydaemon
+```
+
+Now your daemon:
+
+* Runs in background
+* Starts at boot
+* Restarts automatically if it crashes
+
+---
+
+# Understanding the Service File
+
+| Section     | Purpose                 |
+| ----------- | ----------------------- |
+| `[Unit]`    | Metadata & dependencies |
+| `[Service]` | How the daemon runs     |
+| `[Install]` | Boot-time behavior      |
+
+Important options:
+
+* `ExecStart` → What program runs
+* `Restart=always` → Auto restart
+* `User=` → Run as specific user
