@@ -1,4 +1,4 @@
-## 1. Start a Service
+### 1. Start a Service
 
 Start a service immediately (does not enable on boot).
 
@@ -14,7 +14,7 @@ sudo systemctl start sshd
 
 ---
 
-## 2. Stop a Service
+# 2. Stop a Service
 
 Stop a running service.
 
