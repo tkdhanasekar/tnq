@@ -298,9 +298,9 @@ sudo systemctl reenable <service>
 
 ---
 
-# ✅ Method 1: Create a Daemon Using systemd (Recommended)
+## Create a Daemon Using systemd (Recommended)
 
-We’ll create a simple background service that writes the date to a log file every 10 seconds.
+create a simple background service that writes the date to a log file every 10 seconds.
 
 ---
 
@@ -309,7 +309,7 @@ We’ll create a simple background service that writes the date to a log file ev
 Create a script file:
 
 ```bash
-sudo nano /usr/local/bin/mydaemon.sh
+sudo vim /usr/local/bin/mydaemon.sh
 ```
 
 Paste this:
