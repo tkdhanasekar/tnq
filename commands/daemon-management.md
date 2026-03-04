@@ -298,13 +298,13 @@ sudo systemctl reenable <service>
 
 ---
 
-## Create a Daemon Using systemd (Recommended)
+### Create a Daemon Using systemd (Recommended)
 
 create a simple background service that writes the date to a log file every 10 seconds.
 
 ---
 
-## Step 1: Create the Script
+### Step 1: Create the Script
 
 Create a script file:
 
@@ -332,7 +332,7 @@ sudo chmod +x /usr/local/bin/mydaemon.sh
 
 ---
 
-## Step 2: Create systemd Service File
+### Step 2: Create systemd Service File
 
 Create a service file:
 
@@ -358,7 +358,7 @@ WantedBy=multi-user.target
 
 ---
 
-## Step 3: Reload systemd
+### Step 3: Reload systemd
 
 ```bash
 sudo systemctl daemon-reload
@@ -366,7 +366,7 @@ sudo systemctl daemon-reload
 
 ---
 
-## Step 4: Start the Daemon
+### Step 4: Start the Daemon
 
 ```bash
 sudo systemctl start mydaemon
@@ -380,7 +380,7 @@ systemctl status mydaemon
 
 ---
 
-## Step 5: Enable at Boot
+### Step 5: Enable at Boot
 
 ```bash
 sudo systemctl enable mydaemon
@@ -394,7 +394,7 @@ Now your daemon:
 
 ---
 
-# Understanding the Service File
+### Understanding the Service File
 
 | Section     | Purpose                 |
 | ----------- | ----------------------- |
