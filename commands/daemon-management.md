@@ -290,3 +290,8 @@ journalctl -xe
 ```
 sudo systemctl daemon-reexec
 ```
+
+### 30. To Reset and re-enable
+```
+sudo systemctl reenable <service>
+```
