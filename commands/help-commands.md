@@ -20,7 +20,7 @@ man <section_number> <command>
 
 ---
 
-## 1. Section 1 – User Commands
+### 1. Section 1 – User Commands
 
 Contains commands that normal users can run from the shell.
 
@@ -36,7 +36,7 @@ Explanation: Shows documentation for common user-level commands.
 
 ---
 
-## 2. Section 2 – System Calls
+### 2. Section 2 – System Calls
 
 Describes functions provided by the Linux kernel (used in programming).
 
@@ -52,7 +52,7 @@ Explanation: Shows how programs interact directly with the kernel.
 
 ---
 
-## 3. Section 3 – Library Functions
+### 3. Section 3 – Library Functions
 
 Documentation for functions in system libraries such as the C standard library.
 
@@ -68,7 +68,7 @@ Explanation: Used mainly by developers writing programs in C or other languages.
 
 ---
 
-## 4. Section 4 – Special Files / Device Files
+### 4. Section 4 – Special Files / Device Files
 
 Information about special files usually located in `/dev`.
 
@@ -84,7 +84,7 @@ Explanation: Describes device interfaces and hardware-related files.
 
 ---
 
-## 5. Section 5 – File Formats and Configuration Files
+### 5. Section 5 – File Formats and Configuration Files
 
 Documentation for system configuration files and their formats.
 
@@ -100,7 +100,7 @@ Explanation: Explains structure and meaning of configuration files.
 
 ---
 
-## 6. Section 6 – Games and Screensavers
+### 6. Section 6 – Games and Screensavers
 
 Manual pages for games and fun programs included in Linux systems.
 
@@ -116,7 +116,7 @@ Explanation: Contains documentation for system games and entertainment utilities
 
 ---
 
-## 7. Section 7 – Miscellaneous
+### 7. Section 7 – Miscellaneous
 
 Includes conventions, protocols, and standards used in Linux.
 
@@ -132,7 +132,7 @@ Explanation: Provides conceptual documentation and system conventions.
 
 ---
 
-## 8. Section 8 – System Administration Commands
+### 8. Section 8 – System Administration Commands
 
 Commands mainly used by system administrators for system maintenance.
 
