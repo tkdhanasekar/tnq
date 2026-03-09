@@ -154,9 +154,10 @@ Example of specifying section when multiple entries exist:
 man 1 passwd
 man 5 passwd
 ```
-
+```
 `man 1 passwd` → command to change password
 `man 5 passwd` → format of `/etc/passwd` file.
+```
 ---
 
 ## 2. `help`
