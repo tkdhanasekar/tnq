@@ -184,7 +184,7 @@ touch file.txt
 ```
 ls
 ```
-To increase the logical volume by 5 GB
+## To increase the logical volume by 5 GB
 ```
 lvextend -L +5G /dev/vg_name/lv_name
 ```
@@ -199,7 +199,7 @@ now check with
 ```
 df -Th
 ```
-To make lvreduce follow the workflow
+## To make lvreduce follow the workflow
 ```
 Correct order for shrinking:
 umount
