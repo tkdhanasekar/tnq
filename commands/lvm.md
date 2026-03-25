@@ -272,7 +272,7 @@ df -Th
 * **lastlog** – Shows the last LVM command log (recent LVM operations)
 `lvm lastlog`
 
-**lvchange** – Change attributes of a logical volume (e.g., activate/deactivate).
+* **lvchange** – Change attributes of a logical volume (e.g., activate/deactivate).  
 `lvchange -ay /dev/my_vg/my_lv`  (activate LV)
 
 **lvconvert** – Convert a logical volume (e.g., to mirror, raid).
