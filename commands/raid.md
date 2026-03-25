@@ -314,3 +314,193 @@ cat /proc/mdstat
 * No degraded state 
 * Rebuild works after disk failure
 </details>
+<details>
+ <summary>raid10</summary>
+ 
+**RAID 10 (RAID 1+0)** combines mirroring and striping for both performance and redundancy.
+
+---
+
+## 1. Requirements
+
+* Minimum **4 disks** (e.g., `/dev/sdc`, `/dev/sdd`, `/dev/sde`, `/dev/sdf`)
+* Linux system (Ubuntu/CentOS/etc.)
+* Root or sudo access
+
+---
+
+## 2. Install mdadm
+
+```bash
+sudo apt update
+sudo apt install mdadm   # Debian/Ubuntu
+```
+
+For RHEL/CentOS:
+
+```bash
+sudo yum install mdadm
+```
+
+---
+
+## 3. Create RAID 10 Array
+
+```bash
+sudo mdadm --create --verbose /dev/md0 \
+--level=10 \
+--raid-devices=4 \
+/dev/sdc /dev/sdd /dev/sde /dev/sdf
+```
+
+This creates `/dev/md0` as RAID 10.
+
+---
+
+## 4. Check RAID Status
+
+```bash
+cat /proc/mdstat
+```
+
+You should see something like:
+
+```
+md0 : active raid10 sdc sdd sde sdf
+```
+
+Detailed info:
+
+```bash
+sudo mdadm --detail /dev/md0
+```
+
+---
+
+## 5. Create Filesystem
+
+```bash
+sudo mkfs.ext4 /dev/md0
+```
+
+---
+
+## 6. Mount RAID
+
+```bash
+sudo mkdir /mnt/raid10
+sudo mount /dev/md0 /mnt/raid10
+```
+
+Verify:
+
+```bash
+df -h
+```
+
+---
+
+## 7. Make Mount Persistent
+
+```bash
+sudo blkid /dev/md0
+```
+
+Copy UUID and add to `/etc/fstab`:
+
+```
+UUID=xxxx /mnt/raid10 ext4 defaults 0 0
+```
+
+---
+
+## 8. Test RAID 10 Working
+
+## A. Test Read/Write
+
+```bash
+cd /mnt/raid10
+sudo dd if=/dev/zero of=testfile bs=1G count=1 oflag=direct
+```
+
+Check speed output.
+
+Read test:
+
+```bash
+sudo dd if=testfile of=/dev/null bs=1G
+```
+
+---
+
+## B. Simulate Disk Failure
+
+Mark one disk as failed:
+
+```bash
+sudo mdadm /dev/md0 --fail /dev/sdc
+```
+
+Remove it:
+
+```bash
+sudo mdadm /dev/md0 --remove /dev/sdc
+```
+
+Check status:
+
+```bash
+cat /proc/mdstat
+```
+
+RAID should still be **working (degraded mode)**.
+
+---
+
+## C. Add Disk Back (Recovery Test)
+
+```bash
+sudo mdadm /dev/md0 --add /dev/sdc
+```
+
+Monitor rebuild:
+
+```bash
+watch cat /proc/mdstat
+```
+
+---
+
+## 9. Verify Data Integrity
+
+Check if your test file still exists:
+
+```bash
+ls /mnt/raid10
+```
+
+Optional checksum:
+
+```bash
+md5sum testfile
+```
+
+---
+
+## Notes
+
+* RAID 10 usable capacity = **50% of total disks**
+* Provides **high performance + redundancy**
+* Always use disks of equal size
+
+---
+
+## Summary
+
+You have:
+
+* Created RAID 10 (`mdadm`)
+* Mounted and formatted it
+* Tested read/write performance
+* Simulated failure and recovery
+</details>
