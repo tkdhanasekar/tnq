@@ -282,6 +282,7 @@ df -Th
 `lvcreate -n my_lv -L 10G my_vg`  (create 10G LV in my_vg)
 
 **lvdisplay** – Show detailed info about logical volumes.  
+`lvdisplay`
 
 **lvextend** – Increase the size of a logical volume.  
 `lvextend -L +5G /dev/my_vg/my_lv`  (increase LV by 5G)
