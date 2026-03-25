@@ -251,179 +251,178 @@ df -Th
 
 ## examples:
 
-* **config** – Displays LVM configuration settings
+* **config** – Displays LVM configuration settings  
 `lvm config`
 
-* **devtypes** – Lists supported device types for LVM
+* **devtypes** – Lists supported device types for LVM  
 `lvm devtypes`
 
-* **dumpconfig** – Shows full LVM configuration in a readable format
+* **dumpconfig** – Shows full LVM configuration in a readable format  
 `lvm dumpconfig`
 
-* **formats** – Displays available metadata formats used by LVM
+* **formats** – Displays available metadata formats used by LVM  
 `lvm formats`
 
-* **fullreport** – Generates a comprehensive report of PVs, VGs, and LVs
+* **fullreport** – Generates a comprehensive report of PVs, VGs, and LVs  
 `lvm fullreport`
 
-* **help** – Provides help information about LVM commands
+* **help** – Provides help information about LVM commands  
 `lvm help`
 
-* **lastlog** – Shows the last LVM command log (recent LVM operations)
+* **lastlog** – Shows the last LVM command log (recent LVM operations)  
 `lvm lastlog`
 
 * **lvchange** – Change attributes of a logical volume (e.g., activate/deactivate).  
 `lvchange -ay /dev/my_vg/my_lv`  (activate LV)
 
-**lvconvert** – Convert a logical volume (e.g., to mirror, raid).
+**lvconvert** – Convert a logical volume (e.g., to mirror, raid).  
 `lvconvert --mirror 1 /dev/my_vg/my_lv`  (convert LV to mirrored)
 
-**lvcreate** – Create a new logical volume.
+**lvcreate** – Create a new logical volume.  
 `lvcreate -n my_lv -L 10G my_vg`  (create 10G LV in my_vg)
 
-**lvdisplay** – Show detailed info about logical volumes.
-`lvdisplay /dev/my_vg/my_lv`
+**lvdisplay** – Show detailed info about logical volumes.  
 
-**lvextend** – Increase the size of a logical volume.
+**lvextend** – Increase the size of a logical volume.  
 `lvextend -L +5G /dev/my_vg/my_lv`  (increase LV by 5G)
 
-**lvmchange** – Modify LVM configuration or attributes (rarely used).
+**lvmchange** – Modify LVM configuration or attributes (rarely used).  
 `lvmchange --yes`  (apply pending changes interactively)
 
-**lvmconfig** – Display or edit LVM configuration.
+**lvmconfig** – Display or edit LVM configuration.  
 `lvmconfig --type full`  (show full LVM config)
 
-**lvmdevices** – List all detected block devices for LVM.
+**lvmdevices** – List all detected block devices for LVM.  
 `lvmdevices`  (scan /dev/sdc, /dev/sdd)
 
-**lvmdiskscan** – Scan all disks for LVM physical volumes.
+**lvmdiskscan** – Scan all disks for LVM physical volumes.  
 `lvmdiskscan`
 
-**lvmsadc** – Collect LVM statistics for monitoring.
+**lvmsadc** – Collect LVM statistics for monitoring.  
 `lvmsadc --interval 10 --count 6`  (stats every 10s, 6 times)
 
-**lvmsar** – Display LVM statistics in sar format.
+**lvmsar** – Display LVM statistics in sar format.  
 `lvmsar`  (report LV statistics)
 
-**lvpoll** – Poll LVM devices for changes.
+**lvpoll** – Poll LVM devices for changes.  
 `lvpoll`  (update LVM metadata if devices changed)
 
-**lvreduce** – Reduce size of a logical volume (dangerous, data loss risk).
+**lvreduce** – Reduce size of a logical volume (dangerous, data loss risk).  
 `lvreduce -L 5G /dev/my_vg/my_lv`  (shrink LV to 5G)
 
-**lvremove** – Remove a logical volume.
+**lvremove** – Remove a logical volume.  
 `lvremove /dev/my_vg/my_lv`  (delete LV)
 
-**lvrename** – Rename a logical volume.
+**lvrename** – Rename a logical volume.  
 `lvrename my_vg my_lv my_lv_new`
 
-**lvresize** – Resize a logical volume (extend or reduce).
+**lvresize** – Resize a logical volume (extend or reduce).  
 `lvresize -L 15G /dev/my_vg/my_lv`  (resize LV to 15G)
 
-**lvs** – List logical volumes in a summary form.
+**lvs** – List logical volumes in a summary form.  
 `lvs`  (show all LVs)
 
-**lvscan** – Scan all LVs on the system.
+**lvscan** – Scan all LVs on the system.  
 `lvscan`  (display all detected LVs)
 
-**pvchange** – Change attributes of a physical volume.
+**pvchange** – Change attributes of a physical volume.  
 `pvchange -ay /dev/sdc`  (activate PV)
 
-**pvck** – Check a physical volume for consistency.
+**pvck** – Check a physical volume for consistency.  
 `pvck /dev/sdc`
 
-**pvcreate** – Initialize a block device as a physical volume for LVM.
+**pvcreate** – Initialize a block device as a physical volume for LVM.  
 `pvcreate /dev/sdc /dev/sdd`
 
-**pvdata** – Display detailed metadata of a physical volume.
+**pvdata** – Display detailed metadata of a physical volume.  
 `pvdata /dev/sdc`
 
-**pvdisplay** – Show detailed information about a physical volume.
+**pvdisplay** – Show detailed information about a physical volume.  
 `pvdisplay /dev/sdc`
 
-**pvmove** – Move data from one physical volume to another within a VG.
+**pvmove** – Move data from one physical volume to another within a VG.  
 `pvmove /dev/sdc /dev/sdd`
 
-**pvremove** – Remove LVM metadata from a physical volume.
+**pvremove** – Remove LVM metadata from a physical volume.  
 `pvremove /dev/sdc`
 
-**pvresize** – Resize a physical volume to use added space.
+**pvresize** – Resize a physical volume to use added space.  
 `pvresize /dev/sdc`
 
-**pvs** – List all physical volumes in a summary table.
+**pvs** – List all physical volumes in a summary table.  
 `pvs`
 
-**pvscan** – Scan all disks for LVM physical volumes.
+**pvscan** – Scan all disks for LVM physical volumes.  
 `pvscan`
 
-**segtypes** – List supported LVM segment types (linear, striped, mirrored, etc.).
+**segtypes** – List supported LVM segment types (linear, striped, mirrored, etc.).  
 `segtypes`
 
-**systemid** – Show the system ID for a device (used for LVM/metadata identification).
+**systemid** – Show the system ID for a device (used for LVM/metadata identification).  
 `systemid /dev/sdc`
 
-**tags** – Display or assign tags to LVM objects (LV, VG, or PV) for filtering.
+**tags** – Display or assign tags to LVM objects (LV, VG, or PV) for filtering.  
 `tags /dev/my_vg/my_lv`
 
-**version** – Show the installed LVM version.
+**version** – Show the installed LVM version.  
 `version`
 
-**vgcfgbackup** – Backup the metadata of a volume group.
+**vgcfgbackup** – Backup the metadata of a volume group.  
 `vgcfgbackup my_vg`
 
-**vgcfgrestore** – Restore volume group metadata from a backup.
+**vgcfgrestore** – Restore volume group metadata from a backup.  
 `vgcfgrestore my_vg`
 
-**vgchange** – Change attributes of a volume group (activate/deactivate).
+**vgchange** – Change attributes of a volume group (activate/deactivate).  
 `vgchange -ay my_vg`
 
-**vgck** – Check volume group metadata for consistency.
+**vgck** – Check volume group metadata for consistency.  
 `vgck my_vg`
 
-**vgconvert** – Convert a volume group to a different format (e.g., clustered).
+**vgconvert** – Convert a volume group to a different format (e.g., clustered).  
 `vgconvert --clustered y my_vg`
 
-**vgcreate** – Create a new volume group using physical volumes.
+**vgcreate** – Create a new volume group using physical volumes.  
 `vgcreate my_vg /dev/sdc /dev/sdd`
 
-**vgdisplay** – Show detailed information about a volume group.
+**vgdisplay** – Show detailed information about a volume group.  
 `vgdisplay my_vg`
 
-**vgexport** – Mark a volume group as exportable for moving to another system.
+**vgexport** – Mark a volume group as exportable for moving to another system.  
 `vgexport my_vg`
 
-**vgextend** – Add physical volumes to an existing volume group.
+**vgextend** – Add physical volumes to an existing volume group.  
 `vgextend my_vg /dev/sdd`
 
-**vgimport** – Import an exported volume group into the system.
+**vgimport** – Import an exported volume group into the system.  
 Example: `vgimport my_vg`
 
-**vgimportclone** – Import a cloned VG with a new identifier.
+**vgimportclone** – Import a cloned VG with a new identifier.  
 `vgimportclone my_vg`
 
-**vgimportdevices** – Import volume groups detected on local devices.
+**vgimportdevices** – Import volume groups detected on local devices.  
 `vgimportdevices`
 
-**vgmerge** – Merge two volume groups into one.
+**vgmerge** – Merge two volume groups into one.  
 `vgmerge my_vg my_vg2`
 
-**vgmknodes** – Create device nodes for all logical volumes in a VG.
+**vgmknodes** – Create device nodes for all logical volumes in a VG.  
 `vgmknodes my_vg`
 
-**vgreduce** – Remove physical volumes from a volume group.
+**vgreduce** – Remove physical volumes from a volume group.  
 `vgreduce my_vg /dev/sdd`
 
-**vgremove** – Remove a volume group (after removing all LVs).
+**vgremove** – Remove a volume group (after removing all LVs).  
 `vgremove my_vg`
 
-**vgrename** – Rename a volume group.
+**vgrename** – Rename a volume group.  
 `vgrename my_vg my_vg_new`
 
-**vgs** – List volume groups in a summary table.
+**vgs** – List volume groups in a summary table.  
 `vgs`
 
-**vgscan** – Scan all disks for volume groups.
+**vgscan** – Scan all disks for volume groups.  
 `vgscan`
 
-**vgsplit** – Split a volume group into two separate VGs.
+**vgsplit** – Split a volume group into two separate VGs.  
 `vgsplit my_vg my_vg_new /dev/sdd`
