@@ -251,28 +251,28 @@ df -Th
 
 ## examples:
 
-* **config** – Displays LVM configuration settings  
+**config** – Displays LVM configuration settings  
 `lvm config`
 
-* **devtypes** – Lists supported device types for LVM  
+**devtypes** – Lists supported device types for LVM  
 `lvm devtypes`
 
-* **dumpconfig** – Shows full LVM configuration in a readable format  
+**dumpconfig** – Shows full LVM configuration in a readable format  
 `lvm dumpconfig`
 
-* **formats** – Displays available metadata formats used by LVM  
+**formats** – Displays available metadata formats used by LVM  
 `lvm formats`
 
-* **fullreport** – Generates a comprehensive report of PVs, VGs, and LVs  
+**fullreport** – Generates a comprehensive report of PVs, VGs, and LVs  
 `lvm fullreport`
 
-* **help** – Provides help information about LVM commands  
+**help** – Provides help information about LVM commands  
 `lvm help`
 
-* **lastlog** – Shows the last LVM command log (recent LVM operations)  
+**lastlog** – Shows the last LVM command log (recent LVM operations)  
 `lvm lastlog`
 
-* **lvchange** – Change attributes of a logical volume (e.g., activate/deactivate).  
+**lvchange** – Change attributes of a logical volume (e.g., activate/deactivate).  
 `lvchange -ay /dev/my_vg/my_lv`  (activate LV)
 
 **lvconvert** – Convert a logical volume (e.g., to mirror, raid).  
