@@ -25,7 +25,7 @@ lsblk
 ## 3. Create RAID 0 array
 
 ```bash
-sudo mdadm --create --verbose /dev/md0 --level=0 --raid-devices=2 /dev/sdb /dev/sdc
+sudo mdadm --create --verbose /dev/md0 --level=0 --raid-devices=2 /dev/sdc /dev/sdd
 ```
 
 * `/dev/md0` → RAID device name
@@ -160,15 +160,15 @@ lsblk
 
 Example disks:
 
-* `/dev/sdb`
 * `/dev/sdc`
+* `/dev/sdd`
 
 ---
 
 ## Step 3: Create RAID 1 array
 
 ```bash
-sudo mdadm --create --verbose /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc
+sudo mdadm --create --verbose /dev/md0 --level=1 --raid-devices=2 /dev/sdc /dev/sdd
 ```
 
 ---
@@ -252,7 +252,7 @@ Look for:
 Simulate disk failure:
 
 ```bash
-sudo mdadm --fail /dev/md0 /dev/sdb
+sudo mdadm --fail /dev/md0 /dev/sdc
 ```
 
 Check status again:
@@ -274,8 +274,8 @@ This proves RAID is working — one disk failed but system still runs.
 ## Method 4: Remove and re-add disk
 
 ```bash
-sudo mdadm --remove /dev/md0 /dev/sdb
-sudo mdadm --add /dev/md0 /dev/sdb
+sudo mdadm --remove /dev/md0 /dev/sdc
+sudo mdadm --add /dev/md0 /dev/sdc
 ```
 
 Watch rebuild:
