@@ -1,7 +1,7 @@
 <details>
  <summary>raid0</summary>
 
-# Setup RAID 0 on Linux (using mdadm)
+## Setup RAID 0 on Linux (using mdadm)
 
 ## 1. Install required tool
 
@@ -68,7 +68,7 @@ Add to `/etc/fstab`:
 
 ---
 
-# Check if RAID 0 is working
+## Check if RAID 0 is working
 
 ## 1. Check RAID status
 
@@ -124,8 +124,7 @@ You should see combined disk size
 
 ---
 
-
-# Important warnings
+## Important warnings
 
 * RAID 0 = **NO redundancy**
 * If **one disk fails → all data lost**
@@ -142,7 +141,7 @@ Setting up **RAID 1 (mirroring)** means duplicating data across two drives so if
 
 ---
 
-# 1. RAID 1 Setup (Linux using `mdadm`)
+## 1. RAID 1 Setup (Linux using `mdadm`)
 
 ## Step 1: Install required tool
 
@@ -218,7 +217,7 @@ sudo update-initramfs -u
 
 ---
 
-# 2. How to Check RAID 1 is Working
+## 2. How to Check RAID 1 is Working
 
 ## Method 1: Check status
 
@@ -287,7 +286,7 @@ cat /proc/mdstat
 
 ---
 
-# Key Concepts
+## Key Concepts
 
 * RAID 1 = **100% redundancy, 50% usable capacity**
 * If 2 × 1TB → usable = 1TB
@@ -300,7 +299,7 @@ cat /proc/mdstat
 
 ---
 
-# Common Mistakes
+## Common Mistakes
 
 * Using disks with existing partitions
 * Forgetting to save mdadm config
@@ -309,7 +308,7 @@ cat /proc/mdstat
 
 ---
 
-# Quick Health Checklist
+## Quick Health Checklist
 
 * `[UU]` in `/proc/mdstat`
 * No degraded state 
