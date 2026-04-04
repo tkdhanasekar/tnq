@@ -337,3 +337,154 @@
 * Orchestration (Kubernetes)
 * Security & optimization
 * Production deployments
+
+## Docker commands
+
+comprehensive list of **Docker CLI** and **Docker Compose commands**:
+
+---
+
+## Docker Commands
+
+### 🔹 Core Commands
+
+* `docker version`
+* `docker info`
+* `docker help`
+
+### 🔹 Image Management
+
+* `docker build`
+* `docker pull`
+* `docker push`
+* `docker images`
+* `docker rmi`
+* `docker tag`
+* `docker save`
+* `docker load`
+* `docker history`
+* `docker inspect`
+
+### 🔹 Container Management
+
+* `docker run`
+* `docker create`
+* `docker start`
+* `docker stop`
+* `docker restart`
+* `docker kill`
+* `docker pause`
+* `docker unpause`
+* `docker rm`
+* `docker ps`
+* `docker exec`
+* `docker logs`
+* `docker attach`
+* `docker top`
+* `docker stats`
+* `docker wait`
+* `docker rename`
+* `docker update`
+
+### 🔹 Volume Management
+
+* `docker volume create`
+* `docker volume ls`
+* `docker volume inspect`
+* `docker volume rm`
+* `docker volume prune`
+
+### 🔹 Network Management
+
+* `docker network create`
+* `docker network ls`
+* `docker network inspect`
+* `docker network connect`
+* `docker network disconnect`
+* `docker network rm`
+* `docker network prune`
+
+### 🔹 System & Cleanup
+
+* `docker system df`
+* `docker system prune`
+* `docker system events`
+* `docker system info`
+
+### 🔹 Registry & Login
+
+* `docker login`
+* `docker logout`
+* `docker search`
+
+### 🔹 Context & Config
+
+* `docker context ls`
+* `docker context use`
+* `docker context create`
+* `docker context rm`
+
+### 🔹 Builder & BuildKit
+
+* `docker builder build`
+* `docker builder prune`
+* `docker buildx create`
+* `docker buildx build`
+* `docker buildx ls`
+* `docker buildx rm`
+
+### 🔹 Plugins
+
+* `docker plugin install`
+* `docker plugin ls`
+* `docker plugin inspect`
+* `docker plugin rm`
+* `docker plugin enable`
+* `docker plugin disable`
+
+---
+
+## 🐙 Docker Compose Commands
+
+*(for `docker compose`, newer CLI syntax)*
+
+### 🔹 Basic Commands
+
+* `docker compose up`
+* `docker compose down`
+* `docker compose start`
+* `docker compose stop`
+* `docker compose restart`
+* `docker compose build`
+* `docker compose pull`
+* `docker compose push`
+
+### 🔹 Container Interaction
+
+* `docker compose ps`
+* `docker compose exec`
+* `docker compose run`
+* `docker compose logs`
+* `docker compose top`
+
+### 🔹 Configuration & Validation
+
+* `docker compose config`
+* `docker compose convert`
+* `docker compose ls`
+
+### 🔹 Scaling & Lifecycle
+
+* `docker compose scale` *(deprecated; use `--scale` with up)*
+* `docker compose create`
+* `docker compose rm`
+* `docker compose pause`
+* `docker compose unpause`
+* `docker compose kill`
+
+### 🔹 File & Project Management
+
+* `docker compose cp`
+* `docker compose events`
+* `docker compose images`
+* `docker compose port`
