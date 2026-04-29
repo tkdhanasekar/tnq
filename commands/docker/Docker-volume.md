@@ -49,13 +49,28 @@ cd data
 ls
 ```
 
-Mounting a Host Directory as a Data volume
+## Mounting a Host Directory as a Data volume
+```
 docker run -v "$(pwd)":[volume_name] [docker_image]
-
+```
+```
 mkdir tmp
+```
+```
 cd tmp
+```
+```
 touch file.txt
+```
+```
 docker run -it -v "$(pwd)":/data1 ubuntu
+```
+```
 ls
+```
+```
 cd data1
+```
+```
 ls
+```
