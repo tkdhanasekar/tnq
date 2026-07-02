@@ -12,3 +12,15 @@ cp nginx/blue.conf nginx/active.conf
 ```
 docker exec nginx nginx -s reload
 ```
+
+```
+docker compose up -d --build
+
+curl http://localhost
+
+Deploy New Version
+docker compose build green
+docker compose up -d green
+docker inspect green \
+  --format='{{json .State.Health.Status}}'
+```
