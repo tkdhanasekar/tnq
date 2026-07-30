@@ -1,63 +1,40 @@
-**production-style Python Flask application** deployed on **Docker Swarm** using a **Blue-Green Deployment Strategy**.
+**Python Flask application** on **Docker Swarm** using a **Blue-Green Deployment** strategy.
 
-This example includes:
+---
 
-```
-blue-green-swarm/
+# Project Structure
+
+```text
+flask-bluegreen/
 │
-├── app/
-│   ├── app.py
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   └── version.txt
-│
-├── nginx/
-│   ├── nginx.conf
-│   ├── blue.conf
-│   └── green.conf
-│
-├── stack-blue.yml
-├── stack-green.yml
-├── deploy-blue.sh
-├── deploy-green.sh
-├── switch-blue.sh
-├── switch-green.sh
-└── README.md
+├── app.py
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+├── nginx.conf
+└── deploy.sh
 ```
 
 ---
 
 # 1. Flask Application
 
-## app/app.py
+**app.py**
 
 ```python
 from flask import Flask
-import socket
 import os
 
 app = Flask(__name__)
 
-VERSION = "Unknown"
-
-if os.path.exists("version.txt"):
-    with open("version.txt") as f:
-        VERSION = f.read().strip()
-
+VERSION = os.getenv("APP_VERSION", "Blue")
 
 @app.route("/")
 def home():
-    return {
-        "Application": "Docker Swarm Blue-Green Demo",
-        "Version": VERSION,
-        "Hostname": socket.gethostname()
-    }
-
-
-@app.route("/health")
-def health():
-    return "OK"
-
+    return f"""
+    <h1>Docker Swarm Blue-Green Deployment</h1>
+    <h2>Current Version: {VERSION}</h2>
+    """
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
@@ -65,28 +42,16 @@ if __name__ == "__main__":
 
 ---
 
-## app/version.txt
+# requirements.txt
 
-Blue
-
-Later change to
-
-```
-Green
-```
-
----
-
-## app/requirements.txt
-
-```
-Flask==3.0.2
+```text
+Flask==3.0.3
 gunicorn==22.0.0
 ```
 
 ---
 
-## app/Dockerfile
+# Dockerfile
 
 ```dockerfile
 FROM python:3.12-slim
@@ -101,202 +66,40 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["gunicorn","-w","4","-b","0.0.0.0:5000","app:app"]
+CMD ["gunicorn","-b","0.0.0.0:5000","app:app"]
 ```
 
 ---
 
-# 2. Reverse Proxy
-
-## nginx/nginx.conf
-
-```nginx
-events {}
-
-http {
-
-include /etc/nginx/conf.d/default.conf;
-
-}
-```
-
----
-
-## nginx/blue.conf
-
-```nginx
-server {
-
-    listen 80;
-
-    location / {
-
-        proxy_pass http://blue_app:5000;
-
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-    }
-
-}
-```
-
----
-
-## nginx/green.conf
-
-```nginx
-server {
-
-    listen 80;
-
-    location / {
-
-        proxy_pass http://green_app:5000;
-
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-    }
-
-}
-```
-
----
-
-# 3. Blue Stack
-
-## stack-blue.yml
-
-```yaml
-version: "3.9"
-
-services:
-
-  blue_app:
-    image: flask-blue:v1
-    deploy:
-      replicas: 3
-
-    networks:
-      - app_net
-
-  nginx:
-    image: nginx:latest
-
-    ports:
-      - "80:80"
-
-    configs:
-      - source: blue_conf
-        target: /etc/nginx/conf.d/default.conf
-
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-
-    networks:
-      - app_net
-
-configs:
-
-  blue_conf:
-    file: ./nginx/blue.conf
-
-networks:
-
-  app_net:
-```
-
----
-
-# 4. Green Stack
-
-## stack-green.yml
-
-```yaml
-version: "3.9"
-
-services:
-
-  green_app:
-
-    image: flask-green:v2
-
-    deploy:
-
-      replicas: 3
-
-    networks:
-
-      - app_net
-
-  nginx:
-
-    image: nginx:latest
-
-    ports:
-
-      - "80:80"
-
-    configs:
-
-      - source: green_conf
-        target: /etc/nginx/conf.d/default.conf
-
-    volumes:
-
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-
-    networks:
-
-      - app_net
-
-configs:
-
-  green_conf:
-
-    file: ./nginx/green.conf
-
-networks:
-
-  app_net:
-```
-
----
-
-# 5. Build Images
+# Build Images
 
 Blue
 
 ```bash
-docker build -t flask-blue:v1 app/
+docker build -t flask-app:blue .
 ```
 
 Green
-
-Edit
-
-```
-version.txt
-
-Blue
-```
-
-to
-
-```
-Green
-```
-
-then
 
 ```bash
-docker build -t flask-green:v2 app/
+docker build -t flask-app:green .
 ```
 
 ---
 
-# 6. Initialize Swarm
+# Tag
+
+```bash
+docker tag flask-app:blue localhost:5000/flask-app:blue
+
+docker tag flask-app:green localhost:5000/flask-app:green
+```
+
+---
+
+# 2. Docker Swarm
+
+Initialize Swarm
 
 ```bash
 docker swarm init
@@ -304,198 +107,286 @@ docker swarm init
 
 ---
 
-# 7. Deploy Blue
+# 3. Overlay Network
 
 ```bash
-docker stack deploy -c stack-blue.yml blue
+docker network create \
+--driver overlay \
+app-network
+```
+
+---
+
+# 4. docker-compose.yml
+
+```yaml
+version: "3.9"
+
+services:
+
+  blue:
+    image: localhost:5000/flask-app:blue
+    environment:
+      APP_VERSION: BLUE
+    deploy:
+      replicas: 3
+    networks:
+      - app-network
+
+  green:
+    image: localhost:5000/flask-app:green
+    environment:
+      APP_VERSION: GREEN
+    deploy:
+      replicas: 0
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    configs:
+      - source: nginx_conf
+        target: /etc/nginx/nginx.conf
+    networks:
+      - app-network
+    deploy:
+      replicas: 1
+
+configs:
+  nginx_conf:
+    file: ./nginx.conf
+
+networks:
+  app-network:
+    external: true
+```
+
+---
+
+# 5. Nginx Configuration
+
+Initially route traffic to Blue.
+
+```nginx
+events {}
+
+http {
+
+upstream backend {
+    server blue:5000;
+}
+
+server {
+
+    listen 80;
+
+    location / {
+        proxy_pass http://backend;
+    }
+
+}
+
+}
+```
+
+---
+
+# Deploy Stack
+
+```bash
+docker stack deploy -c docker-compose.yml flask
 ```
 
 Verify
 
 ```bash
-curl http://localhost
-```
-
-Output
-
-```json
-{
-  "Application":"Docker Swarm Blue-Green Demo",
-  "Version":"Blue",
-  "Hostname":"blue_app.1.xxxxxx"
-}
-```
-
----
-
-# 8. Deploy Green
-
-```bash
-docker stack deploy -c stack-green.yml green
-```
-
-Green is now running but not serving production traffic if your routing still points to Blue.
-
----
-
-# 9. Switch Traffic
-
-Blue
-
-```
-NGINX
-      |
-      |
-  Blue Service
-```
-
-Green
-
-Replace
-
-```
-blue.conf
-```
-
-with
-
-```
-green.conf
-```
-
-Reload nginx
-
-```bash
-docker service update \
---config-rm blue_blue_conf \
---config-add source=green_green_conf,target=/etc/nginx/conf.d/default.conf \
-blue_nginx
-```
-
-or simply redeploy
-
-```bash
-docker stack deploy -c stack-green.yml green
-```
-
-Now
-
-```bash
-curl localhost
-```
-
-returns
-
-```json
-{
- "Version":"Green"
-}
-```
-
----
-
-# 10. Rollback
-
-If Green fails
-
-```bash
-docker stack rm green
-```
-
-Traffic remains on Blue.
-
----
-
-# 11. Deployment Scripts
-
-## deploy-blue.sh
-
-```bash
-#!/bin/bash
-
-docker build -t flask-blue:v1 app/
-
-docker stack deploy -c stack-blue.yml blue
-```
-
----
-
-## deploy-green.sh
-
-```bash
-#!/bin/bash
-
-docker build -t flask-green:v2 app/
-
-docker stack deploy -c stack-green.yml green
-```
-
----
-
-## switch-blue.sh
-
-```bash
-#!/bin/bash
-
-docker stack deploy -c stack-blue.yml blue
-```
-
----
-
-## switch-green.sh
-
-```bash
-#!/bin/bash
-
-docker stack deploy -c stack-green.yml green
-```
-
----
-
-# 12. Check Swarm
-
-```bash
-docker node ls
-
 docker service ls
-
-docker stack ls
-
-docker service ps blue_blue_app
-
-docker service ps green_green_app
 ```
 
 ---
 
-# 13. Scale
+Expected
 
-```bash
-docker service scale blue_blue_app=5
-```
-
-or
-
-```bash
-docker service scale green_green_app=5
+```text
+flask_blue
+flask_green
+flask_nginx
 ```
 
 ---
 
-# 14. Rolling Update
+Open
+
+```text
+http://localhost
+```
+
+Response
+
+```text
+Docker Swarm Blue-Green Deployment
+
+Current Version: BLUE
+```
+
+---
+
+# Deploy Green Version
+
+Scale Green
 
 ```bash
+docker service scale flask_green=3
+```
+
+Verify
+
+```bash
+docker service ps flask_green
+```
+
+---
+
+# Switch Traffic
+
+Update `nginx.conf`
+
+```nginx
+events {}
+
+http {
+
+upstream backend {
+    server green:5000;
+}
+
+server {
+
+    listen 80;
+
+    location / {
+        proxy_pass http://backend;
+    }
+
+}
+
+}
+```
+
+Update the Nginx service.
+
+```bash
+docker service update --config-rm flask_nginx_conf flask_nginx
+```
+```
+docker config rm flask_nginx_conf
+```
+```
+docker config create flask_nginx_conf nginx.conf
+```
+```
+docker service update --config-rm flask_nginx_conf --config-add source=flask_nginx_conf,target=/etc/nginx/nginx.conf flask_nginx
+```
+
+Now users reach:
+
+```text
+Current Version: GREEN
+```
+
+---
+
+# Remove Blue
+
+```bash
+docker service scale flask_blue=0
+```
+
+Green becomes the production environment.
+
+---
+
+# Rollback
+
+If Green has issues:
+
+```bash
+docker service scale flask_blue=3
+
+docker service scale flask_green=0
+```
+
+Change the Nginx upstream back to:
+
+```nginx
+upstream backend {
+    server blue:5000;
+}
+```
+
+Reload/update the Nginx configuration.
+
+---
+
+# Automation Script
+
+**deploy.sh**
+
+```bash
+#!/bin/bash
+
+ACTIVE=$(docker service ls --format "{{.Name}}" | grep flask_blue)
+
+if [ "$ACTIVE" ]; then
+
+    echo "Deploying GREEN"
+
+    docker service scale flask_green=3
+
+    sleep 20
+
+    cp nginx-green.conf nginx.conf
+
+else
+
+    echo "Deploying BLUE"
+
+    docker service scale flask_blue=3
+
+    sleep 20
+
+    cp nginx-blue.conf nginx.conf
+
+fi
+
+docker config rm flask_nginx_conf 2>/dev/null
+
+docker config create flask_nginx_conf nginx.conf
+
 docker service update \
---image flask-green:v3 \
-green_green_app
+--config-rm flask_nginx_conf \
+--config-add source=flask_nginx_conf,target=/etc/nginx/nginx.conf \
+flask_nginx
 ```
 
 ---
 
-# 15. Rollback
+# Deployment Flow
 
-```bash
-docker service rollback green_green_app
+```text
+                Internet
+                    |
+              +-------------+
+              |    Nginx    |
+              +-------------+
+                /         \
+               /           \
+          BLUE             GREEN
+      +---------+      +---------+
+      Flask x3        Flask x3
+      Version A       Version B
 ```
-
----
+https://chatgpt.com/s/t_6a69c98a7bf88191964656b469484559
+https://chatgpt.com/s/t_6a69d11c57a88191a5cab24fbb539d8e
